@@ -1,0 +1,41 @@
+- Write a method to display even numbers from 2 to the number passed as input
+	Example : 
+		Input : 12
+		Output : 2, 4, 6, 8, 10, 12	
+- Write a method to find if the number is prime or not
+	Example # 1
+		Input : 13
+		Output : 13 is Prime
+	Example # 2
+		Input : 12
+		Output : 12 is not Prime
+		 	
+- Write a method to find how many digits does a number
+	Example # 1 
+		Input : 5432
+		Output : 5432 has 4 digits
+	Example # 2
+		Input : 32
+		Output : 32 has 2 digits
+
+- Write a method to find how many 'a' characters are in a String
+	Example # 1
+		Input : siva kumar
+		Output : siva kumar has 2 'a'
+	Example # 2
+		Input : university
+		Output : university has no 'a'
+
+- Modify the above method to take a String and character as input and find how many characters are in the String
+	Example #1
+		Input : "North", 'r'
+		Output : "North" has 1 'r'
+
+- Write a method to find the maximum number in an array of numbers
+	Example :
+		Input : [3, 5, 7, 1, 4, 32, 15]
+		Output : 32
+- Modify the above method to find the maximum and minimum number in an array of numbers
+	Example:
+		Input : [3, 5, 7, 1, 4, 32, 15]
+		Output : Max is 32 and Min is 1

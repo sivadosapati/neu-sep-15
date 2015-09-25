@@ -1,0 +1,117 @@
+Data Types
+	- int
+	- char
+	- long
+	- float
+	- short
+	- byte
+	- double
+	- boolean
+
+	- String
+	
+_________________________
+
+Book : Head First Java
+
+https://zimslifeintcs.files.wordpress.com/2011/12/head-first-java-2nd-edition.pdf
+
+Editor : Eclipse
+Online : http://www.tutorialspoint.com/compile_java_online.php
+
+UML:
+
+
+
+
+Assignments:
+
+
+____________________________________________________________
+
+- Create a Java Class for Telivision (aka TV). 
+	- Atrributes : channels and name . 
+	- Behaviors : can be turned on or off, telecast a program on a channel
+- Create a Java Class for Remote
+	- Attributes : Buttons for Numbers, increase/decrease volume, power button
+	- Behaviors : Switch on/off a TV, change the channel, mute or on mute the sound on a TV
+- Write a Java Program for a situation where a person likes to watch a program on channel 65 on the TV. Create Objects of Person, Remote, TV and invoke behaviors on different objects
+
+_______________________________________________________________
+
+- Create a Java Class for an Internet User who likes to browse Facebook website
+	- Attributes : user name, pwd
+	- Behaviors : login to facebook, comments on a post in the wall
+- Create a Java Class for an Internet Browser
+	- Attributes : name, url that is currently being browsed
+	- Behaviors : connects to a URL, paints the response from a URL
+- Create a Java Class for Facebook Web Application
+	- Attributes: # of active users
+	- Behaviors : validate user, returns the posts for a user, receives comments from a user, pushes the notifications to other users
+	
+- Write a Java Program for a situation where an Internet user logs into Facebook on a Safari Browser with userid/pwd, browses the posts on their wall and posts new comments..
+
+________________________________________________________________
+
+- Write a Java Program for a situation where a person makes a phone call to their friend
+	
+__________________________________________________________
+
+- Write a Java Program for a situation where a person requests for a taxi through a Mobile App.
+
+______________________________________________________	
+
+- Write a Java Program for a Calculator that can do 4 mathematical operations on two numbers - add, subtract, multiply and divide
+
+_____________________________________________________
+
+- Write a Java Program for the events that happen in the birthday party of a Kid
+
+_______________________________________________________
+
+
+- Write a Java Program for sequence of events that happen when a car is met with an accident on the road
+
+__________________________________________________________
+
+
+
+- Logic - if(), if() else 
+		- &&, ||, ==, <, >, <=, >=, !
+
+
+_____________________________________________________________
+
+Assignments:
+
+________________________
+
+- Write a Math class that can perform the following operations
+	- Find if the number is an even or odd
+	- Find if the number is a multiple of 3
+	- Find if the input number is a positive or negative
+	- Find the maximum of two numbers
+	- Find the minmum of two numbers
+
+- Write a Java method in Student class to find out what grade they have secured based on GPA
+	- Requirements 	: A+ if the GPA is 3.75 or above
+					: A- if the GPA is above 3.5 and less than 3.75
+					: B+ if the GPA is above 3.25 and less than 3.5
+					: B- if the GPA is above 3 and less than 3.25
+					: C  if the GPA is less than 3
+					
+- Write a Java method for a Teacher to count the number of male and female students in the class. 
+	- Attributes : countOfStudents, countOfMaleStudents, countOfFemaleStudents
+	- Behaviors : Method to increment the count of students based on the gender of student countStudent(Student student)
+				: Method to display the counts of all the students : displayCount()
+
+- Write a Java Program to manage the Bank Account of a Customer
+	- Requirements : Customer has an account number, can deposit and withdraw funds. Every time the customer deposits funds, Bank will add a dollar if the customer deposits between $100 and $1000 and deposits $2 for any amount above $1000. Customer can't with draw more than what is in their account..
+	
+- Write a Computer program to find the type of a person
+	- Requirements 	: Infant : If the age is less than 1 year
+					: Toddler : If the age is less than 3 and greater than 1
+					: Pre Schooler : If the age is less than 5 and greater than 3
+					: KG Girl : If the age is greater than 5 and less than 6 and the gender is female
+					: KG Boy : If the age is greater than 5 and less than 6 and the gender is male
+					:
