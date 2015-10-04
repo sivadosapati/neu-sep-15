@@ -10,7 +10,7 @@
 		Input : 12
 		Output : 12 is not Prime
 		 	
-- Write a method to find how many digits does a number
+- Write a method to find how many digits does a number have
 	Example # 1 
 		Input : 5432
 		Output : 5432 has 4 digits
