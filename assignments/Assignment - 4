@@ -14,7 +14,7 @@
 
 - Write a Java program to print a pyramid of numbers. 
 	- For eg:- 
-	Input :  (# of rows in a pyramid)
+	Input :  (# of rows in a pyramid) : 4
 	Output :  
 	1
    2 3
@@ -69,6 +69,4 @@
 	- Input : 1658	
 	- Output : 1 Cow 1 Bull 
 	- Continue the game till the user enters a number that has 0 Cow and 4 Bull
-
-	
 	
