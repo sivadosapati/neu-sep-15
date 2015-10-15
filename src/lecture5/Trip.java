@@ -11,7 +11,7 @@ public class Trip {
 	public static void main(String[] args) {
 		// takeOnePicture();
 		Trip t = new Trip();
-		// t.takePicturesInTraditionalWay();
+		t.takePicturesInTraditionalWay();
 		t.takePicturesInABetterWay();
 	}
 

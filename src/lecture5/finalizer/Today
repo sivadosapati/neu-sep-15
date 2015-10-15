@@ -1,0 +1,20 @@
+Wrapper Classes
+Pass by Value/Reference
+Exception Handling
+Collection frameworks
+main
+System.out.println()
+
+
+Write a program to count the numbers : User enters strings from the console and then after all the strings user enters #
+
+Input : 
+
+Please enter a String and to quit enter #
+int : 1234
+Please enter a String and to quit enter #
+float : 12.54
+Please enter a String and to quit enter #
+#
+
+Sum (1234 + 12 ) = 1246

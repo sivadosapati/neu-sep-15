@@ -16,9 +16,9 @@ public class StringImmutabilityTest {
 		String a1 = "Siva";
 		String a11 = "Siva";
 		String a2 = new String("Siva");
-		String a21 = new String("Si" +"va");
+		String a21 = new String("Si") +"va";
 		String a3 = new String("Siva");
-		if( a2 == a3){
+		if( a1 == a21){
 			System.out.println("True");
 		}
 		else{
