@@ -9,7 +9,7 @@ public class CountNumbers extends BaseObject {
 
 	public static void countNumbers() {
 		int count = 0;
-		String output = "(";
+		String newOutput = "(";
 		while (true) {
 			println("Please enter a number and for quit enter #");
 			String s = getStringFromConsole();
@@ -17,9 +17,9 @@ public class CountNumbers extends BaseObject {
 				break;
 			}
 			count += Integer.parseInt(s);
-			output = output + s + "+";
+			newOutput = newOutput + s + "+";
 		}
-		output = stripLastCharacter(output) + ") = " + count;
-		System.out.println(output);
+		newOutput = stripLastCharacter(newOutput) + ") = " + count;
+		System.out.println(newOutput);
 	}
 }

@@ -12,7 +12,7 @@ public class BaseObject {
 		return next;
 	}
 
-	public int getRandomNumber( int x ){
+	public static int getRandomNumber( int x ){
 		return (int )(Math.random() * x );
 	}
 
