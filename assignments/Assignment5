@@ -1,0 +1,92 @@
+Assignment 5:
+
+
+Requirements:
+1. You need to write Unit Tests for all the problems.
+2. Please follow the google java style to finish the assignment, the coding standard will be an important factor of grading.
+3. Your program should throw suitable exceptions when the input is illegal.
+
+
+Notice:
+Assignment will start to be graded.
+
+
+P1.
+Given an array of integers, every element appears twice except for one. Find that single one.
+
+public int singleNumber(int[] nums) {
+	// finish your code here
+}
+
+
+p2.
+Given a pattern and a string str, find if str follows the same pattern.
+
+Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in str.
+
+Examples:
+pattern = "abba", str = "dog cat cat dog" should return true.
+pattern = "abba", str = "dog cat cat fish" should return false.
+pattern = "aaaa", str = "dog cat cat dog" should return false.
+pattern = "abba", str = "dog dog dog dog" should return false.
+Notes:
+You may assume pattern contains only lowercase letters, and str contains lowercase letters separated by a single space.
+
+public boolean wordPattern(String pattern, String str) {
+	// finish your code here     
+}
+
+
+P3.
+Given a string containing the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. If the string contains any other characters, please throw suitable exception.
+
+The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
+
+public boolean isValid(String s) {
+    // finish your code here        
+}
+
+
+P4.
+Design your own Stack, implement the following operations of a stack using queues.
+
+push(x) -- Push element x onto stack.
+pop() -- Removes the element on top of the stack.
+top() -- Get the top element.
+empty() -- Return whether the stack is empty.
+Notes:
+You must use only standard operations of a queue -- which means only push to back, peek/pop from front, size, and is empty operations are valid.
+Depending on your language, queue may not be supported natively. You may simulate a queue by using a list or deque (double-ended queue), as long as you use only standard operations of a queue.
+You may assume that all operations are valid (for example, no pop or top operations will be called on an empty stack).
+
+// finish the following class
+class MyStack {
+    // Push element x onto stack.
+    public void push(int x) {
+        
+    }
+
+    // Removes the element on top of the stack.
+    public void pop() {
+        
+    }
+
+    // Get the top element.
+    public int top() {
+        
+    }
+
+    // Return whether the stack is empty.
+    public boolean empty() {
+        
+    }
+}
+
+
+P5.
+Design a Person class implements Comparable interface. In the Person class, you should have at least firstName and lastName attributes, getters/setters about them, override compareTo(), equals(), hashCode(), toString() functions based on them. Please follow the google java coding style to finish it.
+
+
+P6.
+Understand the principles of HashMap, read the source code of HashMap in Java libaray, then design and implement your own HashMap using array. It should at least support get, set, etc functions.
+
