@@ -12,8 +12,15 @@ public class BaseObject {
 		return next;
 	}
 
-	public static int getRandomNumber( int x ){
-		return (int )(Math.random() * x );
+	public static void sleep(int millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (Exception e) {
+		}
+	}
+
+	public static int getRandomNumber(int x) {
+		return (int) (Math.random() * x);
 	}
 
 	public static String stripLastCharacter(String s) {
