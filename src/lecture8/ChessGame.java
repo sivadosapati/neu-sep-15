@@ -7,13 +7,15 @@ public class ChessGame {
 		ChessPlayer jigang = new ChessPlayer("Jigang");
 		yang.setTurn(true);
 		jigang.setTurn(false);
-		Thread yangThinker = new Thread(yang);
-		Thread jigangThinker = new Thread(jigang);
+		yang.setCompetitor(jigang);
+		jigang.setCompetitor(yang);
+		// Thread yangThinker = new Thread(yang);
+		// Thread jigangThinker = new Thread(jigang);
 		Thread yangMover = new MovingThread(yang);
 		Thread jigangMover = new MovingThread(jigang);
 
-		yangThinker.start();
-		jigangThinker.start();
+		// yangThinker.start();
+		// jigangThinker.start();
 		yangMover.start();
 		jigangMover.start();
 	}
@@ -27,18 +29,6 @@ class MovingThread extends Thread {
 	}
 
 	public void run() {
-		int count = 0;
-		while (count < 5) {
-			if (cp.isMyTurn()) {
-				cp.move();
-				notify();
-			} else {
-				try {
-					wait();
-				} catch (Exception e) {
-				}
-			}
-		}
-
+		cp.move();
 	}
 }

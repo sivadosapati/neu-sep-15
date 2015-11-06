@@ -7,11 +7,17 @@ public class ChessPlayer extends BaseObject implements Runnable {
 	private int moveCount = 0;
 	private boolean turn = false;
 
+	private ChessPlayer competitor;
+
+	public void setCompetitor(ChessPlayer cp) {
+		this.competitor = cp;
+	}
+
 	public ChessPlayer(String n) {
 		this.name = n;
 	}
-	
-	public void setTurn(boolean b){
+
+	public void setTurn(boolean b) {
 		this.turn = b;
 	}
 
@@ -22,10 +28,24 @@ public class ChessPlayer extends BaseObject implements Runnable {
 		}
 	}
 
-	public void move() {
-		System.out.println(name + " is moving " + moveCount);
-		moveCount++;
-		turn = false;
+	public synchronized void move() {
+		while (true) {
+			if (!isMyTurn()) {
+				waitForAWhile();
+			}
+			int x = getRandomNumber(2000);
+			sleep(x);
+			System.out.println(name + " is moving after thinking for -> " + x+" millis -> "+moveCount);
+			moveCount++;
+			this.setTurn(false);
+			competitor.setTurn(true);
+			synchronized(competitor){
+				competitor.notify();
+			}
+			if (moveCount == 5) {
+				break;
+			}
+		}
 	}
 
 	@Override
