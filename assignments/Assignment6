@@ -1,0 +1,7 @@
+1. Create five threads, let them print out “A”, “B”, “C”, “D”, “E” individually.
+The result shows on the screen should be: “ABCDEABCDEABCDE…...”
+
+2. Create two threads, let the first thread print out number 1 to 52, another thread print out A to Z.
+The result shows on the screen should be: “12A34B56C…”
+
+3. Understand producer-consumer problem and implement it.
