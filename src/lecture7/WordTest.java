@@ -1,5 +1,6 @@
 package lecture7;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -12,6 +13,16 @@ public class WordTest {
 		// to 1
 		// Students 3
 
+		Map<String, Integer> wordOccurences = findWordOccurences(string);
+		Set<String> keys = wordOccurences.keySet();
+		for (String key : keys) {
+			Integer count = wordOccurences.get(key);
+			System.out.println(key + " -> " + count);
+		}
+
+	}
+
+	public static Map<String, Integer> findWordOccurences(String string) {
 		String tokens[] = string.split(" ");
 		TreeMap<String, Integer> wordCountMap = new TreeMap<String, Integer>();
 		for (String token : tokens) {
@@ -23,11 +34,6 @@ public class WordTest {
 				wordCountMap.put(token, i + 1);
 			}
 		}
-		Set<String> keys = wordCountMap.keySet();
-		for (String key : keys) {
-			Integer count = wordCountMap.get(key);
-			System.out.println(key + " -> " + count);
-		}
-
+		return wordCountMap;
 	}
 }

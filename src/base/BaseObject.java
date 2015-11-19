@@ -11,6 +11,21 @@ public class BaseObject {
 		// s.close();
 		return next;
 	}
+	
+	public static String getLineFromConsole(){
+		Scanner s = new Scanner(System.in);
+		String next = s.nextLine();
+		// s.close();
+		return next;
+	}
+
+	public void waitForAWhile() {
+		try {
+			wait();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void sleep(int millis) {
 		try {
