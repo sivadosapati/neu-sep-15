@@ -26,7 +26,7 @@ public class CustomerScreen extends JFrame {
 	}
 	
 	public CustomerScreen() {
-		initSearchPane();
+		initSearchAndSortPane();
 		
 		setTitle("Customer Screen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +38,7 @@ public class CustomerScreen extends JFrame {
 	
 
 
-	private void initSearchPane() {
+	private void initSearchAndSortPane() {
 		//create
 		searchButton = new JButton("Search");
 		searchTextField = new JTextField(20);
