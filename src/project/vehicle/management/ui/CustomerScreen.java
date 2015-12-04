@@ -5,13 +5,12 @@ import java.awt.Container;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import lecture11.NEUFrame;
-
-public class CustomerScreen extends NEUFrame {
+public class CustomerScreen extends JFrame {
 	private JButton searchButton;
 	private JTextField searchTextField;
 	private JLabel searchLabel;
@@ -20,7 +19,11 @@ public class CustomerScreen extends NEUFrame {
 	
 	public CustomerScreen() {
 		setTitle("Customer Screen");
-		
+		create();
+		add();
+		addListeners();
+		setVisible(true);
+		setSize(1000,1000);
 	}
 	
 	
@@ -29,8 +32,7 @@ public class CustomerScreen extends NEUFrame {
 
 	}
 
-	@Override
-	public void create() {
+	private void create() {
 		searchButton = new JButton("Search");
 		searchTextField = new JTextField(20);
 		searchLabel = new JLabel("Search:");
@@ -40,8 +42,7 @@ public class CustomerScreen extends NEUFrame {
 		
 	}
 
-	@Override
-	public void add() {
+	private void add() {
 		BorderLayout bl = new BorderLayout();
 		Container con = super.getContentPane();
 		con.setLayout(bl);
@@ -54,10 +55,8 @@ public class CustomerScreen extends NEUFrame {
 		con.add("North", searchAndSortPanel);
 		
 	}
-	
 
-	@Override
-	public void addListeners() {
+	private void addListeners() {
 		// TODO Auto-generated method stub
 		
 	}
