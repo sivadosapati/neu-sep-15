@@ -1,0 +1,5 @@
+- Identify what you want to do
+- Define a class that extends Thread
+- Invoke what you want to do in the run() method of class defined in #2
+- Create an Object of class defined in #2
+- Invoke start() on the Object defined in #4

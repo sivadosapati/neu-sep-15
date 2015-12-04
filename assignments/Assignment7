@@ -1,0 +1,9 @@
+Due: 12/01/2015
+
+1. Open a local file, read the file line by line. Each line should be imported as a string and stored in ArrayList. Then print out the ArrayList reversely. You can create your own file to test.
+
+2. Based on problem 1, create a button and textarea on the same layout. Each time you click the button, it will read a string from ArrayList in order and show it in the textarea. When number of clicks beyond the ArrayList, pop up an alert menu.
+
+3. Implement a calculator and it's add, minus, multiply and divide operations.
+You can follow the pattern in the graph:
+https://www.dropbox.com/s/bb5zb70ubnbx2hu/calculator.png?dl=0

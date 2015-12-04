@@ -1,0 +1,72 @@
+- Write a Java Program to find the groups of two or more zeros (00 or 000 or 0000 etc)  in a one dimensional array that has either 1 or 0
+	- Please write a Junit test
+	- For eg:- input : int array[] = {1, 0, 0 , 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0 }
+	- Output:
+		00 occurs @ index 1
+		0000000 occurs @ index 7
+		00 occurs @ index 14
+
+- Write a Java program to reverse the words in a sentence (Don't use library functions like split() or StringTokenizer)
+	- Please write a Junit test
+	- For eg:- 
+		Input : I love the object oriented program course in NEU
+		Output : NEU in course program oriented object the love I
+
+- Write a Java program to print a pyramid of numbers. 
+	- For eg:- 
+	Input :  (# of rows in a pyramid) : 4
+	Output :  
+	1
+   2 3
+  4 5 6
+ 7 8 9 10
+
+- Write a Java program to generate Fibonacci number : https://en.wikipedia.org/wiki/Fibonacci_number
+	- For eg: - Input : 145 (Maximum number upto which you need to generate the Fibonacci numbers)
+	- Output : 1,1,2,3,5,8,13,21,44,55,89,144   			
+	
+
+- Write a Java Program to capitalize every first letter of a word in the sentence (Dont' use library functions like split() or StringTokenizer)
+	- Also write a Junit test
+	- For eg:-
+	Input  : we love seattle and will live here for a long time.
+	Output : We Love Seattle And Will Live Here For A Long Time.
+
+- Write a Java Program to print the words that have more than 3 letters in a sentence
+	- Also write a Junit test
+	- For eg:-
+	Input : Java is a cool OOP. It doesnt have multiple inheritance
+	Output:
+			Java
+			cool
+			doesnt
+			have
+			multiple
+			inheritance
+						
+- Write a Java Program for Playing a Game. 
+	Rules of Game : Computer will guess a number between 1 and 100. We should find that number in less than 5 chances.
+	Computer will ask the person playing the game to guess the number. Computer will respond if the guessed number is greater or less than or equal to what computer has guessed..
+	
+	For eg:- Let's say Computer has guessed 67 (Person playing the Game will not know this)
+	>>Please guess a number between 1 and 100 - You have 5 chances to guess
+	>>32
+	>>32 is less than what I've guessed - You have 4 chances to guess
+	>>75
+	>>75 is greater than what I've guessed - You have 3 chances to guess
+	>>50
+	>>50 is less than what I've guessed - You have 2 chances to guess
+	>>67
+	>>Congratulations! You've guessed it right and you guessed it in 3 chances..
+	
+	HINT : Use the following code to generate a Random number between 1 and 100
+	Random randomGenerator = new Random();
+	int i = randomGenerator.nextInt(100);
+	
+
+- Write a Java Program for Playing a Game named Cows and Bulls - https://en.wikipedia.org/wiki/Bulls_and_Cows
+	- Rules of Game : Computer will guess a number between 1000 and 9999. Let's say 5478
+	- Input : 1658	
+	- Output : 1 Cow 1 Bull 
+	- Continue the game till the user enters a number that has 0 Cow and 4 Bull
+	
