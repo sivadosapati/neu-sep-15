@@ -46,8 +46,17 @@ public class CarManagerImpl implements CarManager {
     
     private Car lineToCar(String s) {
         String[] l = s.split("~");
-        return new Car(l[0], l[1], Category.valueOf(l[2].toUpperCase()), Integer.parseInt(l[3]), l[4],
-                l[5], l[6], l[7], Float.parseFloat(l[8]));
+        String id = l[0];
+        String dealerId = l[1];
+        Category category = Category.valueOf(l[2].toUpperCase());
+        Integer year = Integer.parseInt(l[3]);
+        String make = l[4];
+        String model = l[5];
+        String trim = l[6];
+        String type = l[7];
+        Float price = Float.parseFloat(l[8]);
+        return new Car(id, dealerId, category, year, make,
+                model, trim, type, price);
     }
     
     public CarManagerImpl(String dealerID) throws IOException {
@@ -60,7 +69,6 @@ public class CarManagerImpl implements CarManager {
     
     @Override
     public List<Car> listCars() {
-        // TODO Auto-generated method stub
         return carList;
     }
 
@@ -78,7 +86,7 @@ public class CarManagerImpl implements CarManager {
      */
     @Override
     public void addCar(Car car) {
-        // TODO Auto-generated method stub
+        // add to the carList and write to file;
 
     }
 
@@ -87,7 +95,7 @@ public class CarManagerImpl implements CarManager {
      */
     @Override
     public void deleteCar(String vehicleId) {
-        // TODO Auto-generated method stub
+        // delete the car in carList and delete in file;
 
     }
 
@@ -96,7 +104,7 @@ public class CarManagerImpl implements CarManager {
      */
     @Override
     public void updateCar(Car car) {
-        // TODO Auto-generated method stub
+        //update the carList and write to file;
 
     }
 
@@ -105,7 +113,7 @@ public class CarManagerImpl implements CarManager {
      */
     @Override
     public List<Car> sort(SearchFilter sf, SortCriteria sc) {
-        // TODO Auto-generated method stub
+        // override comparator.....
         return null;
     }
 
