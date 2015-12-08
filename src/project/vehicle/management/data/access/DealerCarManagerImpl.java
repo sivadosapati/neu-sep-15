@@ -28,7 +28,8 @@ public class DealerCarManagerImpl implements DealerCarManager {
             BufferedReader br = new BufferedReader(isr);
             String thisLine = null;
             while ((thisLine = br.readLine()) != null) {
-                String dealerId = thisLine.split("~")[0];
+                String[] arr = thisLine.split("\t");
+                String dealerId = arr[0];
                 dealerIds.add(dealerId);
             }
             br.close();
@@ -39,7 +40,7 @@ public class DealerCarManagerImpl implements DealerCarManager {
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
-            return (String[]) dealerIds.toArray();
+            return dealerIds.toArray(new String[dealerIds.size()]);
         }
     }
 }
