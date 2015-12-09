@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
-import java.awt.color.ColorSpace;
 import java.util.EventObject;
 
 import javax.swing.JButton;
