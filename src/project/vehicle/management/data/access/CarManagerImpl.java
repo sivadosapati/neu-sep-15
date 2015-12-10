@@ -15,6 +15,7 @@ import java.util.List;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Category;
+import project.vehicle.management.data.Range;
 import project.vehicle.management.data.SearchFilter;
 import project.vehicle.management.data.SortCriteria;
 
@@ -51,7 +52,6 @@ public class CarManagerImpl implements CarManager {
 	private List<Car> buildCarListOld() throws IOException {
 		final List<Car> cars = new ArrayList<Car>();
 		FileReadingTemplate template = new FileReadingTemplate() {
-
 			@Override
 			public void processLine(String line) {
 				cars.add(lineToCar(line));
@@ -106,29 +106,48 @@ public class CarManagerImpl implements CarManager {
 	}
 
 	private boolean checkSearchCondition(Car car, SearchFilter sf) {
-		if (sf.getMake() != null && !sf.getMake().equals(car.getMake()))
+		if (!checkCondition(sf.getMake(),car.getMake()))
 			return false;
-		if (sf.getModel() != null && !sf.getModel().equals(car.getModel()))
+		if (!checkCondition(sf.getModel(),car.getModel()))
 			return false;
-		if (sf.getTrim() != null && !sf.getTrim().equals(car.getTrim()))
+		if (!checkCondition(sf.getTrim(),car.getTrim()))
 			return false;
-		if (sf.getYear() != null && sf.getYear() != car.getYear())
+		if (!checkCondition(sf.getYear(),car.getYear()))
 			return false;
-		if (sf.getRange() != null) {
-			if (sf.getRange().getMax() != null
-					&& sf.getRange().getMax() < car.getPrice())
+		if (!checkCondition(sf.getRange(),car.getPrice()))
 				return false;
-			if (sf.getRange().getMin() != null
-					&& sf.getRange().getMin() > car.getPrice())
-				return false;
-		}
 		for (Category cc : sf.getCategory()) {
 			if (car.getCategory().equals(cc))
 				return true;
 		}
 		return false;
 	}
-
+	
+	private boolean checkCondition(String str1, String str2){
+		if(str1!=null)
+			if(!str1.equals(str2))
+				return false;
+		return true;
+	}
+	
+	private boolean checkCondition(Integer inte1, Integer inte2){
+		if(inte1!=null)
+			if(inte1!=inte2)
+				return false;
+		return true;
+	}
+	
+	private boolean checkCondition(Range range, Float price){
+		if (range != null) {
+			if (range.getMax() != null)
+				if(range.getMax() < price)
+					return false;
+			if (range.getMin() != null)
+				if(range.getMin() > price)
+					return false;
+		}
+		return true;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -139,17 +158,11 @@ public class CarManagerImpl implements CarManager {
 	@Override
 	public void addCar(Car car) throws IOException {
 		this.carList.add(car);
-		StringBuffer tempCar = new StringBuffer();
-		tempCar.append(car.getId() + "~").append(car.getDealerID() + "~")
-				.append(car.getCategory().toString() + "~")
-				.append(car.getYear() + "~");
-		tempCar.append(car.getMake() + "~").append(car.getModel() + "~")
-				.append(car.getTrim() + "~").append(car.getType() + "~")
-				.append(car.getPrice());
+		String tempCar = car.toString();
 		FileWriter fw = new FileWriter(file, true);
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.newLine();
-		bw.write(tempCar.toString());
+		bw.write(tempCar);
 		bw.close();
 		fw.close();
 	}
@@ -163,16 +176,19 @@ public class CarManagerImpl implements CarManager {
 	 */
 	@Override
 	public void deleteCar(String vehicleId) throws IOException {
-		FileWriter fw = new FileWriter(file);
-		fw.write(dealerID);
-		fw.close();
+		coverFile();
 		for (Car car : carList) {
-			if (car.getId().equals(vehicleId)) {
+			if (car.getID().equals(vehicleId)) {
 				carList.remove(car);
 				break;
 			} else
 				addCar(car);
 		}
+	}
+	private void coverFile() throws IOException{
+		FileWriter fw = new FileWriter(file);
+		fw.write("id~webId~category~year~make~model~trim~type~price");
+		fw.close();
 	}
 
 	/*
@@ -183,9 +199,17 @@ public class CarManagerImpl implements CarManager {
 	 * .management.data.Car)
 	 */
 	@Override
-	public void updateCar(Car car) {
-		// update the carList and write to file;
-
+	public void updateCar(Car car) throws IOException {
+		int count = 0;
+		for(Car c : carList){
+			if(c.getID()==car.getID()) break;
+			count++;
+		}
+		carList.add(count, car);
+		carList.remove(count+1);
+		coverFile();
+		for(Car c : carList)
+			addCar(c);
 	}
 
 	/*
