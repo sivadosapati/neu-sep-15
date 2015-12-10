@@ -1,6 +1,8 @@
 package project.vehicle.management.ui;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,7 +36,7 @@ public class SpecificCarScreen extends JFrame {
 		Integer test=2013;
 		Category ca=Category.NEW;
 		Car c = new Car("id","dealerid",ca, test, "BMW",
-	            "Encore", "Convenience", "SUV", 11123.12f);
+	            "Encore", "Convenience", "SUV", 111123.12f);
 		Dealer d=new Dealer();
 		new SpecificCarScreen(c,d);
 	}
@@ -62,7 +64,14 @@ public class SpecificCarScreen extends JFrame {
 	}
 
 	private void addListeners() {
-		//back to search
+		search.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+			
+		});
 	}
 
 	private void addTopPanel() {
