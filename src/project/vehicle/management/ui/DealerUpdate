@@ -1,0 +1,117 @@
+package project.vehicle.management.ui;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.AbstractTableModel;
+
+public class DealerUpdate extends JPanel {
+	public static final int default_width = 1000;
+	public static final int default_height = 500;
+	static Font font = new Font("Times New Roman", Font.BOLD, 18);
+	static JButton cancelButton;
+	static JButton submitButton;
+	public DealerUpdate(){
+		super(new GridLayout(1,0));
+		
+		JTable table = new JTable(new MyTableModel());
+        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+        table.setFillsViewportHeight(true);
+        
+        //Create the scroll pane and add the table to it.
+        JScrollPane scrollPane = new JScrollPane(table);
+
+        //Add the scroll pane to this panel.
+        add(scrollPane);
+	}
+	class MyTableModel extends AbstractTableModel {
+		private String[] columnNames = {"ID","DealerID","Category", "Year", "Make","Model", "Trim", "Type", "Price"};
+		//get data from dealer main
+		private Object[][] data = {{"12","22","New","2016","AUDI","Q7","whatever","SUV","9,000"},
+								   {"1","2","Old","2005","BMW","X5","what","SUV","1343"}};
+		
+		public int getColumnCount() {
+			return columnNames.length;
+        }
+
+        public int getRowCount() {
+            return data.length;
+        }
+
+        public String getColumnName(int col) {
+            return columnNames[col];
+        }
+
+        public Object getValueAt(int row, int col) {
+            return data[row][col];
+        }
+        public Class getColumnClass(int c) {
+            return getValueAt(0, c).getClass();
+        }
+        public boolean isCellEditable(int row, int col) {
+            if (col < 2) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == submitButton){
+			
+		}
+		if(e.getSource() == cancelButton){
+			
+		}
+	}
+	
+	private static void createAndShowGUI() {
+        //Create and set up the window.
+        JFrame frame = new JFrame("UPDATE");
+        
+        //Create buttons.
+        cancelButton = new JButton("CANCEL");
+        submitButton = new JButton("SUBMIT");
+        //cancelButton.addActionListener();
+        //submitButton.addActionListener();
+        cancelButton.setFont(font);
+        submitButton.setFont(font);
+        JPanel panel2 = new JPanel();
+        FlowLayout lay = new FlowLayout();
+        panel2.setLayout(lay);
+        panel2.add(submitButton);
+        panel2.add(cancelButton);
+
+        //Create and set up the content pane.
+        DealerUpdate panel1 = new DealerUpdate();
+        panel1.setOpaque(true);
+        BorderLayout out = new BorderLayout();
+        frame.setLayout(out);
+        frame.add(panel1,"Center");
+        frame.add(panel2, "South"); 
+
+        //Display the window.
+        frame.pack();
+        frame.setSize(default_width, default_height);
+        frame.setLocation(850,400);
+        frame.setVisible(true);
+    }
+	
+	public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+    }
+}
