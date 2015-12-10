@@ -3,9 +3,7 @@ package project.vehicle.management.data.access;
 import java.io.IOException;
 import java.util.List;
 
-import vehicle.data.Car;
-import vehicle.data.SearchFilter;
-import vehicle.data.SortCriteria;
+import project.vehicle.management.data.*;
 
 public interface CarManager {
 	List<Car> listCars();

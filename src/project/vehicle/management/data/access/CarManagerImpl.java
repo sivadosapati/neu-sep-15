@@ -13,10 +13,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import vehicle.data.Car;
-import vehicle.data.Category;
-import vehicle.data.SearchFilter;
-import vehicle.data.SortCriteria;
+import project.vehicle.management.data.*;
 
 /**
  * @author 
@@ -32,7 +29,7 @@ public class CarManagerImpl implements CarManager {
      */
     
     
-    private List<Car> buildCarList(String dealerID) throws IOException {
+    private List<Car> buildCarList() throws IOException {
         List<Car> result = new ArrayList<Car>();
         FileInputStream fis = new FileInputStream(file);
         InputStreamReader isr = new InputStreamReader(fis);
@@ -122,6 +119,7 @@ public class CarManagerImpl implements CarManager {
     public void deleteCar(String vehicleId) throws IOException {
         FileWriter fw = new FileWriter(file);
         fw.write(dealerID);
+        fw.close();
     	for(Car car : carList){
         	if(car.getId().equals(vehicleId)){
         		carList.remove(car);
