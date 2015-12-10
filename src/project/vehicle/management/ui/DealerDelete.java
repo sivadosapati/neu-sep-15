@@ -1,4 +1,5 @@
 package project.vehicle.management.ui;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Container;
@@ -20,7 +21,6 @@ public class DealerDelete extends JFrame {
 	JPanel label;
 	Container con;
 	boolean confirmdelete = false;
-	
 
 	public DealerDelete() {
 		setTitle("Delete");
@@ -29,7 +29,8 @@ public class DealerDelete extends JFrame {
 		addListeners();
 		setSize(400, 100);
 		setResizable(true);
-		setLocationRelativeTo( null );
+		setLocationRelativeTo(null);
+		setVisible(true);
 
 	}
 
@@ -45,19 +46,20 @@ public class DealerDelete extends JFrame {
 		no = new JButton("no");
 		confirm = new JLabel("Delete selected rows ?");
 		label = new JPanel();
+		temp = new JPanel();
+		con = super.getContentPane();
+		button = new JPanel(new CardLayout());
 	}
 
 	private void add() {
-		temp = new JPanel();
-		con = super.getContentPane();
+
 		temp.add(yes);
 		temp.add(no);
 		label.add(confirm);
-		button = new JPanel(new CardLayout());
 		button.add(temp);
 		con.add(button, BorderLayout.CENTER);
 		con.add(label, BorderLayout.PAGE_START);
-		setVisible(true);
+		
 	}
 
 	class ButtonYesClick implements ActionListener {
