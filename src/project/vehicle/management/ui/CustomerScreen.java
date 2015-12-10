@@ -65,7 +65,7 @@ public class CustomerScreen extends JFrame {
 		searchTextField = new JTextField(20);
 		searchLabel = new JLabel("Search:");
 		sortLabel = new JLabel("Sort By:");
-		String[] sortStrings = {"Price (Low to High)", "Price (High to Low)", "Miles (Low to High)", "Miles (High to Low)"};
+		String[] sortStrings = {"Price (Low to High)", "Price (High to Low)", "Year (Oldest to Lastest)", "Year (Lastest to Oldest)"};
 		sortComboBox = new JComboBox(sortStrings);
 		//add
 		BorderLayout bl = new BorderLayout();
