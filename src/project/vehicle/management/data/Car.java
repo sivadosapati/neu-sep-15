@@ -1,7 +1,5 @@
 package project.vehicle.management.data;
 
-import java.util.Date;
-
 public class Car {
     private String id;
     private String dealerId;
@@ -26,14 +24,19 @@ public class Car {
         this.price = price;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
     /*
      * private Date date; private String imageURL; private String exterior; private String interior;
      */
+    public String getId(){return id;}
+    public String getMake(){return make;}
+    public String getDealerID(){return dealerId;}
+	public Category getCategory(){return category;}
+	public String getModel(){return model;}
+	public String getTrim(){return trim;}
+	public String getType(){return type;}
+	public Integer getYear(){return year;}
+	public Float getPrice(){return price;}
 }

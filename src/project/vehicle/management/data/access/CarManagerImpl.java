@@ -4,17 +4,19 @@
 package project.vehicle.management.data.access;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import project.vehicle.management.data.Car;
-import project.vehicle.management.data.Category;
-import project.vehicle.management.data.SearchFilter;
-import project.vehicle.management.data.SortCriteria;
+import vehicle.data.Car;
+import vehicle.data.Category;
+import vehicle.data.SearchFilter;
+import vehicle.data.SortCriteria;
 
 /**
  * @author 
@@ -63,7 +65,7 @@ public class CarManagerImpl implements CarManager {
         this.dealerID = dealerID;
         String filePath = dealerID;
         this.file = new File(filePath);
-        this.carList = buildCarList(dealerID);        
+        this.carList = buildCarList();        
     }
     
     
@@ -76,27 +78,58 @@ public class CarManagerImpl implements CarManager {
      * @see project.vehicle.management.data.access.CarManager#search(project.vehicle.management.data.SearchFilter)
      */
     @Override
-    public List<Car> search(SearchFilter searchFilter) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<Car> search(SearchFilter sf) {
+        List<Car> result = new ArrayList<Car>(carList);
+        for(Car car : result){
+        	if(!checkSearchCondition(car,sf)) result.remove(car);
+        }
+        return result;
+    }
+    private boolean checkSearchCondition(Car car, SearchFilter sf){
+    	if(sf.getMake()!=null && !sf.getMake().equals(car.getMake())) return false;
+    	if(sf.getModel()!=null && !sf.getModel().equals(car.getModel())) return false;
+    	if(sf.getTrim()!=null && !sf.getTrim().equals(car.getTrim())) return false;
+    	if(sf.getYear()!=null &&sf.getYear()!=car.getYear()) return false;
+    	if(sf.getRange()!=null){
+    		if(sf.getRange().getMax()!=null&&sf.getRange().getMax()<car.getPrice()) return false;
+    		if(sf.getRange().getMin()!=null&&sf.getRange().getMin()>car.getPrice()) return false;
+    	}
+    	for(Category cc : sf.getCategory()){if(car.getCategory().equals(cc)) return true;}
+    	return false;
     }
 
     /* (non-Javadoc)
      * @see project.vehicle.management.data.access.CarManager#addCar(project.vehicle.management.data.Car)
      */
     @Override
-    public void addCar(Car car) {
-        // add to the carList and write to file;
-
+    public void addCar(Car car) throws IOException {
+        this.carList.add(car);
+        StringBuffer tempCar = new StringBuffer();
+        tempCar.append(car.getId()+"~").append(car.getDealerID()+"~").append(car.getCategory().toString()+"~").append(car.getYear()+"~");
+        tempCar.append(car.getMake()+"~").append(car.getModel()+"~").append(car.getTrim()+"~").append(car.getType()+"~").append(car.getPrice());
+        FileWriter fw = new FileWriter(file,true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.newLine();
+        bw.write(tempCar.toString());
+        bw.close();
+        fw.close();
     }
 
     /* (non-Javadoc)
      * @see project.vehicle.management.data.access.CarManager#deleteCar(java.lang.String)
      */
     @Override
-    public void deleteCar(String vehicleId) {
-        // delete the car in carList and delete in file;
-
+    public void deleteCar(String vehicleId) throws IOException {
+        FileWriter fw = new FileWriter(file);
+        fw.write(dealerID);
+    	for(Car car : carList){
+        	if(car.getId().equals(vehicleId)){
+        		carList.remove(car);
+        		break;
+        	}
+        	else
+        		addCar(car);
+        }
     }
 
     /* (non-Javadoc)

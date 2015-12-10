@@ -1,21 +1,22 @@
 package project.vehicle.management.data.access;
 
+import java.io.IOException;
 import java.util.List;
 
-import project.vehicle.management.data.Car;
-import project.vehicle.management.data.SearchFilter;
-import project.vehicle.management.data.SortCriteria;
+import vehicle.data.Car;
+import vehicle.data.SearchFilter;
+import vehicle.data.SortCriteria;
 
 public interface CarManager {
 	List<Car> listCars();
 
 	List<Car> search(SearchFilter searchFilter);
 
-	void addCar(Car car);
+	void addCar(Car car) throws IOException;
 
-	void deleteCar(String vehicleId);
+	void deleteCar(String vehicleId) throws IOException;
 
-	void updateCar(Car car);
+	void updateCar(Car car) throws IOException;
 
 	List<Car> sort(SearchFilter sf, SortCriteria sc);
 }
