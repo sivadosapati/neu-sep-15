@@ -26,7 +26,7 @@ import lecture11.NEUFrame;
 
 
 public class DearlerMainScreen extends NEUFrame {
-	JButton addButton;
+	JButton addButton;//private
 	JButton searchButton;
 	JButton updateButton;
 	JButton deleteButton;
@@ -45,7 +45,7 @@ public class DearlerMainScreen extends NEUFrame {
 		updateButton = new JButton("Update");
 		deleteButton = new JButton("Delete");
 		try {
-			results = new DataFetcher().readTheFile("/Users/kk/Desktop/car.txt", items.length);
+			results = new DataFetcher().readTheFile("D:\\yuandaima\\javawork\\git\\neu-sep-15\\gmps-aj-dohmann", items.length);
 			resultTable = new JTable(new MyTableModel(items, results));
 			resultScroll = new JScrollPane(resultTable);
 		} catch (IOException e) {
