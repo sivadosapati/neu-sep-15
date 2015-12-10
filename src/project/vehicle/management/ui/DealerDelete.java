@@ -27,7 +27,7 @@ public class DealerDelete extends JFrame {
 		create();
 		add();
 		addListeners();
-		setSize(400, 100);
+		setSize(400, 130);
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
