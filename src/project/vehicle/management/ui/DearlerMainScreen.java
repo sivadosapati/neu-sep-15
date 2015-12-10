@@ -1,5 +1,4 @@
-package project.vehicle.management.ui;
-
+package project.vehicle.management.ui ;
 import java.awt.Container;
 
 import java.awt.GridBagConstraints;
@@ -46,7 +45,7 @@ public class DearlerMainScreen extends NEUFrame {
 		updateButton = new JButton("Update");
 		deleteButton = new JButton("Delete");
 		try {
-			results = new DataFetcher().readTheFile("D:\\yuandaima\\javawork\\git\\neu-sep-15\\gmps-aj-dohmann", items.length);
+			results = new DataFetcher().readTheFile("/Users/kk/Desktop/car.txt", items.length);
 			resultTable = new JTable(new MyTableModel(items, results));
 			resultScroll = new JScrollPane(resultTable);
 		} catch (IOException e) {
@@ -113,7 +112,7 @@ public class DearlerMainScreen extends NEUFrame {
 				}
 			}
 			else if(e.getSource() == deleteButton)
-				;
+				new DealerDelete();;
 		}
 		
 	}
