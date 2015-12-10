@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.EventObject;
 import java.util.List;
 
@@ -76,6 +78,32 @@ public class CustomerScreen extends JFrame {
 		setSize(Toolkit.getDefaultToolkit().getScreenSize().width - 200,
 				Toolkit.getDefaultToolkit().getScreenSize().height);
 		setVisible(true);
+		addListeners();
+		
+	}
+
+	private void addListeners() {
+		ButtonClick bc = new ButtonClick();
+		searchButton.addActionListener(bc);
+		
+	}
+	
+	class ButtonClick implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == searchButton){
+				String text = searchTextField.getText();
+				if(text.endsWith(" ")){
+					String words[] = text.split(" ");
+					System.out.println(words);
+				} else {
+					System.out.println("Test");
+				}
+			}
+			
+		}
+		
 	}
 
 	private void initSearchPane() {
