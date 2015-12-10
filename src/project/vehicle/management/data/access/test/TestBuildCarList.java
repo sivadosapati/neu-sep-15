@@ -17,7 +17,7 @@ public class TestBuildCarList {
         List<Car> list = test.listCars();
         Car actual = list.get(0);
         Assert.assertEquals(list.size(), 206);
-        Assert.assertEquals("2646859273", actual.getId());
+        Assert.assertEquals("2646859273", actual.getID());
     }
 
 }
