@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import project.vehicle.management.data.Car;
@@ -223,7 +225,15 @@ public class CarManagerImpl implements CarManager {
 	@Override
 	public List<Car> sort(SearchFilter sf, SortCriteria sc) {
 		// override comparator.....
-		return null;
+	    CarComparator ascComparator = new CarComparator();
+        ascComparator.setAttribute(sc.getAttribute());
+        Collections.sort(carList, ascComparator);
+        if(!sc.getSequence()) {
+            Comparator<Car> descComparator = Collections.reverseOrder(ascComparator); 
+            Collections.sort(carList, descComparator); 
+        }
+        
+        return null;
 	}
 
 }
