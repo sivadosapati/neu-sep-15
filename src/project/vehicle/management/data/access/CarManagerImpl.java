@@ -99,10 +99,10 @@ public class CarManagerImpl implements CarManager {
 	 */
 	@Override
 	public List<Car> search(SearchFilter sf) {
-		List<Car> result = new ArrayList<Car>(carList);
-		for (Car car : result) {
-			if (!checkSearchCondition(car, sf))
-				result.remove(car);
+		List<Car> result = new ArrayList<Car>();
+		for (int i=0;i<carList.size();i++) {
+			if (checkSearchCondition(carList.get(i), sf))
+				result.add(carList.get(i));
 		}
 		return result;
 	}
@@ -117,28 +117,32 @@ public class CarManagerImpl implements CarManager {
 		if (!checkCondition(sf.getYear(),car.getYear()))
 			return false;
 		if (!checkCondition(sf.getRange(),car.getPrice()))
-				return false;
-		for (Category cc : sf.getCategory()) {
-			if (car.getCategory().equals(cc))
-				return true;
-		}
-		return false;
+			return false;
+		if (!checkCondition(sf.getCategory(),car.getCategory()))
+			return false;
+		return true;
 	}
-	
+	private boolean checkCondition(Category ccc[],Category c){
+		if(ccc!=null){
+			for(Category cc : ccc)
+				if(cc.equals(c))
+					return true;
+			return false;
+		}
+		return true;
+	}
 	private boolean checkCondition(String str1, String str2){
 		if(str1!=null)
 			if(!str1.equals(str2))
 				return false;
 		return true;
 	}
-	
 	private boolean checkCondition(Integer inte1, Integer inte2){
 		if(inte1!=null)
-			if(inte1!=inte2)
+			if(!inte1.equals(inte2))
 				return false;
 		return true;
 	}
-	
 	private boolean checkCondition(Range range, Float price){
 		if (range != null) {
 			if (range.getMax() != null)
