@@ -115,6 +115,7 @@ public class TextAndList extends NEUFrame {
 				String lastWord = words[words.length - 1];
 				listModel.addWord(lastWord);
 				System.out.println(lastWord);
+				
 				wordsList.updateUI();
 			}
 		}

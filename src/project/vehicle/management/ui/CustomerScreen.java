@@ -85,8 +85,11 @@ public class CustomerScreen extends JFrame {
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		searchButton.addActionListener(bc);
+		// SortSelection ss = new SortSelection();
+		//sortComboBox.addActionListener(ss);
 		
 	}
+	
 	
 	class ButtonClick implements ActionListener{
 
@@ -96,7 +99,9 @@ public class CustomerScreen extends JFrame {
 				String text = searchTextField.getText();
 				if(text.endsWith(" ")){
 					String words[] = text.split(" ");
-					System.out.println(words);
+					for (int i=0; i< words.length; i++){
+						System.out.println(words[i]);
+					}
 				} else {
 					System.out.println("Test");
 				}
@@ -105,6 +110,20 @@ public class CustomerScreen extends JFrame {
 		}
 		
 	}
+	
+	/* class SortSelection implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			JComboBox<String> combo = (JComboBox<String>)ae.getSource();
+			String sortString = (String)combo.getSelectedItem();
+			if(sortString.equals("Price (Low to High)")){
+				System.out.println("1");
+			} else if(sortString.equals("Price (High to Low)")){
+				System.out.println("2");
+		}
+		
+	} */
 
 	private void initSearchPane() {
 		// create
@@ -112,8 +131,7 @@ public class CustomerScreen extends JFrame {
 		searchTextField = new JTextField(20);
 		searchLabel = new JLabel("Search:");
 		sortLabel = new JLabel("Sort By:");
-		String[] sortStrings = { "Price (Low to High)", "Price (High to Low)",
-				"Year (Oldest to Lastest)", "Year (Lastest to Oldest)" };
+		String[] sortStrings = { "Price (Low to High)", "Price (High to Low)"};
 		sortComboBox = new JComboBox(sortStrings);
 		// add
 		BorderLayout bl = new BorderLayout();
