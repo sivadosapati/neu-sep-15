@@ -7,7 +7,11 @@ import project.vehicle.management.data.Car;
 public class CarComparator implements Comparator<Car> {
 
     private String attribute;
-    public String getAttribute() {
+    public CarComparator(String attribute) {
+		super();
+		this.attribute = attribute;
+	}
+	public String getAttribute() {
         return attribute;
     }
     public void setAttribute(String attribute) {
