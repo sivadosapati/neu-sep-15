@@ -5,7 +5,7 @@ public class SearchFilter {
 	private String make;
 	private String model;
 	private String trim;
-	private Integer year;
+	private Range year;
 	private Range priceRange;
 	private String keywords;
 	
@@ -13,19 +13,19 @@ public class SearchFilter {
 	public boolean[] getCategory(){return category;}
 	public String getModel(){return model;}
 	public String getTrim(){return trim;}
-	public Integer getYear(){return year;}
+	public Range getYear(){return year;}
 	public Range getRange(){return priceRange;}
 	public String getKeywords(){return keywords;}
 	
 	public void setCategory(boolean[] category){this.category = category;}
-    public void setYear(Integer year){this.year = year;}
+    public void setYear(Range year){this.year = year;}
     public void setMake(String make){this.make = make;}
     public void setModel(String model){this.model = model;}
     public void setTrim(String trim){this.trim = trim;}
     public void setRange(Range priceRange){this.priceRange = priceRange;}
     public void setKeywords(String keywords){this.keywords = keywords;}
 	
-	public SearchFilter(boolean category[], String make, String model, String trim, Integer year, Range priceRange, String keywords){
+	public SearchFilter(boolean category[], String make, String model, String trim, Range year, Range priceRange, String keywords){
 		if(category!=null)
 			this.category=category;
 		this.make=make;
