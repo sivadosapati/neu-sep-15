@@ -31,11 +31,10 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import finalProject.CustomerScreen.clickCheckAction;
-import finalProject.CustomerScreen.selectAction;
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
+import project.vehicle.management.data.access.CarManagerImpl;
 
 public class CustomerScreen extends JFrame {
 	/**
