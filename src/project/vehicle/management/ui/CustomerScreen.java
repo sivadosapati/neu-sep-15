@@ -42,7 +42,7 @@ public class CustomerScreen extends JFrame {
 	private JLabel sortLabel;
 	private JComboBox sortComboBox;
 	private JCheckBox chckbxNew,chckbxUsed,chckbxCertified;
-	private boolean[] Category={false,false,false};
+	private boolean[] category={false,false,false};
 	private JTable table;
 	private SearchFilter sf = new SearchFilter(null, null, null, null, null, null,null);
 
@@ -189,7 +189,7 @@ public class CustomerScreen extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			if (ae.getSource() == searchButton){
 				sf.setKeywords(searchTextField.getText());
-			
+				sf.setCategory(category);
 			}
 		}
 	}
