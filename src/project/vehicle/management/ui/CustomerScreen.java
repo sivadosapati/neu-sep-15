@@ -53,6 +53,7 @@ public class CustomerScreen extends JFrame {
 		init();
 	}
 
+	
 	public static void main(String[] args) throws Exception {
 		CarManager carManager = new CarManagerFactory()
 				.getCarManager("gmps-bresee");
