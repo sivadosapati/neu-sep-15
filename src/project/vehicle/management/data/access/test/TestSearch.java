@@ -16,7 +16,8 @@ public class TestSearch {
     public void test() throws IOException {
         CarManagerImpl test = new CarManagerImpl("gmps-gilroy");
         //define SearchFilter
-        SearchFilter sf = new SearchFilter(null, null, null, null, null, null,"254962");
+        boolean[] category = {false, false, false};
+        SearchFilter sf = new SearchFilter(category, null, null, null, null, null,"254962");
         List<Car> list = test.search(sf);
         int size = list.size();
         Assert.assertEquals(1, size);
