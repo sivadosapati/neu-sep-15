@@ -16,7 +16,7 @@ public class TestSort {
     @Test
     public void test() throws IOException {
         CarManagerImpl test = new CarManagerImpl("gmps-gilroy");
-        SearchFilter sf = new SearchFilter(null, null, null, null, null, null);
+        SearchFilter sf = new SearchFilter(null,null, null, null, null, null, null);
         //test year ascending
         SortCriteria sc = new SortCriteria("year", true);
         List<Car> list = test.sort(sf, sc);
