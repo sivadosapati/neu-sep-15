@@ -31,7 +31,6 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import project.vehicle.management.data.Category;
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
@@ -88,7 +87,7 @@ public class CustomerScreen extends JFrame {
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		searchButton.addActionListener(bc);
-		// SortSelection ss = new SortSelection();
+		//SortSelection ss = new SortSelection();
 		//sortComboBox.addActionListener(ss);
 		
 	}
@@ -112,19 +111,22 @@ public class CustomerScreen extends JFrame {
 			
 		}
 		
-	}
+	} 
 	
 	/* class SortSelection implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			JComboBox<String> combo = (JComboBox<String>)ae.getSource();
+			//JComboBox<String> combo = (JComboBox<String>)ae.getSource();
 			String sortString = (String)combo.getSelectedItem();
-			if(sortString.equals("Price (Low to High)")){
-				System.out.println("1");
-			} else if(sortString.equals("Price (High to Low)")){
-				System.out.println("2");
-		}
+			switch (sortString) {
+			case "Price (Low to High)":
+				System.out.println("Low to High");
+				break;
+			case "Price (High to Low)":
+				System.out.println("High to low");
+				break;
+			}
 		
 	} */
 	
