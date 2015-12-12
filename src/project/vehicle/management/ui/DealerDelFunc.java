@@ -84,12 +84,12 @@ public class DealerDelFunc extends JFrame {
 		}
 	}
 
-	private void delete(List<Car> ret) throws IOException {
+	private List<Car> delete(List<Car> ret) throws IOException {
 
 		CarManagerImpl deletecar = new CarManagerImpl(dealerid);
 		for (Car car : ret)
 			deletecar.deleteCar(car.getID());
-		deletecar.listCars();
+		return deletecar.listCars();
 
 	}
 
