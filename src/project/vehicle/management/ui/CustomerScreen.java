@@ -119,7 +119,7 @@ public class CustomerScreen extends JFrame {
 		brandComboPanel.add(lblBrand);
 
 		
-		comboBox = new JComboBox(list.get(0).toArray());
+		comboBox = new JComboBox(list.get(1).toArray());
 		comboBox.setSelectedItem(null);
 		brandComboPanel.add(comboBox);
 
@@ -136,7 +136,7 @@ public class CustomerScreen extends JFrame {
 		modelComboPanel.add(lblModel);
 
 
-		comboBox_1 = new JComboBox();
+		comboBox_1 = new JComboBox(list.get(0).toArray());
 		comboBox_1.setSelectedItem(null);
 		modelComboPanel.add(comboBox_1);
 		choosecondiPanel.add(modelComboPanel);
@@ -145,7 +145,7 @@ public class CustomerScreen extends JFrame {
 		JLabel lblTrim = new JLabel("trim");
 		trimComboPanel.add(lblTrim);
 
-		comboBox_2 = new JComboBox();
+		comboBox_2 = new JComboBox(list.get(2).toArray());
 		comboBox_2.setSelectedItem(null);
 		trimComboPanel.add(comboBox_2);
 		choosecondiPanel.add(trimComboPanel);
