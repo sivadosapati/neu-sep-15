@@ -218,7 +218,7 @@ public class CustomerScreen extends JFrame {
 				List<Car> carTarget = test.sort(sf, sc);
 				System.out.println(carTarget);
 				initTablePane(carTarget);
-				repaint();
+				
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
