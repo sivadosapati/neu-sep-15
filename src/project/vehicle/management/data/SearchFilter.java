@@ -26,7 +26,8 @@ public class SearchFilter {
     public void setKeywords(String keywords){this.keywords = keywords;}
 	
 	public SearchFilter(boolean category[], String make, String model, String trim, Integer year, Range priceRange, String keywords){
-		this.category=category;
+		if(category!=null)
+			this.category=category;
 		this.make=make;
 		this.model=model;
 		this.trim=trim;

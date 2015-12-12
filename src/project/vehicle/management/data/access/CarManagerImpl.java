@@ -136,8 +136,6 @@ public class CarManagerImpl implements CarManager {
 		return false;
 	}
 	private boolean checkCondition(boolean cc[],Category c){
-		if(cc==null)
-			return true;
 		if((!cc[0])&&(!cc[1])&&(!cc[2]))
 			return true;
 		if(cc[0])
