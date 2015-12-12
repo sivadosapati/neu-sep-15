@@ -5,9 +5,14 @@ package project.vehicle.management.ui;
  */
 import javax.swing.*;
 
+import project.vehicle.management.data.Car;
+import project.vehicle.management.data.access.CarManagerFactory;
+import project.vehicle.management.data.access.CarManagerImpl;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 public class DealerAddFunc extends JFrame{
 	JLabel noteInformation,Model,DealerID,Trim;
@@ -20,6 +25,7 @@ public class DealerAddFunc extends JFrame{
 	
 	GridBagLayout g = new GridBagLayout();
 	GridBagConstraints c = new GridBagConstraints();
+	public project.vehicle.management.data.Category category;
 	DealerAddFunc(String str)
 	{
 		super(str);
@@ -55,7 +61,7 @@ public class DealerAddFunc extends JFrame{
 				String did=textDealerID.getText();
 				String nt=NewType.getText();
 				String ot=OldType.getText();
-				String y=(String) year.getSelectedItem();
+				Integer y=(Integer) year.getSelectedItem();
 				String m=textMake.getText();
 				String mo=textModel.getText();
 				String t=textTrim.getText();
@@ -65,14 +71,44 @@ public class DealerAddFunc extends JFrame{
 				String t4=Type4.getText();
 				String t5=Type5.getText();
 				String p=textPrice.getText();
-				
+				float pf = Float.parseFloat(p); 
+				if(nt==null){
+					String category = ot;
+				}
+				else{
+					String category = nt;
+				}
+				String type;
+				if(t1 != null){
+					type = t1;
+				}
+				else if(t2 != null){
+					type = t2;
+				}
+				else if(t3 != null){
+					type = t3;
+				}
+				else if(t4 != null){
+					type = t4;
+				}
+				else {
+					type = t5;
+				}
+				Car addcar = new Car(id, did, category, y, m, mo, t, type, pf);
+				try {
+					new CarManagerFactory().getCarManager(did).addCar(addcar);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				}
 				
 				
 			}
 			
 		}
 		
-	}
+
 	//Add all components
 	public void addComponent(){
 		//Title
