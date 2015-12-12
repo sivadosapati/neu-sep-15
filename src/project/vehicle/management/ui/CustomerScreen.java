@@ -47,6 +47,7 @@ public class CustomerScreen extends JFrame {
 	private boolean[] category={false,false,false};
 	private JTable table;
 	private SearchFilter sf = new SearchFilter(null, null, null, null, null, null,null);
+	private SortCriteria sc = new SortCriteria(null, true);
 
 	private CarManager carManager;
 
@@ -184,57 +185,6 @@ public class CustomerScreen extends JFrame {
 
 	}
 
-	private void addListeners() {
-		ButtonClick bc = new ButtonClick();
-		searchButton.addActionListener(bc);
-		SortSelection ss = new SortSelection();
-		sortComboBox.addActionListener(ss);
-
-	}
-
-	class ButtonClick implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == searchButton){
-				sf.setKeywords(searchTextField.getText());
-				sf.setCategory(category);
-			}
-		}
-	}
-
-	class SortSelection implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			JComboBox sortComboBox = (JComboBox) ae.getSource();
-			boolean highToLow = true;
-			String selectedSort = (String) sortComboBox.getSelectedItem();
-			int i = selectedSort.indexOf(" ");
-			String sortKeyword = selectedSort.substring(0, i);
-			if(selectedSort.contains("High to Low")){
-				highToLow = true;
-			}else{
-				highToLow = false;
-			}
-			SortCriteria sc = new SortCriteria(sortKeyword, highToLow);
-			System.out.println(sortKeyword);
-			System.out.println(highToLow);
-			CarManagerImpl test;
-			try {
-				test = new CarManagerImpl("gmps-gilroy"); //dealerID
-				List<Car> carTarget=test.sort(sf, sc);
-				System.out.println(carTarget);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
-
-	} 
-
-
 
 	class clickCheckAction implements ActionListener{
 
@@ -243,7 +193,6 @@ public class CustomerScreen extends JFrame {
 			JCheckBox cb=(JCheckBox)e.getSource();
 			if(cb==chckbxNew){
 				category[0]=true;
-				System.out.print("here");
 			}else if(cb==chckbxUsed){
 				category[1]=true;
 			}else if(cb==chckbxCertified){
@@ -326,6 +275,71 @@ public class CustomerScreen extends JFrame {
 		con.add("North", searchAndSortPanel);
 	}
 
+	private void addListeners() {
+		ButtonClick bc = new ButtonClick();
+		searchButton.addActionListener(bc);
+		SortSelection ss = new SortSelection();
+		sortComboBox.addActionListener(ss);
+
+	}
+
+	class ButtonClick implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == searchButton){
+				sf.setKeywords(searchTextField.getText());
+				CarManagerImpl test;
+				try {
+					test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()); //dealerID
+					List<Car> carAfterSearch=test.search(sf);
+					//System.out.println(carAfterSearch);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	class SortSelection implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			JComboBox sortComboBox = (JComboBox) ae.getSource();
+			boolean highToLow = true;
+			String selectedSort = (String) sortComboBox.getSelectedItem();
+			int i = selectedSort.indexOf(" ");
+			String sortKeyword = selectedSort.substring(0, i);
+			if(selectedSort.contains("High to Low")){
+				highToLow = true;
+			}else{
+				highToLow = false;
+			}
+			sc.setAttribute(sortKeyword);
+			sc.setSequence(highToLow);
+			
+			//System.out.println(sortKeyword);
+			//System.out.println(highToLow);
+			
+			try {
+				String dealerIDS= ((CarManagerImpl) carManager).getDealerID();
+				CarManagerImpl testAfterSearchSort = new CarManagerImpl(dealerIDS);
+				List<Car> carAfterSearchSort = carManager.sort(sf, sc);
+				//System.out.println(sf.getKeywords() + sf.getMake() + sf.getModel() + sf.getTrim() + sf.getCategory()[0]);
+				//System.out.println(sc.getAttribute() + sc.getSequence());
+				//System.out.println(dealerIDS);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+
+		}
+
+	} 
+	
 	class CarTableModel implements TableModel {
 		private List<Car> cars;
 		private List<Object[]> carList;
