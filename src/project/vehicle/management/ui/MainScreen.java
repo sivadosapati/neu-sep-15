@@ -103,8 +103,6 @@ public class MainScreen extends JFrame {
             		  new DearlerMainScreen(selectedDealer);
                   }
                   catch(Exception ex){}
-                 
-                  this.dispose();
               }
           });
 
@@ -117,8 +115,6 @@ public class MainScreen extends JFrame {
                 	  new CustomerScreen(new CarManagerFactory().getCarManager(selectedDealer));
                   }
                   catch(Exception ex){}
-                 
-                  this.dispose();
               }
           });
 

@@ -124,7 +124,7 @@ public class CarManagerImpl implements CarManager {
 			return false;
 		if (!checkCondition(sf.getTrim(),car.getTrim()))
 			return false;
-		if (!checkCondition(sf.getYear(),car.getYear()))
+		if (!checkCondition(sf.getYear(),car.getYear()+0.0f))
 			return false;
 		if (!checkCondition(sf.getRange(),car.getPrice()))
 			return false;
@@ -162,12 +162,6 @@ public class CarManagerImpl implements CarManager {
 	private boolean checkCondition(String str1, String str2){
 		if(str1!=null)
 			if(!str1.equals(str2))
-				return false;
-		return true;
-	}
-	private boolean checkCondition(Integer inte1, Integer inte2){
-		if(inte1!=null)
-			if(!inte1.equals(inte2))
 				return false;
 		return true;
 	}
