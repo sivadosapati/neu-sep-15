@@ -1,14 +1,14 @@
 package project.vehicle.management.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.EventObject;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -21,14 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import project.vehicle.management.data.Car;
@@ -41,7 +35,6 @@ public class CustomerScreen extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 252713049595839409L;
-	// Components that Nan added
 	private JButton searchButton;
 	private JTextField searchTextField;
 	private JLabel searchLabel;
@@ -49,7 +42,6 @@ public class CustomerScreen extends JFrame {
 	private JComboBox sortComboBox;
 	private JCheckBox chckbxNew,chckbxUsed,chckbxCertified;
 	private boolean[] Category={false,false,false};
-
 	private JTable table;
 
 	private CarManager carManager;
@@ -67,9 +59,15 @@ public class CustomerScreen extends JFrame {
 
 	private void init() {
 		initSearchPane();
-		initTablePane();
+		Car car1 = new Car("2656440533","gmps-priority", project.vehicle.management.data.Category.NEW, 2016, "Chevrolet",
+	            "Equinox", "LT", "SUV", 27029.0f);
+		Car car2 = new Car("2656440533","gmps-priority", project.vehicle.management.data.Category.NEW, 2016, "Chevrolet",
+	            "Equinox", "LT", "SUV", 27029.0f);
+		List<Car> cars = new ArrayList<Car>();
+		cars.add(car1);
+		cars.add(car2);
+		initTablePane(cars);
 		initchoosePane();
-
 		
 		setTitle("CustomerScreen ——>Dealer: " + ((CarManagerImpl) carManager).getDealerID());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,7 +86,6 @@ public class CustomerScreen extends JFrame {
 		sortComboBox.addActionListener(ss);
 		
 	}
-	
 	
 	class ButtonClick implements ActionListener{
 
@@ -208,7 +205,8 @@ public class CustomerScreen extends JFrame {
 		getContentPane().add("West",choosecondiPanel);
 		
 	}
-	class clickCheckAction implements ActionListener{
+	
+    class clickCheckAction implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -227,7 +225,8 @@ public class CustomerScreen extends JFrame {
 		}
 		
 	}
-	class selectAction implements ActionListener{
+	
+    class selectAction implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -264,14 +263,14 @@ public class CustomerScreen extends JFrame {
 		private List<Car> cars;
 		private List<Object[]> carList;
 		private String[] columnNames = {"Category", "Year", "Brand", 
-				"Model", "Trim", "Price", "Detail" };
+				"Model", "Trim", "Price"};
 		
 		public CarTableModel(List<Car> cars) {
 			this.cars = cars;
 			carList = new ArrayList<Object[]>();
 			for (int i = 0; i < cars.size(); i++) {
 				project.vehicle.management.data.Category category = cars.get(i).getCategory();
-				String year = cars.get(i).getYear().toString();
+				String year = "" + cars.get(i).getYear();
 				String make = cars.get(i).getMake();
 				String model = cars.get(i).getModel();
 				String trim = cars.get(i).getTrim();
@@ -340,86 +339,28 @@ public class CustomerScreen extends JFrame {
 		}
 	}
 
-
-	private void initTablePane() {
-		List<Car> cars = new ArrayList<Car>();
-		Car car1 = new Car("iddd", "gumenee", project.vehicle.management.data.Category.USED, 1990, 
-				"makehahah", "heihei", "enne", "123456", (float) 8);
-		Car car2 = new Car("iddd", "gumenee", project.vehicle.management.data.Category.NEW, 1990, 
-				"makehahah", "heihei", "enne", "123456", (float) 8);
-		cars.add(car1);
-		cars.add(car2);
+	private void initTablePane(List<Car> cars) {
 		table = new JTable(new CarTableModel(cars));
-		TableColumnModel tcm = table.getColumnModel();
-		TableColumn tc1 = tcm.getColumn(0);
-		
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				int r = table.getSelectedRow();
+				if (e.getClickCount() == 2) {
+					try {
+						new SpecificCarScreen(cars.get(r));
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().add("Center", scrollPane);
 	}
 }
 
-class CustomerTableModel extends AbstractTableModel {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8292751322081951693L;
-	public Object[][] values;
-
-	public CustomerTableModel(Object[][] values) {
-		this.values = values;
-	}
-
-	@Override
-	public int getRowCount() {
-		return values.length;
-	}
-
-	@Override
-	public int getColumnCount() {
-		return values[0].length;
-	}
-
-	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		return values[rowIndex][columnIndex];
-	}
-}
-
-class ImageRenderer extends JLabel implements TableCellRenderer {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1977070335905914163L;
-
-	public ImageRenderer(String url) {
-		super();
-		setText("<html><body><image width='" + 200 + "' height='" + 180
-				+ "' src=" + url + "'></img></body></html>");
-	}
-
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		if (isSelected) {
-			setForeground(table.getSelectionForeground());
-			super.setBackground(table.getSelectionBackground());
-		} else {
-			setForeground(table.getForeground());
-			setBackground(table.getBackground());
-		}
-		return this;
-	}
-}
-
-class ButtonRenderer extends JPanel implements TableCellRenderer {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+/*class ButtonRenderer extends JButton implements TableCellRenderer {
 	public ButtonRenderer() {
-		JButton button = new JButton("View Detail");
-		add(button);
+		setText("View Detail");
 		setBackground(new Color(255, 255, 255));
 	}
 
@@ -428,56 +369,5 @@ class ButtonRenderer extends JPanel implements TableCellRenderer {
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		return this;
 	}
-}
-
-class ButtonEditor extends JButton implements TableCellEditor {
-	protected EventListenerList listenerList = new EventListenerList();
-
-	@Override
-	public Object getCellEditorValue() {
-
-		return null;
-	}
-
-	@Override
-	public boolean isCellEditable(EventObject anEvent) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean shouldSelectCell(EventObject anEvent) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean stopCellEditing() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void cancelCellEditing() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void addCellEditorListener(CellEditorListener l) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void removeCellEditorListener(CellEditorListener l) {
-
-	}
-
-	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value,
-			boolean isSelected, int row, int column) {
-		return this;
-	}
-
-}
+} 
+*/
