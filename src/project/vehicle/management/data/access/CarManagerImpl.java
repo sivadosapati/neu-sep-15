@@ -245,6 +245,6 @@ public class CarManagerImpl implements CarManager {
             Collections.sort(carList, descComparator); 
         }
         
-        return null;
+        return carList;
 	}
 }
