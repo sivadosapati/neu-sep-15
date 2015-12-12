@@ -31,6 +31,14 @@ public class CarManagerImpl implements CarManager {
 	private String dealerID;
 	private File file;
 
+	public String getDealerID() {
+		return dealerID;
+	}
+
+	public void setDealerID(String dealerID) {
+		this.dealerID = dealerID;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -79,7 +87,7 @@ public class CarManagerImpl implements CarManager {
 	}
 
 	public CarManagerImpl(String dealerID) throws IOException {
-		this.dealerID = dealerID;
+		this.setDealerID(dealerID);
 		String filePath = dealerID;
 		this.file = new File(filePath);
 		this.carList = buildCarList();
@@ -120,16 +128,34 @@ public class CarManagerImpl implements CarManager {
 			return false;
 		if (!checkCondition(sf.getCategory(),car.getCategory()))
 			return false;
+		if (!checkCondition(car,sf.getKeywords()))
+			return false;
 		return true;
 	}
-	private boolean checkCondition(Category ccc[],Category c){
-		if(ccc!=null){
-			for(Category cc : ccc)
-				if(cc.equals(c))
-					return true;
-			return false;
+	private boolean checkCondition(Car car,String keywords){
+		if(keywords==null||keywords.equals(""))
+			return true;
+		String words[] = keywords.split(" ");
+		String carInfo = car.toString();
+		for(String str : words){
+			if(carInfo.indexOf(str)!=-1)
+				return true;
 		}
-		return true;
+		return false;
+	}
+	private boolean checkCondition(boolean cc[],Category c){
+		if((!cc[0])&&(!cc[1])&&(!cc[2]))
+			return true;
+		if(cc[0])
+			if(c.equals(Category.NEW))
+				return true;
+		if(cc[1])
+			if(c.equals(Category.USED))
+				return true;
+		if(cc[2])
+			if(c.equals(Category.CERTIFIED))
+				return true;
+		return false;
 	}
 	private boolean checkCondition(String str1, String str2){
 		if(str1!=null)
@@ -164,11 +190,13 @@ public class CarManagerImpl implements CarManager {
 	@Override
 	public void addCar(Car car) throws IOException {
 		this.carList.add(car);
-		String tempCar = car.toString();
+		addToFile(car.toString());
+	}
+	public void addToFile(String str) throws IOException{
 		FileWriter fw = new FileWriter(file, true);
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.newLine();
-		bw.write(tempCar);
+		bw.write(str);
 		bw.close();
 		fw.close();
 	}
@@ -183,12 +211,11 @@ public class CarManagerImpl implements CarManager {
 	@Override
 	public void deleteCar(String vehicleId) throws IOException {
 		coverFile();
-		for (Car car : carList) {
-			if (car.getID().equals(vehicleId)) {
-				carList.remove(car);
-				break;
-			} else
-				addCar(car);
+		for (int i=0;i<carList.size();) {
+			if (carList.get(i).getID().equals(vehicleId))
+				carList.remove(i);
+			else
+				addToFile(carList.get(i++).toString());
 		}
 	}
 	private void coverFile() throws IOException{
@@ -208,14 +235,14 @@ public class CarManagerImpl implements CarManager {
 	public void updateCar(Car car) throws IOException {
 		int count = 0;
 		for(Car c : carList){
-			if(c.getID()==car.getID()) break;
+			if(c.getID().equals(car.getID())) break;
 			count++;
 		}
 		carList.add(count, car);
 		carList.remove(count+1);
 		coverFile();
 		for(Car c : carList)
-			addCar(c);
+			addToFile(c.toString());
 	}
 
 	/*
@@ -237,7 +264,6 @@ public class CarManagerImpl implements CarManager {
             Collections.sort(carList, descComparator); 
         }
         
-        return null;
+        return carList;
 	}
-
 }

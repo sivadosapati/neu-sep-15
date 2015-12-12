@@ -16,13 +16,30 @@ public class TestSort {
     @Test
     public void test() throws IOException {
         CarManagerImpl test = new CarManagerImpl("gmps-gilroy");
-        //define SortCritria
+        SearchFilter sf = new SearchFilter(null, null, null, null, null, null, null);
+        //test year ascending
         SortCriteria sc = new SortCriteria("year", true);
-        //define SearchFilter
-        SearchFilter sf = new SearchFilter(null, null, null, null, null, null);
         List<Car> list = test.sort(sf, sc);
         String id = list.get(0).getID();
         Assert.assertEquals("2549627053", id);
+        
+        //test year descending
+        sc = new SortCriteria("year", false);
+        list = test.sort(sf, sc);
+        int year = list.get(0).getYear();
+        Assert.assertEquals(2016, year);
+        
+        //test price ascending
+        sc = new SortCriteria("price", true);
+        list = test.sort(sf, sc);
+        id = list.get(0).getID();
+        Assert.assertEquals("2652941043", id);
+        
+        //test price descending
+        sc = new SortCriteria("price", false);
+        list = test.sort(sf, sc);
+        id = list.get(0).getID();
+        Assert.assertEquals("2662054263", id);
     }
 
 }

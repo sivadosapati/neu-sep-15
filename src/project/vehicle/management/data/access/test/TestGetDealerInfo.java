@@ -5,16 +5,15 @@ import org.junit.Test;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Category;
-import project.vehicle.management.data.access.CarManagerImpl;
 
-public class TestAdd {
+public class TestGetDealerInfo {
 
     @Test
     public void test() throws IOException {
-        CarManagerImpl test = new CarManagerImpl("testadd");
-        Car car = new Car("121", "121", Category.CERTIFIED, 2015, "Audi",
+        Car car = new Car("121", "gmps-peach", Category.CERTIFIED, 2015, "Audi",
                 "Audi", "None", "SUV", 2f);
-        test.addCar(car);
+        String result[] = car.getDealerInfo();
+        System.out.println(result[0]+" "+result[1]+" "+result[2]);
     }
 
 }

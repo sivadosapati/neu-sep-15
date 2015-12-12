@@ -1,5 +1,10 @@
 package project.vehicle.management.data;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 public class Car {
     private String id;
     private String dealerID;
@@ -46,6 +51,24 @@ public class Car {
 	public String getType(){return type;}
 	public Integer getYear(){return year;}
 	public Float getPrice(){return price;}
+	
+	public String[] getDealerInfo() throws IOException{
+		FileInputStream fis = new FileInputStream("dealers");
+		InputStreamReader isr = new InputStreamReader(fis);
+		BufferedReader br = new BufferedReader(isr);
+		String line = null;
+		while (true) {
+			line = br.readLine();
+			if (line == null)
+				break;
+			if (line.indexOf(dealerID)>-1)
+				break;
+		}
+		br.close();
+		if(line==null) 
+			return null;
+		return line.split("	");
+	}
 	
 	public String toString(){
 		StringBuffer tempCar = new StringBuffer();

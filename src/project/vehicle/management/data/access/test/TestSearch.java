@@ -16,12 +16,13 @@ public class TestSearch {
     public void test() throws IOException {
         CarManagerImpl test = new CarManagerImpl("gmps-gilroy");
         //define SearchFilter
-        SearchFilter sf = new SearchFilter(null, null, null, null, 1983, null);
+        boolean[] category = {false, false, false};
+        SearchFilter sf = new SearchFilter(category, null, null, null, null, null,"254962");
         List<Car> list = test.search(sf);
         int size = list.size();
         Assert.assertEquals(1, size);
-        //String id = list.get(0).getID();
-        //Assert.assertEquals("2549627053", id);
+        String id = list.get(0).getID();
+        Assert.assertEquals("2549627053", id);
     }
 
 }
