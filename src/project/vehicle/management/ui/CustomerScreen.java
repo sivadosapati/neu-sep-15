@@ -25,6 +25,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import project.vehicle.management.data.Car;
+import project.vehicle.management.data.SearchFilter;
+import project.vehicle.management.data.SortCriteria;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
 import project.vehicle.management.data.access.CarManagerImpl;
@@ -42,6 +44,7 @@ public class CustomerScreen extends JFrame {
 	private JCheckBox chckbxNew,chckbxUsed,chckbxCertified;
 	private boolean[] Category={false,false,false};
 	private JTable table;
+	private SearchFilter sf = new SearchFilter(null, null, null, null, null, null,null);
 
 	private CarManager carManager;
 
@@ -77,47 +80,7 @@ public class CustomerScreen extends JFrame {
 		addListeners();
 		
 	}
-
-	private void addListeners() {
-		ButtonClick bc = new ButtonClick();
-		searchButton.addActionListener(bc);
-		SortSelection ss = new SortSelection();
-		sortComboBox.addActionListener(ss);
-		
-	}
 	
-	class ButtonClick implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == searchButton){
-				String text = searchTextField.getText()+" ";
-				if(text.endsWith(" ")){
-					String words[] = text.split(" ");
-					for (int i=0; i< words.length; i++){
-						System.out.println(words[i]);
-					}
-				} else {
-					System.out.println("Wrong");
-				}
-			}
-			
-		}
-		
-	} 
-	
-	class SortSelection implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			JComboBox sortComboBox = (JComboBox) ae.getSource();
-			String selectedSort = (String) sortComboBox.getSelectedItem();
-			System.out.println(selectedSort);
-			
-			}
-		
-	} 
-		
 	private void initchoosePane() {
 
 		JPanel choosecondiPanel=new JPanel();
@@ -204,6 +167,57 @@ public class CustomerScreen extends JFrame {
 		getContentPane().add("West",choosecondiPanel);
 		
 	}
+
+	private void addListeners() {
+		ButtonClick bc = new ButtonClick();
+		searchButton.addActionListener(bc);
+		SortSelection ss = new SortSelection();
+		sortComboBox.addActionListener(ss);
+		
+	}
+	
+	class ButtonClick implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == searchButton){
+				sf.setKeywords(searchTextField.getText());
+			
+			}
+		}
+	}
+	
+	class SortSelection implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			JComboBox sortComboBox = (JComboBox) ae.getSource();
+			boolean highToLow = true;
+			String selectedSort = (String) sortComboBox.getSelectedItem();
+			int i = selectedSort.indexOf(" ");
+			String sortKeyword = selectedSort.substring(0, i);
+			if(selectedSort.contains("High to Low")){
+				highToLow = true;
+			}else{
+				highToLow = false;
+			}
+			SortCriteria sc = new SortCriteria(sortKeyword, highToLow);
+			System.out.println(sortKeyword);
+			System.out.println(highToLow);
+			CarManagerImpl test;
+			try {
+				test = new CarManagerImpl("gmps-gilroy"); //dealerID
+				test.sort(sf, sc);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//test.sort(sf, sc);
+			}
+		
+	} 
+		
+	
 	
     class clickCheckAction implements ActionListener{
 
@@ -243,7 +257,7 @@ public class CustomerScreen extends JFrame {
 		searchTextField = new JTextField(20);
 		searchLabel = new JLabel("Search:");
 		sortLabel = new JLabel("Sort By:");
-		String[] sortStrings = { "Price (Low to High)", "Price (High to Low)"};
+		String[] sortStrings = { " ", "Price (Low to High)", "Price (High to Low)", "Year (Low to High)", "Year (High to Low)"};
 		sortComboBox = new JComboBox(sortStrings);
 		// add
 		BorderLayout bl = new BorderLayout();
