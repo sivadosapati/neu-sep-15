@@ -163,6 +163,12 @@ public class CustomerScreen extends JFrame {
 		prComboPanel.add(comboBox_4);
 		choosecondiPanel.add(prComboPanel);
 		
+		selectAction s=new selectAction();
+		comboBox.addActionListener(s);
+		comboBox_1.addActionListener(s);
+		comboBox_2.addActionListener(s);
+		comboBox_3.addActionListener(s);
+		comboBox_4.addActionListener(s);
 		
 		
 		getContentPane().add("West",choosecondiPanel);
