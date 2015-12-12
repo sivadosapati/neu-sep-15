@@ -24,6 +24,8 @@ import javax.swing.table.AbstractTableModel;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Dealer;
+import project.vehicle.management.data.access.CarManager;
+import project.vehicle.management.data.access.CarManagerFactory;
 
 
 
@@ -40,14 +42,13 @@ public class DearlerMainScreen extends JFrame {
 	private BufferedImage buttonIcon3 = null;
 	private BufferedImage buttonIcon4 = null;
 	
-	private ArrayList<Integer> operatedList = null;
+	private List<Car> operatedList = null;
 	private String[] items;
-	private Object[][] results;
 	
-	private Dealer dealer;
+	private CarManager dealer;
 	
 	public DearlerMainScreen(String dealerID) throws IOException {
-		this.dealer = new Dealer(dealerID);
+		this.dealer = new CarManagerFactory().getCarManager(dealerID);
 		create();
 		add();
 		addListeners();
@@ -65,7 +66,7 @@ public class DearlerMainScreen extends JFrame {
 	public void create() {
 		String[] firstline = {"selection","carId","dealerId","category","year","make","model","trim","type","price"};
 		items = firstline;
-		operatedList = new ArrayList<Integer>();
+		operatedList = new ArrayList<Car>();
 		
 		try {
 			buttonIcon = ImageIO.read(new File("pictures/search.png"));
@@ -85,7 +86,7 @@ public class DearlerMainScreen extends JFrame {
 		updateButton.setMargin(new Insets(0, 0, 0, 0));
 		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
 		
-		resultTable = new JTable(new MyTableModel(items, dealer.getCars()));
+		resultTable = new JTable(new MyTableModel(items, dealer.listCars()));
 		resultTable.setRowHeight(20);
 		resultScroll = new JScrollPane(resultTable);
 		
@@ -140,8 +141,9 @@ public class DearlerMainScreen extends JFrame {
 			if(e.getSource() == searchButton)
 				;
 			else if(e.getSource() == addButton)
-				;
+				;//new DeaerAddFunc(dealer);
 			else if(e.getSource() == updateButton){
+				;
 				/*for(int i = 0; i<operatedList.size(); i++){
 					for(int l = 0; l<items.length; l++)
 						System.out.print(results[operatedList.get(i)][l]);
@@ -149,7 +151,7 @@ public class DearlerMainScreen extends JFrame {
 				}*/
 			}
 			else if(e.getSource() == deleteButton)
-				;//	new DealerDelete();;;
+				;//new DealerDelFunc(ret);
 		}
 		
 	}
@@ -222,10 +224,11 @@ public class DearlerMainScreen extends JFrame {
         }
         
         public void setValueAt(Object value, int row, int col) {
-        	if(col == 0)
+        	if(col == 0){
         		boolBox[row] = (boolean) value;
-            fireTableCellUpdated(row, col);
-            operatedList.add(row);
+            	fireTableCellUpdated(row, col);
+            	operatedList.add(cars.get(row));
+            }
         }
 	}
 	
