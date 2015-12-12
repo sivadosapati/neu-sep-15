@@ -1,4 +1,5 @@
 package project.vehicle.management.ui ;
+import java.awt.Color;
 import java.awt.Container;
 
 import java.awt.GridBagConstraints;
@@ -6,8 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,64 +15,109 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import lecture11.NEUFrame;
+import project.vehicle.management.data.Car;
+import project.vehicle.management.data.Dealer;
 
 
 
-public class DearlerMainScreen extends NEUFrame {
-	JButton addButton;//private
-	JButton searchButton;
-	JButton updateButton;
-	JButton deleteButton;
-	JTable resultTable;
-	JScrollPane resultScroll;
-	ArrayList<Integer> operatedList = new ArrayList<>();
-	String[] items;
-	Object[][] results;
+public class DearlerMainScreen extends JFrame {
+	private JButton addButton;
+	private JButton searchButton;
+	private JButton updateButton;
+	private JButton deleteButton;
+	private JTable resultTable;
+	private JScrollPane resultScroll;
+	private JLabel head = null;
+	BufferedImage buttonIcon = null;
+	BufferedImage buttonIcon2 = null;
+	BufferedImage buttonIcon3 = null;
+	BufferedImage buttonIcon4 = null;
 	
-	@Override
+	private ArrayList<Integer> operatedList = null;
+	private String[] items;
+	private Object[][] results;
+	
+	private Dealer dealer;
+	
+	public DearlerMainScreen(String dealerID) throws IOException {
+		this.dealer = new Dealer(dealerID);
+		create();
+		add();
+		addListeners();
+		display();
+	}
+	
+	public DearlerMainScreen() {
+		create();
+		add();
+		addListeners();
+		display();
+	}
+	
+	
 	public void create() {
 		String[] firstline = {"Selection","id","webId","category","year","make","model","trim","type","price"};
 		items = firstline;
-		addButton = new JButton("Add Product");
-		searchButton = new JButton("Search");
-		updateButton = new JButton("Update");
-		deleteButton = new JButton("Delete");
+		operatedList = new ArrayList<Integer>();
+		
 		try {
-			results = new DataFetcher().readTheFile("D:\\yuandaima\\javawork\\git\\neu-sep-15\\gmps-aj-dohmann", items.length);
-			resultTable = new JTable(new MyTableModel(items, results));
+			buttonIcon = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\search.png"));
+			buttonIcon2 = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\add.png"));
+			buttonIcon3 = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\delete.png"));
+			buttonIcon4 = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\update.png"));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} 
+		addButton = new JButton(new ImageIcon(buttonIcon2));
+		addButton.setMargin(new Insets(0,0,0,0));
+		searchButton = new JButton(new ImageIcon(buttonIcon));
+		searchButton.setMargin(new Insets(0, 0, 0, 0));
+		deleteButton = new JButton(new ImageIcon(buttonIcon3));
+		deleteButton.setMargin(new Insets(0,0,0,0));
+		updateButton = new JButton(new ImageIcon(buttonIcon4));
+		updateButton.setMargin(new Insets(0, 0, 0, 0));
+		head = new JLabel(new ImageIcon("C:\\Users\\Jian Hou\\Desktop\\swflash\\DealerScreen.jpg"));
+		
+		try {
+			results = new DataFetcher().readTheFile("gmps-aj-dohmann", items.length);
+			resultTable = new JTable(new MyTableModel(items, dealer.getCars()));
 			resultScroll = new JScrollPane(resultTable);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 	}
 
-	@Override
 	public void add() {
 		Container con = getContentPane();
 		con.setLayout(new GridBagLayout());
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
-		placeComponent(gbc, 1, 0, 0, 0, gbc.gridwidth, gbc.gridheight, 0, 10);
-		
+		placeComponent(gbc, 0, 0, 0, 0, 4, gbc.gridheight, 0, 0);
+		con.add(head, gbc);
+		placeComponent(gbc, 1, 0, 0, 1, 1, gbc.gridheight, 0, 0);
 		gbc.insets = new Insets(40,20,40,20);
 		con.add(searchButton, gbc);
-		placeComponent(gbc, gbc.weightx, gbc.weighty, 1, 0, gbc.gridwidth, gbc.gridheight, 0, 10);		
+		placeComponent(gbc, gbc.weightx, gbc.weighty, 1, 1, gbc.gridwidth, gbc.gridheight, 0, 0);		
 		con.add(addButton, gbc);
-		placeComponent(gbc, gbc.weightx, gbc.weighty, 2, 0, gbc.gridwidth, gbc.gridheight, 0, 10);
+		placeComponent(gbc, gbc.weightx, gbc.weighty, 2, 1, gbc.gridwidth, gbc.gridheight, 0, 0);
 		con.add(updateButton, gbc);
-		placeComponent(gbc, gbc.weightx, gbc.weighty, 3, 0, gbc.gridwidth, gbc.gridheight, 0, 10);
+		placeComponent(gbc, gbc.weightx, gbc.weighty, 3, 1, gbc.gridwidth, gbc.gridheight, 0, 0);
 		con.add(deleteButton, gbc);
-		placeComponent(gbc, 0, 1, 0, 2, 4, 2, 0, 0);
+		placeComponent(gbc, 0, 1, 0, 3, 4, 2, 0, 0);
 		gbc.insets = new Insets(0, 5, 0, 5);
 		con.add(resultScroll, gbc);
 	}
@@ -86,10 +131,8 @@ public class DearlerMainScreen extends NEUFrame {
 		gbc.gridheight = gridheight;
 		gbc.ipadx = ipadx;
 		gbc.ipady = ipady;
-		
 	}
 	
-	@Override
 	public void addListeners() {
 		BottonClicked buttonListener = new BottonClicked();
 		searchButton.addActionListener(buttonListener);
@@ -114,28 +157,29 @@ public class DearlerMainScreen extends NEUFrame {
 				}
 			}
 			else if(e.getSource() == deleteButton)
-				new DealerDelete();;
+				;//	new DealerDelete();;;
 		}
 		
 	}
     
 	class MyTableModel extends AbstractTableModel {	
-		String[] Items = null;
-		Object[][] results = null;
-		private boolean DEBUG = true;
+		private String[] Items = null;
+		private List<Car> cars = null;
+		private Boolean[] boolBox = new Boolean[100];
 		
-		public MyTableModel(String[] items, Object[][] results) {
+		public MyTableModel(String[] items, List<Car> cars) {
 			super();
 			this.Items = items;
-			this.results = results;
+			this.cars = cars;
+			this.boolBox = new Boolean[cars.size()];
 		}
 
-        public int getColumnCount() {
+		public int getColumnCount() {
             return Items.length;
         }
 
         public int getRowCount() {
-            return results.length;
+            return cars.size();
         }
 
         public String getColumnName(int col) {
@@ -143,7 +187,31 @@ public class DearlerMainScreen extends NEUFrame {
         }
 
         public Object getValueAt(int row, int col) {
-            return results[row][col];
+            Car oneCar = cars.get(row);
+        	switch(col){
+        	case 0:
+        		return new Boolean(boolBox[row]);
+        	case 1:
+        		return oneCar.getID();
+        	case 2:
+        		return oneCar.getDealerID();
+        	case 3:
+        		return oneCar.getCategory();
+        	case 4:
+        		return oneCar.getYear();
+        	case 5:
+        		return oneCar.getMake();
+        	case 6:
+        		return oneCar.getModel();
+        	case 7:
+        		return oneCar.getTrim();
+        	case 8:
+        		return oneCar.getType();
+        	case 9:
+        		return oneCar.getPrice();
+        	default:
+        		return null;
+        	}
         }
 
         public Class getColumnClass(int c) {
@@ -161,9 +229,9 @@ public class DearlerMainScreen extends NEUFrame {
         }
         
         public void setValueAt(Object value, int row, int col) {
-        	results[row][col] = value;
+        	if(col == 0)
+        		boolBox[row] = (Boolean) value;
             fireTableCellUpdated(row, col);
-            
             operatedList.add(row);
         }
 	}
@@ -207,12 +275,24 @@ public class DearlerMainScreen extends NEUFrame {
 	}
 	
 	public void display() {
-		setSize(900, 600);
+		setSize(1200, 730);
 		setVisible(true);
 	}
 	
 	public static void main(String[] args) {
-		new DearlerMainScreen();
+		try {
+			new DearlerMainScreen("gmps-camino");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*
+		try {
+			Dealer one = new Dealer("gmps-curry");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
 	}
 
 }

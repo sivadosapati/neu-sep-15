@@ -20,8 +20,19 @@ public class Dealer {
 	 * */
 	public Dealer(String id) throws IOException{
 		this.id = id;
-		this.cars = new CarManagerFactory().getCarManager(id).listCars();
+		this.setCars(new CarManagerFactory().getCarManager(id).listCars());
 		this.name = "";
+		
+		for(int i = 0; i<getCars().size(); i++)
+			System.out.println(getCars().get(i).getModel());
+	}
+
+	public List<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
 	}
 
 }
