@@ -7,11 +7,11 @@ import java.awt.Container;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -66,17 +66,13 @@ public class CustomerScreen extends JFrame {
 		new CustomerScreen(carManager);
 	}
 
-	public CustomerScreen() {
-		init();
-	}
-
 	private void init() {
 		initSearchPane();
 		initTablePane();
 		initchoosePane();
 
 		
-		setTitle("Customer Screen");
+		setTitle("CustomerScreen ——>Dealer: " + ((CarManagerImpl) carManager).getDealerID());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(100, 0);
 		setSize(Toolkit.getDefaultToolkit().getScreenSize().width - 200,
@@ -89,8 +85,8 @@ public class CustomerScreen extends JFrame {
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		searchButton.addActionListener(bc);
-		// SortSelection ss = new SortSelection();
-		//sortComboBox.addActionListener(ss);
+		SortSelection ss = new SortSelection();
+		sortComboBox.addActionListener(ss);
 		
 	}
 	
@@ -100,35 +96,33 @@ public class CustomerScreen extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (ae.getSource() == searchButton){
-				String text = searchTextField.getText();
+				String text = searchTextField.getText()+" ";
 				if(text.endsWith(" ")){
 					String words[] = text.split(" ");
 					for (int i=0; i< words.length; i++){
 						System.out.println(words[i]);
 					}
 				} else {
-					System.out.println("Test");
+					System.out.println("Wrong");
 				}
 			}
 			
 		}
 		
-	}
+	} 
 	
-	/* class SortSelection implements ActionListener{
+	class SortSelection implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			JComboBox<String> combo = (JComboBox<String>)ae.getSource();
-			String sortString = (String)combo.getSelectedItem();
-			if(sortString.equals("Price (Low to High)")){
-				System.out.println("1");
-			} else if(sortString.equals("Price (High to Low)")){
-				System.out.println("2");
-		}
+			JComboBox sortComboBox = (JComboBox) ae.getSource();
+			String selectedSort = (String) sortComboBox.getSelectedItem();
+			System.out.println(selectedSort);
+			
+			}
 		
-	} */
-	
+	} 
+		
 	private void initchoosePane() {
 
 		JPanel choosecondiPanel=new JPanel();
@@ -269,8 +263,25 @@ public class CustomerScreen extends JFrame {
 
 	class CarTableModel implements TableModel {
 		private List<Car> cars;
-		private String[] columnNames = { "Photo", "Specs", "Detail" };
-
+		private List<Object[]> carList;
+		private String[] columnNames = {"Category", "Year", "Brand", 
+				"Model", "Trim", "Price", "Detail" };
+		
+		public CarTableModel(List<Car> cars) {
+			this.cars = cars;
+			carList = new ArrayList<Object[]>();
+			for (int i = 0; i < cars.size(); i++) {
+				project.vehicle.management.data.Category category = cars.get(i).getCategory();
+				String year = cars.get(i).getYear().toString();
+				String make = cars.get(i).getMake();
+				String model = cars.get(i).getModel();
+				String trim = cars.get(i).getTrim();
+				float price = cars.get(i).getPrice();
+				Object[] object = {category, year, make, model, trim, price};
+				carList.add(object);
+			}
+		}
+		
 		@Override
 		public int getRowCount() {
 			return cars.size();
@@ -278,7 +289,7 @@ public class CustomerScreen extends JFrame {
 
 		@Override
 		public int getColumnCount() {
-			return 3;
+			return 6;
 		}
 
 		@Override
@@ -289,12 +300,15 @@ public class CustomerScreen extends JFrame {
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
 			if (columnIndex == 0) {
-				return ImageIcon.class;
+				return project.vehicle.management.data.Category.class;
 			}
 			if (columnIndex == 1) {
+				return Integer.class;
+			}
+			if (columnIndex >= 2 && columnIndex <= 5) {
 				return String.class;
 			}
-			return JButton.class;
+			return float.class;
 		}
 
 		@Override
@@ -304,12 +318,8 @@ public class CustomerScreen extends JFrame {
 		}
 
 		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			Car c = cars.get(rowIndex);
-			if (columnIndex == 0) {
-				// return c.getImage();
-			}
-			return null;
+		public Object getValueAt(int rowIndex, int columnIndex) {			
+			return carList.get(rowIndex)[columnIndex];
 		}
 
 		@Override
@@ -329,26 +339,21 @@ public class CustomerScreen extends JFrame {
 			// TODO Auto-generated method stub
 
 		}
-
 	}
 
+
 	private void initTablePane() {
-		String col2 = "<html>Category: " + "New" + "<br/><br/>Year:   "
-				+ "2012" + "<br/><br/>Make:   " + "Fort"
-				+ "<br/><br/>Model:   " + "SUV" + "<br/><br/>Type:   " + "Car"
-				+ "<br/><br/>Price:   " + "4.55" + "$</html>";
-		Object[][] values = { { "Image", col2, "" }, { "Image", col2, "" },
-				{ "Image", col2, "" }, { "Image", col2, "" } };
-		table = new JTable(new CustomerTableModel(values));
-		// table = new JTable( )
-		table.setRowHeight(180);
+		List<Car> cars = new ArrayList<Car>();
+		Car car1 = new Car("iddd", "gumenee", project.vehicle.management.data.Category.USED, 1990, 
+				"makehahah", "heihei", "enne", "123456", (float) 8);
+		Car car2 = new Car("iddd", "gumenee", project.vehicle.management.data.Category.NEW, 1990, 
+				"makehahah", "heihei", "enne", "123456", (float) 8);
+		cars.add(car1);
+		cars.add(car2);
+		table = new JTable(new CarTableModel(cars));
 		TableColumnModel tcm = table.getColumnModel();
 		TableColumn tc1 = tcm.getColumn(0);
-		tc1.setPreferredWidth(50);
-		tc1.setCellRenderer(new ImageRenderer(
-				"http://webneel.com/wallpaper/sites/default/files/images/07-2013/1%20mercedes%20car%20wallpaper.jpg"));
-		TableColumn tc2 = tcm.getColumn(2);
-		tc2.setCellRenderer(new ButtonRenderer());
+		
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().add("Center", scrollPane);
 	}

@@ -31,6 +31,14 @@ public class CarManagerImpl implements CarManager {
 	private String dealerID;
 	private File file;
 
+	public String getDealerID() {
+		return dealerID;
+	}
+
+	public void setDealerID(String dealerID) {
+		this.dealerID = dealerID;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -79,7 +87,7 @@ public class CarManagerImpl implements CarManager {
 	}
 
 	public CarManagerImpl(String dealerID) throws IOException {
-		this.dealerID = dealerID;
+		this.setDealerID(dealerID);
 		String filePath = dealerID;
 		this.file = new File(filePath);
 		this.carList = buildCarList();
@@ -258,5 +266,4 @@ public class CarManagerImpl implements CarManager {
         
         return carList;
 	}
-
 }
