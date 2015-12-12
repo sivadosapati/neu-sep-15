@@ -232,12 +232,12 @@ public class CustomerScreen extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JCheckBox cb=(JCheckBox)e.getSource();
 			if(cb==chckbxNew){
-			Category[0]=true;
+			category[0]=true;
 			System.out.print("here");
 			}else if(cb==chckbxUsed){
-				Category[1]=true;
+				category[1]=true;
 			}else if(cb==chckbxCertified){
-				Category[2]=true;
+				category[2]=true;
 			}
 			                                                 //add calling method(Category[]) here
 			//SearchTilter sf=new SearchFilter();
