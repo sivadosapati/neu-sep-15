@@ -13,6 +13,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import project.vehicle.management.data.Car;
@@ -266,4 +268,24 @@ public class CarManagerImpl implements CarManager {
         
         return carList;
 	}
+
+    @Override
+    public List<List<String>> listInitralize(List<Car> list) {
+        List<List<String>> result = new ArrayList();
+        HashSet<String> model = new HashSet();
+        HashSet<String> make = new HashSet();
+        HashSet<String> trim = new HashSet();
+        for(Car car : list){
+            model.add(car.getModel());
+            make.add(car.getMake());
+            trim.add(car.getTrim());
+        }
+        List<String> models = new ArrayList<String>(model);
+        List<String> makes = new ArrayList<String>(make);
+        List<String> trims = new ArrayList<String>(trim);
+        result.add(models);
+        result.add(makes);
+        result.add(trims);
+        return result;
+    }
 }
