@@ -22,9 +22,6 @@ public class Dealer {
 		this.id = id;
 		this.setCars(new CarManagerFactory().getCarManager(id).listCars());
 		this.name = "";
-		
-		for(int i = 0; i<getCars().size(); i++)
-			System.out.println(getCars().get(i).getModel());
 	}
 
 	public List<Car> getCars() {

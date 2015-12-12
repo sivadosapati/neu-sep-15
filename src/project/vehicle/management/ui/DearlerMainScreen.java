@@ -1,19 +1,15 @@
 package project.vehicle.management.ui ;
-import java.awt.Color;
-import java.awt.Container;
 
+import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
+
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,13 +18,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Dealer;
+import project.vehicle.management.data.access.CarManager;
+import project.vehicle.management.data.access.CarManagerFactory;
 
 
 
@@ -40,19 +37,18 @@ public class DearlerMainScreen extends JFrame {
 	private JTable resultTable;
 	private JScrollPane resultScroll;
 	private JLabel head = null;
-	BufferedImage buttonIcon = null;
-	BufferedImage buttonIcon2 = null;
-	BufferedImage buttonIcon3 = null;
-	BufferedImage buttonIcon4 = null;
+	private BufferedImage buttonIcon = null;
+	private BufferedImage buttonIcon2 = null;
+	private BufferedImage buttonIcon3 = null;
+	private BufferedImage buttonIcon4 = null;
 	
-	private ArrayList<Integer> operatedList = null;
+	private List<Car> operatedList = null;
 	private String[] items;
-	private Object[][] results;
 	
-	private Dealer dealer;
+	private CarManager dealer;
 	
 	public DearlerMainScreen(String dealerID) throws IOException {
-		this.dealer = new Dealer(dealerID);
+		this.dealer = new CarManagerFactory().getCarManager(dealerID);
 		create();
 		add();
 		addListeners();
@@ -68,15 +64,15 @@ public class DearlerMainScreen extends JFrame {
 	
 	
 	public void create() {
-		String[] firstline = {"Selection","id","webId","category","year","make","model","trim","type","price"};
+		String[] firstline = {"selection","carId","dealerId","category","year","make","model","trim","type","price"};
 		items = firstline;
-		operatedList = new ArrayList<Integer>();
+		operatedList = new ArrayList<Car>();
 		
 		try {
-			buttonIcon = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\search.png"));
-			buttonIcon2 = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\add.png"));
-			buttonIcon3 = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\delete.png"));
-			buttonIcon4 = ImageIO.read(new File("C:\\Users\\Jian Hou\\Desktop\\swflash\\update.png"));
+			buttonIcon = ImageIO.read(new File("pictures/search.png"));
+			buttonIcon2 = ImageIO.read(new File("pictures/add.png"));
+			buttonIcon3 = ImageIO.read(new File("pictures/delete.png"));
+			buttonIcon4 = ImageIO.read(new File("pictures/update.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} 
@@ -88,15 +84,12 @@ public class DearlerMainScreen extends JFrame {
 		deleteButton.setMargin(new Insets(0,0,0,0));
 		updateButton = new JButton(new ImageIcon(buttonIcon4));
 		updateButton.setMargin(new Insets(0, 0, 0, 0));
-		head = new JLabel(new ImageIcon("C:\\Users\\Jian Hou\\Desktop\\swflash\\DealerScreen.jpg"));
+		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
 		
-		try {
-			results = new DataFetcher().readTheFile("gmps-aj-dohmann", items.length);
-			resultTable = new JTable(new MyTableModel(items, dealer.getCars()));
-			resultScroll = new JScrollPane(resultTable);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		resultTable = new JTable(new MyTableModel(items, dealer.listCars()));
+		resultTable.setRowHeight(20);
+		resultScroll = new JScrollPane(resultTable);
+		
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 	}
 
@@ -109,7 +102,7 @@ public class DearlerMainScreen extends JFrame {
 		placeComponent(gbc, 0, 0, 0, 0, 4, gbc.gridheight, 0, 0);
 		con.add(head, gbc);
 		placeComponent(gbc, 1, 0, 0, 1, 1, gbc.gridheight, 0, 0);
-		gbc.insets = new Insets(40,20,40,20);
+		gbc.insets = new Insets(40,10,20,10);
 		con.add(searchButton, gbc);
 		placeComponent(gbc, gbc.weightx, gbc.weighty, 1, 1, gbc.gridwidth, gbc.gridheight, 0, 0);		
 		con.add(addButton, gbc);
@@ -148,16 +141,17 @@ public class DearlerMainScreen extends JFrame {
 			if(e.getSource() == searchButton)
 				;
 			else if(e.getSource() == addButton)
-				;
+				;//new DeaerAddFunc(dealer);
 			else if(e.getSource() == updateButton){
-				for(int i = 0; i<operatedList.size(); i++){
+				;
+				/*for(int i = 0; i<operatedList.size(); i++){
 					for(int l = 0; l<items.length; l++)
 						System.out.print(results[operatedList.get(i)][l]);
 					System.out.println("");
-				}
+				}*/
 			}
 			else if(e.getSource() == deleteButton)
-				;//	new DealerDelete();;;
+				;//new DealerDelFunc(ret);
 		}
 		
 	}
@@ -165,13 +159,14 @@ public class DearlerMainScreen extends JFrame {
 	class MyTableModel extends AbstractTableModel {	
 		private String[] Items = null;
 		private List<Car> cars = null;
-		private Boolean[] boolBox = new Boolean[100];
+		private boolean[] boolBox = null;
 		
 		public MyTableModel(String[] items, List<Car> cars) {
 			super();
 			this.Items = items;
 			this.cars = cars;
-			this.boolBox = new Boolean[cars.size()];
+			this.boolBox = new boolean[cars.size()];
+			
 		}
 
 		public int getColumnCount() {
@@ -229,14 +224,15 @@ public class DearlerMainScreen extends JFrame {
         }
         
         public void setValueAt(Object value, int row, int col) {
-        	if(col == 0)
-        		boolBox[row] = (Boolean) value;
-            fireTableCellUpdated(row, col);
-            operatedList.add(row);
+        	if(col == 0){
+        		boolBox[row] = (boolean) value;
+            	fireTableCellUpdated(row, col);
+            	operatedList.add(cars.get(row));
+            }
         }
 	}
 	
-	class DataFetcher {
+	/*class DataFetcher {
 		private File file;
 		private FileInputStream inputStr;
 		private InputStreamReader inputReader; 
@@ -272,7 +268,7 @@ public class DearlerMainScreen extends JFrame {
 			return ret;
 		}
 		
-	}
+	}*/
 	
 	public void display() {
 		setSize(1200, 730);
