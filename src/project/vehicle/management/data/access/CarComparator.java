@@ -19,10 +19,10 @@ public class CarComparator implements Comparator<Car> {
     }
     @Override
     public int compare(Car o1, Car o2) {
-        if(attribute.equals("price")) {
+        if(attribute.equals("Price")) {
             return o1.getPrice().compareTo(o2.getPrice());
         }
-        if(attribute.equals("year")) {
+        if(attribute.equals("Year")) {
             return o1.getYear().compareTo(o2.getYear());
         }
         return 0;
