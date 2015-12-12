@@ -190,6 +190,7 @@ public class CustomerScreen extends JFrame {
 			if (ae.getSource() == searchButton){
 				sf.setKeywords(searchTextField.getText());
 				sf.setCategory(category);
+				
 			}
 		}
 	}
@@ -214,12 +215,13 @@ public class CustomerScreen extends JFrame {
 			CarManagerImpl test;
 			try {
 				test = new CarManagerImpl("gmps-gilroy"); //dealerID
-				test.sort(sf, sc);
+				List<Car> carTarget = test.sort(sf, sc);
+				System.out.println(carTarget);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//test.sort(sf, sc);
+
 			}
 		
 	} 
