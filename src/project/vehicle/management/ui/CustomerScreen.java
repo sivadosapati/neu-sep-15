@@ -10,8 +10,10 @@ import java.awt.event.ActionListener;
 import java.util.EventObject;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +31,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import finalProject.CustomerScreen.clickCheckAction;
+import finalProject.CustomerScreen.selectAction;
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
@@ -44,6 +48,8 @@ public class CustomerScreen extends JFrame {
 	private JLabel searchLabel;
 	private JLabel sortLabel;
 	private JComboBox sortComboBox;
+	private JCheckBox chckbxNew,chckbxUsed,chckbxCertified;
+	private boolean[] Category={false,false,false};
 
 	private JTable table;
 
@@ -67,11 +73,9 @@ public class CustomerScreen extends JFrame {
 	private void init() {
 		initSearchPane();
 		initTablePane();
+		initchoosePane();
 
-		JButton b = new JButton(
-				"hello.................................................................");
-		// b.setSize(200,200);
-		getContentPane().add("West", b);
+		
 		setTitle("Customer Screen");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(100, 0);
@@ -85,8 +89,11 @@ public class CustomerScreen extends JFrame {
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		searchButton.addActionListener(bc);
+		// SortSelection ss = new SortSelection();
+		//sortComboBox.addActionListener(ss);
 		
 	}
+	
 	
 	class ButtonClick implements ActionListener{
 
@@ -96,11 +103,144 @@ public class CustomerScreen extends JFrame {
 				String text = searchTextField.getText();
 				if(text.endsWith(" ")){
 					String words[] = text.split(" ");
-					System.out.println(words);
+					for (int i=0; i< words.length; i++){
+						System.out.println(words[i]);
+					}
 				} else {
 					System.out.println("Test");
 				}
 			}
+			
+		}
+		
+	}
+	
+	/* class SortSelection implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			JComboBox<String> combo = (JComboBox<String>)ae.getSource();
+			String sortString = (String)combo.getSelectedItem();
+			if(sortString.equals("Price (Low to High)")){
+				System.out.println("1");
+			} else if(sortString.equals("Price (High to Low)")){
+				System.out.println("2");
+		}
+		
+	} */
+	
+	private void initchoosePane() {
+
+		JPanel choosecondiPanel=new JPanel();
+		choosecondiPanel.setLayout(new BoxLayout(choosecondiPanel, BoxLayout.Y_AXIS)); 
+		//GridLayout gl=new GridLayout(6,1);
+		//choosecondiPanel.setLayout(gl);
+		
+		JPanel checkboxPanel=new JPanel();
+		
+		chckbxNew = new JCheckBox("new");
+		checkboxPanel.add(chckbxNew);
+		
+		chckbxUsed = new JCheckBox("used");
+		checkboxPanel.add(chckbxUsed);
+		
+		chckbxCertified = new JCheckBox("certified");
+		checkboxPanel.add(chckbxCertified);
+		
+		clickCheckAction cna=new clickCheckAction();
+		chckbxNew.addActionListener(cna);
+		chckbxUsed.addActionListener(cna);
+		chckbxCertified.addActionListener(cna);
+		
+		choosecondiPanel.add(checkboxPanel);
+		
+		JPanel brandComboPanel=new JPanel();
+		JLabel lblBrand = new JLabel("brand");
+		brandComboPanel.add(lblBrand);
+		
+		String brandStr[]={"BMW","Toyota","Cameri"};
+		JComboBox comboBox = new JComboBox(brandStr);
+		comboBox.setSelectedItem(null);
+		brandComboPanel.add(comboBox);
+		selectAction sa=new selectAction();
+		comboBox.addActionListener(sa);
+		brandComboPanel.add(lblBrand);
+		brandComboPanel.add(comboBox);
+		choosecondiPanel.add(brandComboPanel);
+		
+		
+		JPanel modelComboPanel=new JPanel();
+		//modelComboPanel.setLayout(new FlowLayout());
+		JLabel lblModel = new JLabel("model");
+		modelComboPanel.add(lblModel);
+		
+		
+		JComboBox comboBox_1 = new JComboBox();
+		comboBox_1.setSelectedItem(null);
+		modelComboPanel.add(comboBox_1);
+		choosecondiPanel.add(modelComboPanel);
+		
+		JPanel trimComboPanel=new JPanel();
+		JLabel lblTrim = new JLabel("trim");
+		trimComboPanel.add(lblTrim);
+		
+		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setSelectedItem(null);
+		trimComboPanel.add(comboBox_2);
+		choosecondiPanel.add(trimComboPanel);
+		
+ 
+		JPanel yearComboPanel=new JPanel();
+		JLabel lblYear = new JLabel("year");
+		yearComboPanel.add(lblYear);
+		
+		String yearStr[]={"<2000","2000-2005","2006-2010","2011-2015"};
+		JComboBox comboBox_3 = new JComboBox(yearStr);
+		comboBox_3.setSelectedItem(null);
+		yearComboPanel.add(comboBox_3);
+		choosecondiPanel.add(yearComboPanel);
+		
+		JPanel prComboPanel=new JPanel();
+		JLabel lblPR = new JLabel("price");
+		prComboPanel.add(lblPR);
+		
+		String priceStr[]={"<10000","10000-15000","15000-20000","20000-25000","25000-30000","30000-50000",">50000"};
+		JComboBox comboBox_4 = new JComboBox(priceStr);
+		comboBox_4.setSelectedItem(null);
+		prComboPanel.add(comboBox_4);
+		choosecondiPanel.add(prComboPanel);
+		
+		
+		
+		getContentPane().add("West",choosecondiPanel);
+		
+	}
+	class clickCheckAction implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JCheckBox cb=(JCheckBox)e.getSource();
+			if(cb==chckbxNew){
+			Category[0]=true;
+			System.out.print("here");
+			}else if(cb==chckbxUsed){
+				Category[1]=true;
+			}else if(cb==chckbxCertified){
+				Category[2]=true;
+			}
+			                                                 //add calling method(Category[]) here
+			//SearchTilter sf=new SearchFilter();
+			//sf.setCategory(Category[]);
+		}
+		
+	}
+	class selectAction implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JComboBox cb=(JComboBox)e.getSource();
+			String choice = cb.getSelectedItem().toString();
+			//add set(choice) method
 			
 		}
 		
@@ -112,8 +252,7 @@ public class CustomerScreen extends JFrame {
 		searchTextField = new JTextField(20);
 		searchLabel = new JLabel("Search:");
 		sortLabel = new JLabel("Sort By:");
-		String[] sortStrings = { "Price (Low to High)", "Price (High to Low)",
-				"Year (Oldest to Lastest)", "Year (Lastest to Oldest)" };
+		String[] sortStrings = { "Price (Low to High)", "Price (High to Low)"};
 		sortComboBox = new JComboBox(sortStrings);
 		// add
 		BorderLayout bl = new BorderLayout();

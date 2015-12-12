@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
@@ -26,7 +27,7 @@ import lecture11.NEUFrame;
 
 
 public class DearlerMainScreen extends NEUFrame {
-	JButton addButton;
+	JButton addButton;//private
 	JButton searchButton;
 	JButton updateButton;
 	JButton deleteButton;
@@ -45,7 +46,7 @@ public class DearlerMainScreen extends NEUFrame {
 		updateButton = new JButton("Update");
 		deleteButton = new JButton("Delete");
 		try {
-			results = new DataFetcher().readTheFile("/Users/kk/Desktop/car.txt", items.length);
+			results = new DataFetcher().readTheFile("D:\\yuandaima\\javawork\\git\\neu-sep-15\\gmps-aj-dohmann", items.length);
 			resultTable = new JTable(new MyTableModel(items, results));
 			resultScroll = new JScrollPane(resultTable);
 		} catch (IOException e) {
@@ -61,30 +62,31 @@ public class DearlerMainScreen extends NEUFrame {
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-		gbc.weighty = 0;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.insets = new Insets(30, 40, 30, 40);
+		placeComponent(gbc, 1, 0, 0, 0, gbc.gridwidth, gbc.gridheight, 0, 10);
+		
+		gbc.insets = new Insets(40,20,40,20);
 		con.add(searchButton, gbc);
-		gbc.gridx = 1;
-		gbc.gridy = 0;
+		placeComponent(gbc, gbc.weightx, gbc.weighty, 1, 0, gbc.gridwidth, gbc.gridheight, 0, 10);		
 		con.add(addButton, gbc);
-		gbc.gridx = 0;
-		gbc.gridy = 1;
+		placeComponent(gbc, gbc.weightx, gbc.weighty, 2, 0, gbc.gridwidth, gbc.gridheight, 0, 10);
 		con.add(updateButton, gbc);
-		gbc.gridx = 1;
-		gbc.gridy = 1;
+		placeComponent(gbc, gbc.weightx, gbc.weighty, 3, 0, gbc.gridwidth, gbc.gridheight, 0, 10);
 		con.add(deleteButton, gbc);
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0;
-		gbc.weighty = 1;
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		gbc.gridwidth = 3;
-		gbc.gridheight = 2;
+		placeComponent(gbc, 0, 1, 0, 2, 4, 2, 0, 0);
 		gbc.insets = new Insets(0, 5, 0, 5);
 		con.add(resultScroll, gbc);
+	}
+
+	private void placeComponent(GridBagConstraints gbc, double weightx, double weighty, int gridx, int gridy, int gridwidth, int gridheight, int ipadx, int ipady) {
+		gbc.weightx = weightx;
+		gbc.weighty = weighty;
+		gbc.gridx = gridx;
+		gbc.gridy = gridy;
+		gbc.gridwidth = gridwidth;
+		gbc.gridheight = gridheight;
+		gbc.ipadx = ipadx;
+		gbc.ipady = ipady;
+		
 	}
 	
 	@Override
