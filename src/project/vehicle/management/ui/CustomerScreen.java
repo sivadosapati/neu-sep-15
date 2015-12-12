@@ -87,8 +87,8 @@ public class CustomerScreen extends JFrame {
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		searchButton.addActionListener(bc);
-		//SortSelection ss = new SortSelection();
-		//sortComboBox.addActionListener(ss);
+		SortSelection ss = new SortSelection();
+		sortComboBox.addActionListener(ss);
 		
 	}
 	
@@ -113,23 +113,18 @@ public class CustomerScreen extends JFrame {
 		
 	} 
 	
-	/* class SortSelection implements ActionListener{
+	class SortSelection implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent ae) {
-			//JComboBox<String> combo = (JComboBox<String>)ae.getSource();
-			String sortString = (String)combo.getSelectedItem();
-			switch (sortString) {
-			case "Price (Low to High)":
-				System.out.println("Low to High");
-				break;
-			case "Price (High to Low)":
-				System.out.println("High to low");
-				break;
+			JComboBox sortComboBox = (JComboBox) ae.getSource();
+			String selectedSort = (String) sortComboBox.getSelectedItem();
+			System.out.println(selectedSort);
+			
 			}
 		
-	} */
-	
+	} 
+		
 	private void initchoosePane() {
 
 		JPanel choosecondiPanel=new JPanel();
