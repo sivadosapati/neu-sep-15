@@ -89,6 +89,7 @@ public class DealerDelFunc extends JFrame {
 		CarManagerImpl deletecar = new CarManagerImpl(dealerid);
 		for (Car car : ret)
 			deletecar.deleteCar(car.getID());
+		deletecar.listCars();
 
 	}
 
