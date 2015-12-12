@@ -20,8 +20,8 @@ public class TestSearch {
         List<Car> list = test.search(sf);
         int size = list.size();
         Assert.assertEquals(1, size);
-        //String id = list.get(0).getID();
-        //Assert.assertEquals("2549627053", id);
+        String id = list.get(0).getID();
+        Assert.assertEquals("2549627053", id);
     }
 
 }
