@@ -1,3 +1,4 @@
+
 package project.vehicle.management.ui;
 
 import java.awt.BorderLayout;
@@ -25,6 +26,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
 import project.vehicle.management.data.Car;
+import project.vehicle.management.data.Range;
 import project.vehicle.management.data.SearchFilter;
 import project.vehicle.management.data.SortCriteria;
 import project.vehicle.management.data.access.CarManager;
@@ -40,7 +42,7 @@ public class CustomerScreen extends JFrame {
 	private JTextField searchTextField;
 	private JLabel searchLabel;
 	private JLabel sortLabel;
-	private JComboBox sortComboBox;
+	private JComboBox sortComboBox,comboBox,comboBox_1,comboBox_2,comboBox_3,comboBox_4;
 	private JCheckBox chckbxNew,chckbxUsed,chckbxCertified;
 	private boolean[] category={false,false,false};
 	private JTable table;
@@ -53,25 +55,26 @@ public class CustomerScreen extends JFrame {
 		init();
 	}
 
-	
+
 	public static void main(String[] args) throws Exception {
 		CarManager carManager = new CarManagerFactory()
 				.getCarManager("gmps-bresee");
 		new CustomerScreen(carManager);
+		
 	}
 
 	private void init() {
 		initSearchPane();
 		Car car1 = new Car("2656440533","gmps-priority", project.vehicle.management.data.Category.NEW, 2016, "Chevrolet",
-	            "Equinox", "LT", "SUV", 27029.0f);
+				"Equinox", "LT", "SUV", 27029.0f);
 		Car car2 = new Car("2656440533","gmps-priority", project.vehicle.management.data.Category.NEW, 2016, "Chevrolet",
-	            "Equinox", "LT", "SUV", 27029.0f);
+				"Equinox", "LT", "SUV", 27029.0f);
 		List<Car> cars = new ArrayList<Car>();
 		cars.add(car1);
 		cars.add(car2);
 		initTablePane(cars);
-		initchoosePane();
-		
+		initchoosePane(carManager);
+
 		setTitle("CustomerScreen ——>Dealer: " + ((CarManagerImpl) carManager).getDealerID());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(100, 0);
@@ -79,134 +82,226 @@ public class CustomerScreen extends JFrame {
 				Toolkit.getDefaultToolkit().getScreenSize().height);
 		setVisible(true);
 		addListeners();
-		
-	}
-	
-	private void initchoosePane() {
 
+	}
+
+	private void initchoosePane(CarManager cm) {
+		
+		List<List<String>> list = cm.listInitralize(cm.listCars());
+		
+		
 		JPanel choosecondiPanel=new JPanel();
 		choosecondiPanel.setLayout(new BoxLayout(choosecondiPanel, BoxLayout.Y_AXIS)); 
 		//GridLayout gl=new GridLayout(6,1);
 		//choosecondiPanel.setLayout(gl);
 		
+
 		JPanel checkboxPanel=new JPanel();
-		
+
 		chckbxNew = new JCheckBox("new");
 		checkboxPanel.add(chckbxNew);
-		
+
 		chckbxUsed = new JCheckBox("used");
 		checkboxPanel.add(chckbxUsed);
-		
+
 		chckbxCertified = new JCheckBox("certified");
 		checkboxPanel.add(chckbxCertified);
-		
+
 		clickCheckAction cna=new clickCheckAction();
 		chckbxNew.addActionListener(cna);
 		chckbxUsed.addActionListener(cna);
 		chckbxCertified.addActionListener(cna);
-		
+
 		choosecondiPanel.add(checkboxPanel);
-		
+
 		JPanel brandComboPanel=new JPanel();
 		JLabel lblBrand = new JLabel("brand");
 		brandComboPanel.add(lblBrand);
+
 		
-		String brandStr[]={"BMW","Toyota","Cameri"};
-		JComboBox comboBox = new JComboBox(brandStr);
+		comboBox = new JComboBox(list.get(0).toArray());
 		comboBox.setSelectedItem(null);
 		brandComboPanel.add(comboBox);
+
 		selectAction sa=new selectAction();
 		comboBox.addActionListener(sa);
 		brandComboPanel.add(lblBrand);
 		brandComboPanel.add(comboBox);
 		choosecondiPanel.add(brandComboPanel);
-		
-		
+
+
 		JPanel modelComboPanel=new JPanel();
 		//modelComboPanel.setLayout(new FlowLayout());
 		JLabel lblModel = new JLabel("model");
 		modelComboPanel.add(lblModel);
-		
-		
-		JComboBox comboBox_1 = new JComboBox();
+
+
+		comboBox_1 = new JComboBox();
 		comboBox_1.setSelectedItem(null);
 		modelComboPanel.add(comboBox_1);
 		choosecondiPanel.add(modelComboPanel);
-		
+
 		JPanel trimComboPanel=new JPanel();
 		JLabel lblTrim = new JLabel("trim");
 		trimComboPanel.add(lblTrim);
-		
-		JComboBox comboBox_2 = new JComboBox();
+
+		comboBox_2 = new JComboBox();
 		comboBox_2.setSelectedItem(null);
 		trimComboPanel.add(comboBox_2);
 		choosecondiPanel.add(trimComboPanel);
-		
- 
+
+
 		JPanel yearComboPanel=new JPanel();
 		JLabel lblYear = new JLabel("year");
 		yearComboPanel.add(lblYear);
-		
+
 		String yearStr[]={"<2000","2000-2005","2006-2010","2011-2015"};
-		JComboBox comboBox_3 = new JComboBox(yearStr);
+		comboBox_3 = new JComboBox(yearStr);
 		comboBox_3.setSelectedItem(null);
 		yearComboPanel.add(comboBox_3);
 		choosecondiPanel.add(yearComboPanel);
-		
+
 		JPanel prComboPanel=new JPanel();
 		JLabel lblPR = new JLabel("price");
 		prComboPanel.add(lblPR);
-		
+
 		String priceStr[]={"<10000","10000-15000","15000-20000","20000-25000","25000-30000","30000-50000",">50000"};
-		JComboBox comboBox_4 = new JComboBox(priceStr);
+		comboBox_4 = new JComboBox(priceStr);
 		comboBox_4.setSelectedItem(null);
 		prComboPanel.add(comboBox_4);
 		choosecondiPanel.add(prComboPanel);
-		
+
 		selectAction s=new selectAction();
 		comboBox.addActionListener(s);
 		comboBox_1.addActionListener(s);
 		comboBox_2.addActionListener(s);
 		comboBox_3.addActionListener(s);
 		comboBox_4.addActionListener(s);
-		
-		
+
+
 		getContentPane().add("West",choosecondiPanel);
-		
+
 	}
-		
-	
-	
-    class clickCheckAction implements ActionListener{
+
+	private void addListeners() {
+		ButtonClick bc = new ButtonClick();
+		searchButton.addActionListener(bc);
+		SortSelection ss = new SortSelection();
+		sortComboBox.addActionListener(ss);
+
+	}
+
+	class ButtonClick implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == searchButton){
+				sf.setKeywords(searchTextField.getText());
+				sf.setCategory(category);
+			}
+		}
+	}
+
+	class SortSelection implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			JComboBox sortComboBox = (JComboBox) ae.getSource();
+			boolean highToLow = true;
+			String selectedSort = (String) sortComboBox.getSelectedItem();
+			int i = selectedSort.indexOf(" ");
+			String sortKeyword = selectedSort.substring(0, i);
+			if(selectedSort.contains("High to Low")){
+				highToLow = true;
+			}else{
+				highToLow = false;
+			}
+			SortCriteria sc = new SortCriteria(sortKeyword, highToLow);
+			System.out.println(sortKeyword);
+			System.out.println(highToLow);
+			CarManagerImpl test;
+			try {
+				test = new CarManagerImpl("gmps-gilroy"); //dealerID
+				List<Car> carTarget=test.sort(sf, sc);
+				System.out.println(carTarget);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+	} 
+
+
+
+	class clickCheckAction implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JCheckBox cb=(JCheckBox)e.getSource();
 			if(cb==chckbxNew){
-			category[0]=true;
-			System.out.print("here");
+				category[0]=true;
+				System.out.print("here");
 			}else if(cb==chckbxUsed){
 				category[1]=true;
 			}else if(cb==chckbxCertified){
 				category[2]=true;
 			}
-			                                                 //add calling method(Category[]) here
-			//SearchTilter sf=new SearchFilter();
-			//sf.setCategory(Category[]);
+
+
+			sf.setCategory(category);
 		}
-		
+
 	}
-	
-    class selectAction implements ActionListener{
+
+	class selectAction implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JComboBox cb=(JComboBox)e.getSource();
 			String choice = cb.getSelectedItem().toString();
-			//add set(choice) method
-			
+			Range r,p;
+			if(cb==comboBox){
+				sf.setMake(choice);
+			}else if(cb==comboBox_1){
+				sf.setModel(choice);
+			}else if(cb==comboBox_2){
+				sf.setTrim(choice);
+			}else if(cb==comboBox_3){
+				if (choice=="<2000"){
+					r=new Range(0,2000);					
+				}else if(choice=="2000-2005"){
+					r=new Range(2000,2005);
+				}else if(choice=="2006-2010"){
+					r=new Range(2006,2010);
+				}else{
+					r=new Range(2011,2015);
+				}
+				sf.setYear(r);
+			}else{
+				if(choice=="<10000"){
+					p=new Range(0,10000);
+				}else if(choice=="10000-15000"){
+					p=new Range(10000,15000);
+				}else if(choice=="15000-20000"){
+					p=new Range(15000,20000);
+				}else if(choice=="20000-25000"){
+					p=new Range(20000,25000);
+				}else if(choice=="25000-30000"){
+					p=new Range(25000,30000);
+				}else if(choice=="30000-50000"){
+					p=new Range(30000,50000);
+				}else{
+					p=new Range(50000,Integer.MAX_VALUE);
+				}
+				sf.setRange(p);
+			}
+
+
+
 		}
-		
+
 	}
 
 	private void initSearchPane() {
@@ -229,68 +324,13 @@ public class CustomerScreen extends JFrame {
 		searchAndSortPanel.add(sortComboBox);
 		con.add("North", searchAndSortPanel);
 	}
-	
-	private void addListeners() {
-		ButtonClick bc = new ButtonClick();
-		searchButton.addActionListener(bc);
-		SortSelection ss = new SortSelection();
-		sortComboBox.addActionListener(ss);
-		
-	}
-	
-	class ButtonClick implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == searchButton){
-				sf.setKeywords(searchTextField.getText());
-				sf.setCategory(category);
-				CarManagerImpl test;
-				try {
-					test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()); //dealerID
-					List<Car> carTarget = test.search(sf);
-					System.out.println(carTarget);
-					new CarTableModel(carTarget);
-					repaint();
-					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		}
-	}
-	
-	class SortSelection implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			JComboBox sortComboBox = (JComboBox) ae.getSource();
-			boolean highToLow = true;
-			String selectedSort = (String) sortComboBox.getSelectedItem();
-			int i = selectedSort.indexOf(" ");
-			String sortKeyword = selectedSort.substring(0, i);
-			if(selectedSort.contains("High to Low")){
-				highToLow = true;
-			}else{
-				highToLow = false;
-			}
-			SortCriteria sc = new SortCriteria(sortKeyword, highToLow);
-			System.out.println(sortKeyword);
-			System.out.println(highToLow);
-			
-
-			}
-		
-	} 
 
 	class CarTableModel implements TableModel {
 		private List<Car> cars;
 		private List<Object[]> carList;
 		private String[] columnNames = {"Category", "Year", "Brand", 
 				"Model", "Trim", "Price"};
-		
+
 		public CarTableModel(List<Car> cars) {
 			this.cars = cars;
 			carList = new ArrayList<Object[]>();
@@ -305,7 +345,7 @@ public class CustomerScreen extends JFrame {
 				carList.add(object);
 			}
 		}
-		
+
 		@Override
 		public int getRowCount() {
 			return cars.size();
@@ -395,5 +435,5 @@ public class CustomerScreen extends JFrame {
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		return this;
 	}
-} 
-*/
+} */
+
