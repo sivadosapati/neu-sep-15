@@ -121,6 +121,7 @@ public class CustomerScreen extends JFrame {
 		
 		comboBox = new JComboBox(list.get(1).toArray());
 		comboBox.setSelectedItem(null);
+		
 		brandComboPanel.add(comboBox);
 
 		selectAction sa=new selectAction();
