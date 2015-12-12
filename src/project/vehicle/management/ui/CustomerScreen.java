@@ -98,14 +98,14 @@ public class CustomerScreen extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			if (ae.getSource() == searchButton){
-				String text = searchTextField.getText();
+				String text = searchTextField.getText()+" ";
 				if(text.endsWith(" ")){
 					String words[] = text.split(" ");
 					for (int i=0; i< words.length; i++){
 						System.out.println(words[i]);
 					}
 				} else {
-					System.out.println("Test");
+					System.out.println("Wrong");
 				}
 			}
 			
