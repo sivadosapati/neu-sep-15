@@ -1,6 +1,8 @@
 package project.vehicle.management.ui;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,8 +10,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
 import project.vehicle.management.data.Car;
-import project.vehicle.management.data.Category;
-import project.vehicle.management.data.Dealer;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,25 +26,9 @@ public class SpecificCarScreen extends JFrame {
 	private JPanel contentPane;
 	private JLabel lblSnapshot,picture,picture1,info;
 	private Car car;
-	private Dealer dealer;
-	/*
-	 * hard code
-	 */
-	public static void main(String[] args) {
-		Integer test=2013;
-		Category ca=Category.NEW;
-		Car c = new Car("id","dealerid",ca, test, "BMW",
-	            "Encore", "Convenience", "SUV", 11123.12f);
-		Dealer d=new Dealer();
-		new SpecificCarScreen(c,d);
-	}
-	/*
-	 * hard code
-	 */
 	
-	public SpecificCarScreen(Car car,Dealer dealer) {
+	public SpecificCarScreen(Car car) {
 		this.car=car;
-		this.dealer=dealer;
 		create();
 		addTopPanel();
 		addPhotoPanel();
@@ -62,7 +46,14 @@ public class SpecificCarScreen extends JFrame {
 	}
 
 	private void addListeners() {
-		//back to search
+		search.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+			
+		});
 	}
 
 	private void addTopPanel() {
@@ -107,11 +98,11 @@ public class SpecificCarScreen extends JFrame {
 		contentPane.add(center);
 		center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 		center.add(Box.createVerticalStrut(30));
-		center.add(type);
+		center.add(year);
+		center.add(Box.createVerticalStrut(30));
+		center.add(make);
 		center.add(Box.createVerticalStrut(30));
 		center.add(carPrice);
-		center.add(Box.createVerticalStrut(30));
-		center.add(year);
 	}
 	
 	private void addDetailPanel() {
@@ -124,7 +115,7 @@ public class SpecificCarScreen extends JFrame {
 		GridLayout gl = new GridLayout(2,2);
 		features.setLayout(gl);
 		features.add(category);
-		features.add(make);
+		features.add(type);
 		features.add(model);
 		features.add(trim);
 		
@@ -163,4 +154,5 @@ public class SpecificCarScreen extends JFrame {
 		trim= new JLabel("Trim:"+car.getTrim());
 		
 	}
+
 }

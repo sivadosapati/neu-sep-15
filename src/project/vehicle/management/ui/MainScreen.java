@@ -49,7 +49,7 @@ public class MainScreen extends JFrame {
     
     public String[] appendStringAtFirst(String[] arr) {
         String[] newArr = new String[arr.length+1];
-        newArr[0] = "Please select a dealer";
+        newArr[0] = "Please select a dealer !";
         System.arraycopy(arr, 0, newArr, 1, arr.length);
         return newArr;
     }
