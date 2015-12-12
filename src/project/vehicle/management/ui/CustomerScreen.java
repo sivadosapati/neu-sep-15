@@ -214,7 +214,7 @@ public class CustomerScreen extends JFrame {
 			System.out.println(highToLow);
 			CarManagerImpl test;
 			try {
-				test = new CarManagerImpl("gmps-gilroy"); //dealerID
+				test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()); //dealerID
 				List<Car> carTarget = test.sort(sf, sc);
 				System.out.println(carTarget);
 				initTablePane(carTarget);
