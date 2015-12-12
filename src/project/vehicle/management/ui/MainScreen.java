@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
-import project.vehicle.management.data.access.DealerCarManagerImpl;
+import project.vehicle.management.data.access.*;
 
 public class MainScreen extends JFrame {
     
@@ -99,9 +99,12 @@ public class MainScreen extends JFrame {
 
               else {
               
-                  System.out.println(selectedDealer);// for test
-                  // new DealerScreen();
-                  // jf.dispose();
+            	  try{
+            		  new DearlerMainScreen(selectedDealer);
+                  }
+                  catch(Exception ex){}
+                 
+                  this.dispose();
               }
           });
 
@@ -110,9 +113,12 @@ public class MainScreen extends JFrame {
               if (selectedDealer.equals("")||selectedDealer.equals("Please select a dealer !")) {
                   JOptionPane.showMessageDialog(this, "You must select a dealer first!");
               } else {
-                  System.out.println(selectedDealer);// for test
-                  // new CustomerScreen();
-                  // jf.dispose();
+            	  try{
+                	  new CustomerScreen(new CarManagerFactory().getCarManager(selectedDealer));
+                  }
+                  catch(Exception ex){}
+                 
+                  this.dispose();
               }
           });
 
