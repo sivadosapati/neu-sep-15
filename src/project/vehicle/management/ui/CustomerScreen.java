@@ -209,7 +209,9 @@ public class CustomerScreen extends JFrame {
 		JLabel lblBrand = new JLabel("Make");
 		brandComboPanel.add(lblBrand);
 
-		
+		list.get(0).add(0, "");
+		list.get(1).add(0, "");
+		list.get(2).add(0, "");
 		comboBox = new JComboBox(list.get(1).toArray());
 		comboBox.setSelectedItem(null);
 		brandComboPanel.add(comboBox);
@@ -240,6 +242,7 @@ public class CustomerScreen extends JFrame {
 		comboBox_2.setSelectedItem(null);
 		trimComboPanel.add(comboBox_2);
 		choosecondiPanel.add(trimComboPanel);
+		
 
 
 		JPanel yearComboPanel=new JPanel();
@@ -273,6 +276,13 @@ public class CustomerScreen extends JFrame {
 		getContentPane().add("West",choosecondiPanel);
 
 	}
+    public String checknull(String s){
+    	if(s==""){
+    		return null;
+    	}else{
+    		return s;
+    	}
+    }
 
 	class clickCheckAction implements ActionListener{ //取消勾选没有监听
 
@@ -287,6 +297,16 @@ public class CustomerScreen extends JFrame {
 				category[2]=(!category[2]);
 			}
 			sf.setCategory(category);
+			CarManagerImpl test;
+			try {
+				test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID());
+				List<Car> carAfterSearch=test.search(sf);
+				table.setModel(new CarTableModel(carAfterSearch));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} //dealerID
+			table.updateUI();
 		}
 
 	}
@@ -299,11 +319,11 @@ public class CustomerScreen extends JFrame {
 			String choice = cb.getSelectedItem().toString();
 			Range r,p;
 			if(cb==comboBox){
-				sf.setMake(choice);
+				sf.setMake(checknull(choice));
 			}else if(cb==comboBox_1){
-				sf.setModel(choice);
+				sf.setModel(checknull(choice));
 			}else if(cb==comboBox_2){
-				sf.setTrim(choice);
+				sf.setTrim(checknull(choice));
 			}else if(cb==comboBox_3){
 				if (choice=="<2000"){
 					r=new Range(0,2000);					
