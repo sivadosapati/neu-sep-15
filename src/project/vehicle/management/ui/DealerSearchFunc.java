@@ -5,38 +5,50 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import project.vehicle.management.data.Range;
 import project.vehicle.management.data.SearchFilter;
-import javax.swing.ButtonGroup;
+import project.vehicle.management.data.access.CarManager;
+import project.vehicle.management.data.access.CarManagerFactory;
 
 public class DealerSearchFunc {
 
 	private JFrame frame;
-	private JTextField make;
-	private JTextField model;
-	private JTextField trim;
-	private JTextField year;
-	private JTextField limitSuperior;
-	private JTextField limitinferior;
+	private JCheckBox categoryNew;
+	private JCheckBox used;
+	private JCheckBox categoryCertified;
+	private JCheckBox categoryUsed;
+	private JComboBox comboBox, comboBox_model, comboBox_trim, comboBox_price, comboBox_year, comboBox_brand;
+	private CarManager carManager;
+	private JButton btnSearch;
+	private JButton Cancel;
 	private JTextField keyWords;
-	private SearchFilter dealerSearch = new SearchFilter();
-	private final ButtonGroup category = new ButtonGroup();
-	// private int topDistance;
+	private SearchFilter sf = new SearchFilter();
+	private boolean category[] = { false, false, false };
+	List<List<String>> list;
 
 	/**
 	 * Launch the application.
 	 */
+
 	public static void main(String[] args) {
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					DealerSearchFunc window = new DealerSearchFunc();
+					CarManager carManager = new CarManagerFactory().getCarManager("gmps-bresee");
+					;
+					DealerSearchFunc window = new DealerSearchFunc(carManager);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,29 +60,34 @@ public class DealerSearchFunc {
 	/**
 	 * Create the application.
 	 */
-	public DealerSearchFunc() {
+	public DealerSearchFunc(CarManager carManager) {
+		this.carManager = carManager;
 		initialize();
+		addListeners();
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		list = carManager.listInitralize(carManager.listCars());
+
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(DealerSearchFunc.class.getResource("/sun/print/resources/oneside.png")));
 		frame.setTitle("Search");
-		frame.setBounds(100, 100, 450, 350);
+		frame.setBounds(100, 100, 650, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
-		
+
 		/* category selection */
-		
+
 		JLabel Category = new JLabel("Category");
 		GridBagConstraints gbc_Category = new GridBagConstraints();
 		gbc_Category.anchor = GridBagConstraints.WEST;
@@ -79,34 +96,31 @@ public class DealerSearchFunc {
 		gbc_Category.gridy = 0;
 		frame.getContentPane().add(Category, gbc_Category);
 
-		JCheckBox New = new JCheckBox("New");
-		category.add(New);
+		categoryNew = new JCheckBox("New");
 		GridBagConstraints gbc_New = new GridBagConstraints();
 		gbc_New.anchor = GridBagConstraints.WEST;
 		gbc_New.insets = new Insets(45, 0, 5, 5);
 		gbc_New.gridx = 1;
 		gbc_New.gridy = 0;
-		frame.getContentPane().add(New, gbc_New);
+		frame.getContentPane().add(categoryNew, gbc_New);
 
-		JCheckBox chckbxUsed = new JCheckBox("Used");
-		category.add(chckbxUsed);
-		GridBagConstraints gbc_chckbxUsed = new GridBagConstraints();
-		gbc_chckbxUsed.anchor = GridBagConstraints.WEST;
-		gbc_chckbxUsed.insets = new Insets(45, 0, 5, 5);
-		gbc_chckbxUsed.gridx = 3;
-		gbc_chckbxUsed.gridy = 0;
-		frame.getContentPane().add(chckbxUsed, gbc_chckbxUsed);
+		categoryUsed = new JCheckBox("Used");
+		GridBagConstraints gbc_used_1 = new GridBagConstraints();
+		gbc_used_1.anchor = GridBagConstraints.WEST;
+		gbc_used_1.insets = new Insets(45, 0, 5, 5);
+		gbc_used_1.gridx = 2;
+		gbc_used_1.gridy = 0;
+		frame.getContentPane().add(categoryUsed, gbc_used_1);
 
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Certified");
-		category.add(chckbxNewCheckBox);
-		GridBagConstraints gbc_Certified = new GridBagConstraints();
-		gbc_Certified.anchor = GridBagConstraints.EAST;
-		gbc_Certified.insets = new Insets(45, 0, 5, 50);
-		gbc_Certified.gridx = 4;
-		gbc_Certified.gridy = 0;
-		frame.getContentPane().add(chckbxNewCheckBox, gbc_Certified);
+		categoryCertified = new JCheckBox("Certified");
+		GridBagConstraints gbc_categoryCertified_1 = new GridBagConstraints();
+		gbc_categoryCertified_1.anchor = GridBagConstraints.WEST;
+		gbc_categoryCertified_1.insets = new Insets(45, 0, 5, 50);
+		gbc_categoryCertified_1.gridx = 3;
+		gbc_categoryCertified_1.gridy = 0;
+		frame.getContentPane().add(categoryCertified, gbc_categoryCertified_1);
 
-		JLabel lblMake = new JLabel("Make");
+		JLabel lblMake = new JLabel("Brand");
 		GridBagConstraints gbc_lblMake = new GridBagConstraints();
 		gbc_lblMake.anchor = GridBagConstraints.WEST;
 		gbc_lblMake.insets = new Insets(0, 50, 5, 5);
@@ -114,14 +128,14 @@ public class DealerSearchFunc {
 		gbc_lblMake.gridy = 1;
 		frame.getContentPane().add(lblMake, gbc_lblMake);
 
-		make = new JTextField();
-		GridBagConstraints gbc_make = new GridBagConstraints();
-		gbc_make.fill = GridBagConstraints.HORIZONTAL;
-		gbc_make.insets = new Insets(0, 0, 5, 5);
-		gbc_make.gridx = 1;
-		gbc_make.gridy = 1;
-		frame.getContentPane().add(make, gbc_make);
-		make.setColumns(10);
+		String brandStr[] = { "BMW", "Toyota", "Cameri" };
+		comboBox_brand = new JComboBox(brandStr);
+		GridBagConstraints gbc_comboBox_4 = new GridBagConstraints();
+		gbc_comboBox_4.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_4.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_4.gridx = 1;
+		gbc_comboBox_4.gridy = 1;
+		frame.getContentPane().add(comboBox_brand, gbc_comboBox_4);
 
 		JLabel lblModel = new JLabel("Model");
 		GridBagConstraints gbc_lblModel = new GridBagConstraints();
@@ -131,14 +145,13 @@ public class DealerSearchFunc {
 		gbc_lblModel.gridy = 2;
 		frame.getContentPane().add(lblModel, gbc_lblModel);
 
-		model = new JTextField();
-		GridBagConstraints gbc_model = new GridBagConstraints();
-		gbc_model.insets = new Insets(0, 0, 5, 5);
-		gbc_model.fill = GridBagConstraints.HORIZONTAL;
-		gbc_model.gridx = 1;
-		gbc_model.gridy = 2;
-		frame.getContentPane().add(model, gbc_model);
-		model.setColumns(10);
+		comboBox_model = new JComboBox(list.get(0).toArray());
+		GridBagConstraints gbc_comboBox_model = new GridBagConstraints();
+		gbc_comboBox_model.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_model.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_model.gridx = 1;
+		gbc_comboBox_model.gridy = 2;
+		frame.getContentPane().add(comboBox_model, gbc_comboBox_model);
 
 		JLabel lblTrim = new JLabel("Trim");
 		GridBagConstraints gbc_lblTrim = new GridBagConstraints();
@@ -148,14 +161,13 @@ public class DealerSearchFunc {
 		gbc_lblTrim.gridy = 3;
 		frame.getContentPane().add(lblTrim, gbc_lblTrim);
 
-		trim = new JTextField();
-		GridBagConstraints gbc_trim = new GridBagConstraints();
-		gbc_trim.insets = new Insets(0, 0, 5, 5);
-		gbc_trim.fill = GridBagConstraints.HORIZONTAL;
-		gbc_trim.gridx = 1;
-		gbc_trim.gridy = 3;
-		frame.getContentPane().add(trim, gbc_trim);
-		trim.setColumns(10);
+		comboBox_trim = new JComboBox(list.get(2).toArray());
+		GridBagConstraints gbc_comboBox_trim = new GridBagConstraints();
+		gbc_comboBox_trim.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_trim.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_trim.gridx = 1;
+		gbc_comboBox_trim.gridy = 3;
+		frame.getContentPane().add(comboBox_trim, gbc_comboBox_trim);
 
 		JLabel lblYear = new JLabel("Year");
 		GridBagConstraints gbc_lblYear = new GridBagConstraints();
@@ -165,14 +177,14 @@ public class DealerSearchFunc {
 		gbc_lblYear.gridy = 4;
 		frame.getContentPane().add(lblYear, gbc_lblYear);
 
-		year = new JTextField();
-		GridBagConstraints gbc_year = new GridBagConstraints();
-		gbc_year.insets = new Insets(0, 0, 5, 5);
-		gbc_year.fill = GridBagConstraints.HORIZONTAL;
-		gbc_year.gridx = 1;
-		gbc_year.gridy = 4;
-		frame.getContentPane().add(year, gbc_year);
-		year.setColumns(10);
+		String yearStr[] = { "<2000", "2000-2005", "2006-2010", "2011-2015" };
+		comboBox_year = new JComboBox(yearStr);
+		GridBagConstraints gbc_comboBox_year = new GridBagConstraints();
+		gbc_comboBox_year.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_year.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_year.gridx = 1;
+		gbc_comboBox_year.gridy = 4;
+		frame.getContentPane().add(comboBox_year, gbc_comboBox_year);
 
 		JLabel lblPricerange = new JLabel("PriceRange");
 		GridBagConstraints gbc_lblPricerange = new GridBagConstraints();
@@ -182,30 +194,15 @@ public class DealerSearchFunc {
 		gbc_lblPricerange.gridy = 5;
 		frame.getContentPane().add(lblPricerange, gbc_lblPricerange);
 
-		limitSuperior = new JTextField();
-		GridBagConstraints gbc_limitSuperior = new GridBagConstraints();
-		gbc_limitSuperior.insets = new Insets(0, 0, 5, 5);
-		gbc_limitSuperior.fill = GridBagConstraints.HORIZONTAL;
-		gbc_limitSuperior.gridx = 1;
-		gbc_limitSuperior.gridy = 5;
-		frame.getContentPane().add(limitSuperior, gbc_limitSuperior);
-		limitSuperior.setColumns(10);
-
-		JLabel to = new JLabel("~");
-		GridBagConstraints gbc_to = new GridBagConstraints();
-		gbc_to.insets = new Insets(0, 0, 5, 5);
-		gbc_to.gridx = 2;
-		gbc_to.gridy = 5;
-		frame.getContentPane().add(to, gbc_to);
-
-		limitinferior = new JTextField();
-		GridBagConstraints gbc_limitinferior = new GridBagConstraints();
-		gbc_limitinferior.insets = new Insets(0, 0, 5, 5);
-		gbc_limitinferior.fill = GridBagConstraints.HORIZONTAL;
-		gbc_limitinferior.gridx = 3;
-		gbc_limitinferior.gridy = 5;
-		frame.getContentPane().add(limitinferior, gbc_limitinferior);
-		limitinferior.setColumns(10);
+		String priceStr[] = { "<10000", "10000-15000", "15000-20000", "20000-25000", "25000-30000", "30000-50000",
+				">50000" };
+		comboBox_price = new JComboBox(priceStr);
+		GridBagConstraints gbc_comboBox_price = new GridBagConstraints();
+		gbc_comboBox_price.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_price.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox_price.gridx = 1;
+		gbc_comboBox_price.gridy = 5;
+		frame.getContentPane().add(comboBox_price, gbc_comboBox_price);
 
 		JLabel lblKeyWords = new JLabel("Key Words");
 		GridBagConstraints gbc_lblKeyWords = new GridBagConstraints();
@@ -226,20 +223,110 @@ public class DealerSearchFunc {
 		frame.getContentPane().add(keyWords, gbc_textField);
 		keyWords.setColumns(10);
 
-		JButton btnSearch = new JButton("Search");
+		btnSearch = new JButton("Search");
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSearch.gridx = 1;
 		gbc_btnSearch.gridy = 7;
 		frame.getContentPane().add(btnSearch, gbc_btnSearch);
 
-		JButton Cancel = new JButton("Cancel");
+		Cancel = new JButton("Cancel");
 		GridBagConstraints gbc_Cancel = new GridBagConstraints();
 		gbc_Cancel.insets = new Insets(0, 0, 0, 5);
-		gbc_Cancel.anchor = GridBagConstraints.EAST;
-		gbc_Cancel.gridx = 3;
+		gbc_Cancel.anchor = GridBagConstraints.WEST;
+		gbc_Cancel.gridx = 2;
 		gbc_Cancel.gridy = 7;
 		frame.getContentPane().add(Cancel, gbc_Cancel);
+
+	}
+
+	private void addListeners() {
+		ButtonClick bc = new ButtonClick();
+		categoryNew.addActionListener(bc);
+		categoryUsed.addActionListener(bc);
+		categoryCertified.addActionListener(bc);
+		btnSearch.addActionListener(bc);
+		selectAction s = new selectAction();
+		comboBox_brand.addActionListener(s);
+		comboBox_trim.addActionListener(s);
+		comboBox_model.addActionListener(s);
+		comboBox_price.addActionListener(s);
+		comboBox_year.addActionListener(s);
+
+	}
+
+
+	class ButtonClick implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (categoryNew.isSelected())
+				category[0] = categoryNew.isSelected();
+
+			if (!categoryNew.isSelected())
+				category[0] = categoryNew.isSelected();
+
+			if (categoryUsed.isSelected())
+				category[1] = categoryUsed.isSelected();
+			if (!categoryUsed.isSelected())
+				category[1] = categoryUsed.isSelected();
+			if (categoryCertified.isSelected())
+				category[2] = categoryCertified.isSelected();
+			if (!categoryCertified.isSelected())
+				category[2] = categoryCertified.isSelected();
+
+			if (e.getSource() == btnSearch) {
+				sf.setKeywords(keyWords.getText());
+				sf.setCategory(category);
+			}
+		}
+	}
+
+	class selectAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JComboBox cb = (JComboBox) e.getSource();
+			String choice = cb.getSelectedItem().toString();
+			Range r, p;
+
+			if (cb == comboBox) {
+				sf.setMake(choice);
+			} else if (cb == comboBox_model) {
+				sf.setModel(choice);
+			} else if (cb == comboBox_trim) {
+				sf.setTrim(choice);
+			} else if (cb == comboBox_price) {
+				if (choice == "<2000") {
+					r = new Range(0, 2000);
+				} else if (choice == "2000-2005") {
+					r = new Range(2000, 2005);
+				} else if (choice == "2006-2010") {
+					r = new Range(2006, 2010);
+				} else {
+					r = new Range(2011, 2015);
+				}
+				sf.setYear(r);
+			} else {
+				if (choice == "<10000") {
+					p = new Range(0, 10000);
+				} else if (choice == "10000-15000") {
+					p = new Range(10000, 15000);
+				} else if (choice == "15000-20000") {
+					p = new Range(15000, 20000);
+				} else if (choice == "20000-25000") {
+					p = new Range(20000, 25000);
+				} else if (choice == "25000-30000") {
+					p = new Range(25000, 30000);
+				} else if (choice == "30000-50000") {
+					p = new Range(30000, 50000);
+				} else {
+					p = new Range(50000, Integer.MAX_VALUE);
+				}
+				sf.setRange(p);
+			}
+		}
+
 	}
 
 }
