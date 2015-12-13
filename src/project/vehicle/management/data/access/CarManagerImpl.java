@@ -252,6 +252,8 @@ public class CarManagerImpl implements CarManager {
 	@Override
 	public List<Car> sort(SearchFilter sf, SortCriteria sc) {
 		// override comparator.....
+		//search satified data
+		carList = search(sf);
 	    CarComparator ascComparator = new CarComparator();
         ascComparator.setAttribute(sc.getAttribute());
         Collections.sort(carList, ascComparator);
