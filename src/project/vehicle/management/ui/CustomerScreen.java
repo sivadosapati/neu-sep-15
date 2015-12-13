@@ -52,17 +52,13 @@ public class CustomerScreen extends JFrame {
 
 	private CarManager carManager;
 
+	public CustomerScreen() {
+		init();
+	}
+	
 	public CustomerScreen(CarManager carManager) {
 		this.carManager = carManager;
 		init();
-	}
-
-
-	public static void main(String[] args) throws Exception {
-		CarManager carManager = new CarManagerFactory()
-				.getCarManager("gmps-bresee");
-		new CustomerScreen(carManager);
-		
 	}
 
 	private void init() {
@@ -88,7 +84,90 @@ public class CustomerScreen extends JFrame {
 
 	}
 
-	private void initchoosePane(CarManager cm) {
+	private void initSearchPane() {
+		// create
+		searchButton = new JButton("Search");
+		searchTextField = new JTextField(20);
+		searchLabel = new JLabel("Search:");
+		sortLabel = new JLabel("Sort By:");
+		String[] sortStrings = { " ", "Price (Low to High)", "Price (High to Low)", "Year (Low to High)", "Year (High to Low)"};
+		sortComboBox = new JComboBox(sortStrings);
+		// add
+		BorderLayout bl = new BorderLayout();
+		Container con = super.getContentPane();
+		con.setLayout(bl);
+		JPanel searchAndSortPanel = new JPanel();
+		searchAndSortPanel.add(searchLabel);
+		searchAndSortPanel.add(searchTextField);
+		searchAndSortPanel.add(searchButton);
+		searchAndSortPanel.add(sortLabel);
+		searchAndSortPanel.add(sortComboBox);
+		con.add("North", searchAndSortPanel);
+	}
+	
+	private void addListeners() {
+		ButtonClick bc = new ButtonClick();
+		searchButton.addActionListener(bc);
+		SortSelection ss = new SortSelection();
+		sortComboBox.addActionListener(ss);
+	}
+
+	class ButtonClick implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			if (ae.getSource() == searchButton){
+				sf.setKeywords(searchTextField.getText());
+				CarManagerImpl test;
+				try {
+					test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()); //dealerID
+					List<Car> carAfterSearch=test.search(sf);
+					table.setModel(new CarTableModel(carAfterSearch));
+					table.updateUI();
+					System.out.println(carAfterSearch);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	class SortSelection implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent ae) {
+			JComboBox sortComboBox = (JComboBox) ae.getSource();
+			boolean highToLow = false;
+			String selectedSort = (String) sortComboBox.getSelectedItem();
+			int i = selectedSort.indexOf(" ");
+			String sortKeyword = selectedSort.substring(0, i);
+			if(selectedSort.contains("High to Low")){
+				highToLow = false;
+			}else{
+				highToLow = true;
+			}
+			sc.setAttribute(sortKeyword);
+			sc.setSequence(highToLow);
+			//System.out.println(sortKeyword);
+			//System.out.println(highToLow);
+			
+			try {
+				String dealerIDS= ((CarManagerImpl) carManager).getDealerID();
+				CarManagerImpl testAfterSearchSort = new CarManagerImpl(dealerIDS);
+				List<Car> carAfterSearchSort = carManager.sort(sf, sc);
+				table.setModel(new CarTableModel(carAfterSearchSort));
+				table.updateUI();
+				//System.out.println(sf.getKeywords() + sf.getMake() + sf.getModel() + sf.getTrim() + sf.getCategory()[0]);
+				//System.out.println(sc.getAttribute() + sc.getSequence());
+				//System.out.println(dealerIDS);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	} 
+	
+    private void initchoosePane(CarManager cm) {
 		
 		List<List<String>> list = cm.listInitralize(cm.listCars());
 		
@@ -187,8 +266,7 @@ public class CustomerScreen extends JFrame {
 
 	}
 
-
-	class clickCheckAction implements ActionListener{
+	class clickCheckAction implements ActionListener{ //取消勾选没有监听
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -200,8 +278,6 @@ public class CustomerScreen extends JFrame {
 			}else if(cb==chckbxCertified){
 				category[2]=true;
 			}
-
-
 			sf.setCategory(category);
 		}
 
@@ -249,102 +325,20 @@ public class CustomerScreen extends JFrame {
 				}
 				sf.setRange(p);
 			}
-
-
-
-		}
-
-	}
-
-	private void initSearchPane() {
-		// create
-		searchButton = new JButton("Search");
-		searchTextField = new JTextField(20);
-		searchLabel = new JLabel("Search:");
-		sortLabel = new JLabel("Sort By:");
-		String[] sortStrings = { " ", "Price (Low to High)", "Price (High to Low)", "Year (Low to High)", "Year (High to Low)"};
-		sortComboBox = new JComboBox(sortStrings);
-		// add
-		BorderLayout bl = new BorderLayout();
-		Container con = super.getContentPane();
-		con.setLayout(bl);
-		JPanel searchAndSortPanel = new JPanel();
-		searchAndSortPanel.add(searchLabel);
-		searchAndSortPanel.add(searchTextField);
-		searchAndSortPanel.add(searchButton);
-		searchAndSortPanel.add(sortLabel);
-		searchAndSortPanel.add(sortComboBox);
-		con.add("North", searchAndSortPanel);
-	}
-
-	private void addListeners() {
-		ButtonClick bc = new ButtonClick();
-		searchButton.addActionListener(bc);
-		SortSelection ss = new SortSelection();
-		sortComboBox.addActionListener(ss);
-
-	}
-
-	class ButtonClick implements ActionListener{
-
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			if (ae.getSource() == searchButton){
-				sf.setKeywords(searchTextField.getText());
-				CarManagerImpl test;
-				try {
-					test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()); //dealerID
-					List<Car> carAfterSearch=test.search(sf);
-					table.setModel(new CarTableModel(carAfterSearch));
-					table.updateUI();
-					System.out.println(carAfterSearch);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	class SortSelection implements ActionListener{
-		
-		
-		@Override
-		public void actionPerformed(ActionEvent ae) {
-			JComboBox sortComboBox = (JComboBox) ae.getSource();
-			boolean highToLow = false;
-			String selectedSort = (String) sortComboBox.getSelectedItem();
-			int i = selectedSort.indexOf(" ");
-			String sortKeyword = selectedSort.substring(0, i);
-			if(selectedSort.contains("High to Low")){
-				highToLow = false;
-			}else{
-				highToLow = true;
-			}
-			sc.setAttribute(sortKeyword);
-			sc.setSequence(highToLow);
-			//System.out.println(sortKeyword);
-			//System.out.println(highToLow);
-			
+			CarManagerImpl test;
 			try {
-				String dealerIDS= ((CarManagerImpl) carManager).getDealerID();
-				CarManagerImpl testAfterSearchSort = new CarManagerImpl(dealerIDS);
-				List<Car> carAfterSearchSort = carManager.sort(sf, sc);
-				table.setModel(new CarTableModel(carAfterSearchSort));
-				table.updateUI();
-				//System.out.println(sf.getKeywords() + sf.getMake() + sf.getModel() + sf.getTrim() + sf.getCategory()[0]);
-				//System.out.println(sc.getAttribute() + sc.getSequence());
-				//System.out.println(dealerIDS);
-				
-			} catch (IOException e) {
+				test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID());
+				List<Car> carAfterSearch=test.search(sf);
+				table.setModel(new CarTableModel(carAfterSearch));
+			} catch (IOException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-
+				e1.printStackTrace();
+			} //dealerID
+			table.updateUI();
 		}
+	}
 
-	} 
+
 	
 	class CarTableModel extends AbstractTableModel {
 		private List<Car> cars;
@@ -443,18 +437,13 @@ public class CustomerScreen extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().add("Center", scrollPane);
 	}
+
+	public static void main(String[] args) throws Exception {
+		CarManager carManager = new CarManagerFactory()
+				.getCarManager("gmps-bresee");
+		new CustomerScreen(carManager);
+		
+	}
 }
 
-/*class ButtonRenderer extends JButton implements TableCellRenderer {
-	public ButtonRenderer() {
-		setText("View Detail");
-		setBackground(new Color(255, 255, 255));
-	}
-
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value,
-			boolean isSelected, boolean hasFocus, int row, int column) {
-		return this;
-	}
-} */
 
