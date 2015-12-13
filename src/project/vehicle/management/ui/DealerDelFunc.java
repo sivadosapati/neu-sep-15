@@ -12,9 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import project.vehicle.management.data.Car;
-import project.vehicle.management.data.access.CarManagerImpl;
+import project.vehicle.management.data.access.CarManager;
 
 @SuppressWarnings("serial")
 public class DealerDelFunc extends JFrame {
@@ -24,11 +25,14 @@ public class DealerDelFunc extends JFrame {
 	private JPanel temp;
 	private JPanel button;
 	private JPanel label;
+	private JTable table;
 	private Container con;
 	String dealerid;
-	static List<Car> ret;
+	public List<Car> ret;
+	public CarManager dealer;
 
-	public DealerDelFunc(List<Car> ret) {
+//	public DealerDelFunc(CarManager dealerRes, List<Car> res, JTable table) {
+		public DealerDelFunc(CarManager dealerRes, List<Car> res) {
 		setTitle("Delete");
 		create();
 		add();
@@ -37,7 +41,9 @@ public class DealerDelFunc extends JFrame {
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
+		this.ret = res;
+		this.dealer = dealerRes;
+		this.table = table;
 	}
 
 	private void addListeners() {
@@ -74,7 +80,10 @@ public class DealerDelFunc extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == yes)
 				try {
-					delete(ret);
+					List<Car> rett = delete(ret);
+					// String[] items =
+					// {"selection","carId","dealerId","category","year","make","model","trim","type","price"};
+					// table.setModel(new MyTableModel(items, rett));
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -86,15 +95,14 @@ public class DealerDelFunc extends JFrame {
 
 	private List<Car> delete(List<Car> ret) throws IOException {
 
-		CarManagerImpl deletecar = new CarManagerImpl(dealerid);
 		for (Car car : ret)
-			deletecar.deleteCar(car.getID());
-		return deletecar.listCars();
+			dealer.deleteCar(car.getID());
+		return dealer.listCars();
 
 	}
 
 	public static void main(String[] args) {
-		new DealerDelFunc(ret);
+
 	}
 
 }

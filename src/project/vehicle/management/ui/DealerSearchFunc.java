@@ -20,6 +20,7 @@ import project.vehicle.management.data.Range;
 import project.vehicle.management.data.SearchFilter;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
+import project.vehicle.management.data.access.CarManagerImpl;
 
 public class DealerSearchFunc {
 
@@ -35,6 +36,7 @@ public class DealerSearchFunc {
 	private JTextField keyWords;
 	private SearchFilter sf = new SearchFilter();
 	private boolean category[] = { false, false, false };
+	private CarManagerImpl carSearch;
 	List<List<String>> list;
 
 	/**
@@ -47,7 +49,6 @@ public class DealerSearchFunc {
 			public void run() {
 				try {
 					CarManager carManager = new CarManagerFactory().getCarManager("gmps-bresee");
-					;
 					DealerSearchFunc window = new DealerSearchFunc(carManager);
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -77,10 +78,10 @@ public class DealerSearchFunc {
 		frame.setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(DealerSearchFunc.class.getResource("/sun/print/resources/oneside.png")));
 		frame.setTitle("Search");
-		frame.setBounds(100, 100, 650, 350);
+		frame.setBounds(100, 100, 500, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWidths = new int[] { 0, 60, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
@@ -106,17 +107,16 @@ public class DealerSearchFunc {
 
 		categoryUsed = new JCheckBox("Used");
 		GridBagConstraints gbc_used_1 = new GridBagConstraints();
-		gbc_used_1.anchor = GridBagConstraints.WEST;
-		gbc_used_1.insets = new Insets(45, 0, 5, 5);
-		gbc_used_1.gridx = 2;
+		gbc_used_1.insets = new Insets(45, 0, 5, 15);
+		gbc_used_1.gridx = 1;
 		gbc_used_1.gridy = 0;
 		frame.getContentPane().add(categoryUsed, gbc_used_1);
 
 		categoryCertified = new JCheckBox("Certified");
 		GridBagConstraints gbc_categoryCertified_1 = new GridBagConstraints();
-		gbc_categoryCertified_1.anchor = GridBagConstraints.WEST;
-		gbc_categoryCertified_1.insets = new Insets(45, 0, 5, 50);
-		gbc_categoryCertified_1.gridx = 3;
+		gbc_categoryCertified_1.anchor = GridBagConstraints.EAST;
+		gbc_categoryCertified_1.insets = new Insets(45, 0, 5, 0);
+		gbc_categoryCertified_1.gridx = 1;
 		gbc_categoryCertified_1.gridy = 0;
 		frame.getContentPane().add(categoryCertified, gbc_categoryCertified_1);
 
@@ -131,7 +131,7 @@ public class DealerSearchFunc {
 		String brandStr[] = { "BMW", "Toyota", "Cameri" };
 		comboBox_brand = new JComboBox(brandStr);
 		GridBagConstraints gbc_comboBox_4 = new GridBagConstraints();
-		gbc_comboBox_4.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_4.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_4.gridx = 1;
 		gbc_comboBox_4.gridy = 1;
@@ -147,7 +147,7 @@ public class DealerSearchFunc {
 
 		comboBox_model = new JComboBox(list.get(0).toArray());
 		GridBagConstraints gbc_comboBox_model = new GridBagConstraints();
-		gbc_comboBox_model.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_model.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_model.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_model.gridx = 1;
 		gbc_comboBox_model.gridy = 2;
@@ -163,7 +163,7 @@ public class DealerSearchFunc {
 
 		comboBox_trim = new JComboBox(list.get(2).toArray());
 		GridBagConstraints gbc_comboBox_trim = new GridBagConstraints();
-		gbc_comboBox_trim.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_trim.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_trim.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_trim.gridx = 1;
 		gbc_comboBox_trim.gridy = 3;
@@ -180,7 +180,7 @@ public class DealerSearchFunc {
 		String yearStr[] = { "<2000", "2000-2005", "2006-2010", "2011-2015" };
 		comboBox_year = new JComboBox(yearStr);
 		GridBagConstraints gbc_comboBox_year = new GridBagConstraints();
-		gbc_comboBox_year.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_year.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_year.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_year.gridx = 1;
 		gbc_comboBox_year.gridy = 4;
@@ -198,7 +198,7 @@ public class DealerSearchFunc {
 				">50000" };
 		comboBox_price = new JComboBox(priceStr);
 		GridBagConstraints gbc_comboBox_price = new GridBagConstraints();
-		gbc_comboBox_price.anchor = GridBagConstraints.WEST;
+		gbc_comboBox_price.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_price.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_price.gridx = 1;
 		gbc_comboBox_price.gridy = 5;
@@ -214,18 +214,16 @@ public class DealerSearchFunc {
 
 		keyWords = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.anchor = GridBagConstraints.NORTH;
-		gbc_textField.gridwidth = 4;
-		gbc_textField.insets = new Insets(0, 0, 5, 50);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 6;
 		frame.getContentPane().add(keyWords, gbc_textField);
-		keyWords.setColumns(10);
+		keyWords.setColumns(13);
 
 		btnSearch = new JButton("Search");
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
-		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSearch.anchor = GridBagConstraints.WEST;
 		gbc_btnSearch.gridx = 1;
 		gbc_btnSearch.gridy = 7;
 		frame.getContentPane().add(btnSearch, gbc_btnSearch);
@@ -233,8 +231,7 @@ public class DealerSearchFunc {
 		Cancel = new JButton("Cancel");
 		GridBagConstraints gbc_Cancel = new GridBagConstraints();
 		gbc_Cancel.insets = new Insets(0, 0, 0, 5);
-		gbc_Cancel.anchor = GridBagConstraints.WEST;
-		gbc_Cancel.gridx = 2;
+		gbc_Cancel.gridx = 1;
 		gbc_Cancel.gridy = 7;
 		frame.getContentPane().add(Cancel, gbc_Cancel);
 
@@ -254,7 +251,6 @@ public class DealerSearchFunc {
 		comboBox_year.addActionListener(s);
 
 	}
-
 
 	class ButtonClick implements ActionListener {
 
