@@ -7,7 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -150,8 +150,10 @@ public class DearlerMainScreen extends JFrame {
 					System.out.println("");
 				}*/
 			}
-			else if(e.getSource() == deleteButton)
-				;//new DealerDelFunc(ret);
+			else if(e.getSource() == deleteButton){
+//				new DealerDelFunc(operatedList);
+					resultTable.updateUI();
+			}
 		}
 		
 	}
@@ -282,13 +284,6 @@ public class DearlerMainScreen extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		/*
-		try {
-			Dealer one = new Dealer("gmps-curry");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	}
 
 }
