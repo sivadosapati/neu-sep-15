@@ -45,6 +45,7 @@ public class CustomerScreen extends JFrame {
 	private JComboBox sortComboBox,comboBox,comboBox_1,comboBox_2,comboBox_3,comboBox_4;
 	private JCheckBox chckbxNew,chckbxUsed,chckbxCertified;
 	private boolean[] category={false,false,false};
+	
 	private JTable table;
 	private SearchFilter sf = new SearchFilter(null, null, null, null, null, null,null);
 	private SortCriteria sc = new SortCriteria(null, true);
@@ -66,14 +67,15 @@ public class CustomerScreen extends JFrame {
 
 	private void init() {
 		initSearchPane();
-		Car car1 = new Car("2656440533","gmps-priority", project.vehicle.management.data.Category.NEW, 2016, "Chevrolet",
-				"Equinox", "LT", "SUV", 27029.0f);
-		Car car2 = new Car("2656440533","gmps-priority", project.vehicle.management.data.Category.NEW, 2016, "Chevrolet",
-				"Equinox", "LT", "SUV", 27029.0f);
-		List<Car> cars = new ArrayList<Car>();
-		cars.add(car1);
-		cars.add(car2);
-		initTablePane(cars);
+		List<Car> cars;
+		try {
+			cars = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()).search(sf);
+			initTablePane(cars);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} //dealerID
+		
 		initchoosePane(carManager);
 
 		setTitle("CustomerScreen ——>Dealer: " + ((CarManagerImpl) carManager).getDealerID());
