@@ -278,6 +278,7 @@ public class CustomerScreen extends JFrame {
 		getContentPane().add("West",choosecondiPanel);
 
 	}
+    
     public String checknull(String s){
     	if(s==""){
     		return null;
@@ -367,8 +368,6 @@ public class CustomerScreen extends JFrame {
 			table.updateUI();
 		}
 	}
-
-
 	
 	class CarTableModel extends AbstractTableModel {
 		private List<Car> cars;
