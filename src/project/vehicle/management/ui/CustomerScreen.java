@@ -180,13 +180,13 @@ public class CustomerScreen extends JFrame {
 
 		JPanel checkboxPanel=new JPanel();
 
-		chckbxNew = new JCheckBox("new");
+		chckbxNew = new JCheckBox("New");
 		checkboxPanel.add(chckbxNew);
 
-		chckbxUsed = new JCheckBox("used");
+		chckbxUsed = new JCheckBox("Used");
 		checkboxPanel.add(chckbxUsed);
 
-		chckbxCertified = new JCheckBox("certified");
+		chckbxCertified = new JCheckBox("Certified");
 		checkboxPanel.add(chckbxCertified);
 
 		clickCheckAction cna=new clickCheckAction();
