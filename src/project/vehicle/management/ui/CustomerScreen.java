@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.TableModel;
+import javax.swing.table.AbstractTableModel;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Range;
@@ -293,7 +293,9 @@ public class CustomerScreen extends JFrame {
 				try {
 					test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()); //dealerID
 					List<Car> carAfterSearch=test.search(sf);
-					//System.out.println(carAfterSearch);
+					table.setModel(new CarTableModel(carAfterSearch));
+					table.updateUI();
+					System.out.println(carAfterSearch);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -318,7 +320,6 @@ public class CustomerScreen extends JFrame {
 			}
 			sc.setAttribute(sortKeyword);
 			sc.setSequence(highToLow);
-			
 			//System.out.println(sortKeyword);
 			//System.out.println(highToLow);
 			
@@ -326,6 +327,8 @@ public class CustomerScreen extends JFrame {
 				String dealerIDS= ((CarManagerImpl) carManager).getDealerID();
 				CarManagerImpl testAfterSearchSort = new CarManagerImpl(dealerIDS);
 				List<Car> carAfterSearchSort = carManager.sort(sf, sc);
+				table.setModel(new CarTableModel(carAfterSearchSort));
+				table.updateUI();
 				//System.out.println(sf.getKeywords() + sf.getMake() + sf.getModel() + sf.getTrim() + sf.getCategory()[0]);
 				//System.out.println(sc.getAttribute() + sc.getSequence());
 				//System.out.println(dealerIDS);
@@ -340,7 +343,7 @@ public class CustomerScreen extends JFrame {
 
 	} 
 	
-	class CarTableModel implements TableModel {
+	class CarTableModel extends AbstractTableModel {
 		private List<Car> cars;
 		private List<Object[]> carList;
 		private String[] columnNames = {"Category", "Year", "Brand", 
@@ -403,7 +406,7 @@ public class CustomerScreen extends JFrame {
 
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
+			fireTableCellUpdated(rowIndex, columnIndex);
 
 		}
 
