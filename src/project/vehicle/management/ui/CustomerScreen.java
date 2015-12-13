@@ -75,7 +75,7 @@ public class CustomerScreen extends JFrame {
 		initchoosePane(carManager);
 
 		setTitle("CustomerScreen ——>Dealer: " + ((CarManagerImpl) carManager).getDealerID());
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocation(100, 0);
 		setSize(Toolkit.getDefaultToolkit().getScreenSize().width - 200,
 				Toolkit.getDefaultToolkit().getScreenSize().height);
