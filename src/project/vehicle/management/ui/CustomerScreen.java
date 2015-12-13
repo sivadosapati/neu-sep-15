@@ -232,6 +232,7 @@ public class CustomerScreen extends JFrame {
 		comboBox_2.setSelectedItem(null);
 		trimComboPanel.add(comboBox_2);
 		choosecondiPanel.add(trimComboPanel);
+		
 
 
 		JPanel yearComboPanel=new JPanel();
@@ -279,6 +280,16 @@ public class CustomerScreen extends JFrame {
 				category[2]=(!category[2]);
 			}
 			sf.setCategory(category);
+			CarManagerImpl test;
+			try {
+				test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID());
+				List<Car> carAfterSearch=test.search(sf);
+				table.setModel(new CarTableModel(carAfterSearch));
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} //dealerID
+			table.updateUI();
 		}
 
 	}
