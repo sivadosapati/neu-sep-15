@@ -309,14 +309,14 @@ public class CustomerScreen extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			JComboBox sortComboBox = (JComboBox) ae.getSource();
-			boolean highToLow = true;
+			boolean highToLow = false;
 			String selectedSort = (String) sortComboBox.getSelectedItem();
 			int i = selectedSort.indexOf(" ");
 			String sortKeyword = selectedSort.substring(0, i);
 			if(selectedSort.contains("High to Low")){
-				highToLow = true;
-			}else{
 				highToLow = false;
+			}else{
+				highToLow = true;
 			}
 			sc.setAttribute(sortKeyword);
 			sc.setSequence(highToLow);
