@@ -273,7 +273,7 @@ public class DearlerMainScreen extends JFrame {
 	}*/
 	
 	public void display() {
-		setSize(1200, 730);
+		setSize(1200, 730); 
 		setVisible(true);
 	}
 	
