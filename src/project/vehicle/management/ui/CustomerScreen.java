@@ -307,7 +307,8 @@ public class CustomerScreen extends JFrame {
 	}
 
 	class SortSelection implements ActionListener{
-
+		
+		
 		@Override
 		public void actionPerformed(ActionEvent ae) {
 			JComboBox sortComboBox = (JComboBox) ae.getSource();
