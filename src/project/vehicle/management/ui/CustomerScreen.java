@@ -3,6 +3,7 @@ package project.vehicle.management.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -42,6 +44,7 @@ public class CustomerScreen extends JFrame {
 	private JTextField searchTextField;
 	private JLabel searchLabel;
 	private JLabel sortLabel;
+	private JLabel head;
 	private JComboBox sortComboBox,comboBox,comboBox_1,comboBox_2,comboBox_3,comboBox_4;
 	private JCheckBox chckbxNew,chckbxUsed,chckbxCertified;
 	private boolean[] category={false,false,false};
@@ -92,17 +95,23 @@ public class CustomerScreen extends JFrame {
 		sortLabel = new JLabel("Sort By:");
 		String[] sortStrings = { " ", "Price (Low to High)", "Price (High to Low)", "Year (Low to High)", "Year (High to Low)"};
 		sortComboBox = new JComboBox(sortStrings);
+		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
 		// add
 		BorderLayout bl = new BorderLayout();
 		Container con = super.getContentPane();
 		con.setLayout(bl);
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		JPanel searchAndSortPanel = new JPanel();
+		searchAndSortPanel.add(head);
 		searchAndSortPanel.add(searchLabel);
 		searchAndSortPanel.add(searchTextField);
 		searchAndSortPanel.add(searchButton);
 		searchAndSortPanel.add(sortLabel);
 		searchAndSortPanel.add(sortComboBox);
-		con.add("North", searchAndSortPanel);
+		mainPanel.add(head);
+		mainPanel.add(searchAndSortPanel);
+		con.add("North", mainPanel);
 	}
 	
 	private void addListeners() {
