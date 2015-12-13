@@ -3,7 +3,7 @@ package project.vehicle.management.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,12 +103,15 @@ public class CustomerScreen extends JFrame {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		JPanel searchAndSortPanel = new JPanel();
+		searchAndSortPanel.setLayout(new FlowLayout());
 		searchAndSortPanel.add(searchLabel);
 		searchAndSortPanel.add(searchTextField);
 		searchAndSortPanel.add(searchButton);
 		searchAndSortPanel.add(sortLabel);
 		searchAndSortPanel.add(sortComboBox);
-		mainPanel.add(header);
+		JPanel headerPanel = new JPanel();
+		headerPanel.add(header);
+		mainPanel.add(headerPanel);
 		mainPanel.add(searchAndSortPanel);
 		con.add("North", mainPanel);
 	}
