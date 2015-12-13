@@ -197,7 +197,7 @@ public class CustomerScreen extends JFrame {
 		choosecondiPanel.add(checkboxPanel);
 
 		JPanel brandComboPanel=new JPanel();
-		JLabel lblBrand = new JLabel("brand");
+		JLabel lblBrand = new JLabel("Make");
 		brandComboPanel.add(lblBrand);
 
 		
@@ -215,7 +215,7 @@ public class CustomerScreen extends JFrame {
 
 		JPanel modelComboPanel=new JPanel();
 		//modelComboPanel.setLayout(new FlowLayout());
-		JLabel lblModel = new JLabel("model");
+		JLabel lblModel = new JLabel("Model");
 		modelComboPanel.add(lblModel);
 
 
@@ -225,7 +225,7 @@ public class CustomerScreen extends JFrame {
 		choosecondiPanel.add(modelComboPanel);
 
 		JPanel trimComboPanel=new JPanel();
-		JLabel lblTrim = new JLabel("trim");
+		JLabel lblTrim = new JLabel("Trim");
 		trimComboPanel.add(lblTrim);
 
 		comboBox_2 = new JComboBox(list.get(2).toArray());
@@ -235,7 +235,7 @@ public class CustomerScreen extends JFrame {
 
 
 		JPanel yearComboPanel=new JPanel();
-		JLabel lblYear = new JLabel("year");
+		JLabel lblYear = new JLabel("Year");
 		yearComboPanel.add(lblYear);
 
 		String yearStr[]={"<2000","2000-2005","2006-2010","2011-2015"};
@@ -245,7 +245,7 @@ public class CustomerScreen extends JFrame {
 		choosecondiPanel.add(yearComboPanel);
 
 		JPanel prComboPanel=new JPanel();
-		JLabel lblPR = new JLabel("price");
+		JLabel lblPR = new JLabel("Price");
 		prComboPanel.add(lblPR);
 
 		String priceStr[]={"<10000","10000-15000","15000-20000","20000-25000","25000-30000","30000-50000",">50000"};
