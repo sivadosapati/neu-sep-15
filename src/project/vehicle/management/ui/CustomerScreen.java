@@ -80,7 +80,7 @@ public class CustomerScreen extends JFrame {
 		setTitle("CustomerScreen ——>Dealer: " + ((CarManagerImpl) carManager).getDealerID());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setLocation(100, 0);
-		setSize(Toolkit.getDefaultToolkit().getScreenSize().width,
+		setSize(Toolkit.getDefaultToolkit().getScreenSize().width - 200,
 				Toolkit.getDefaultToolkit().getScreenSize().height);
 		setVisible(true);
 		addListeners();
@@ -208,14 +208,17 @@ public class CustomerScreen extends JFrame {
 		choosecondiPanel.add(checkboxPanel);
 
 		JPanel brandComboPanel=new JPanel();
+		brandComboPanel.setLayout(new BoxLayout(brandComboPanel, BoxLayout.Y_AXIS));
 		JLabel lblBrand = new JLabel("Make");
 		brandComboPanel.add(lblBrand);
+		//lblBrand.setLocation(30, 100);
 
 		list.get(0).add(0, "");
 		list.get(1).add(0, "");
 		list.get(2).add(0, "");
 		comboBox = new JComboBox(list.get(1).toArray());
 		comboBox.setSelectedItem(null);
+		//comboBox.setLocation(30, 600);
 		brandComboPanel.add(comboBox);
 
 		selectAction sa=new selectAction();
@@ -226,7 +229,7 @@ public class CustomerScreen extends JFrame {
 
 
 		JPanel modelComboPanel=new JPanel();
-		//modelComboPanel.setLayout(new FlowLayout());
+		modelComboPanel.setLayout(new BoxLayout(modelComboPanel, BoxLayout.Y_AXIS));
 		JLabel lblModel = new JLabel("Model");
 		modelComboPanel.add(lblModel);
 
@@ -237,6 +240,7 @@ public class CustomerScreen extends JFrame {
 		choosecondiPanel.add(modelComboPanel);
 
 		JPanel trimComboPanel=new JPanel();
+		trimComboPanel.setLayout(new BoxLayout(trimComboPanel, BoxLayout.Y_AXIS));
 		JLabel lblTrim = new JLabel("Trim");
 		trimComboPanel.add(lblTrim);
 
@@ -248,6 +252,7 @@ public class CustomerScreen extends JFrame {
 
 
 		JPanel yearComboPanel=new JPanel();
+		yearComboPanel.setLayout(new BoxLayout(yearComboPanel, BoxLayout.Y_AXIS));
 		JLabel lblYear = new JLabel("Year");
 		yearComboPanel.add(lblYear);
 
@@ -258,6 +263,7 @@ public class CustomerScreen extends JFrame {
 		choosecondiPanel.add(yearComboPanel);
 
 		JPanel prComboPanel=new JPanel();
+		prComboPanel.setLayout(new BoxLayout(prComboPanel, BoxLayout.Y_AXIS));
 		JLabel lblPR = new JLabel("Price");
 		prComboPanel.add(lblPR);
 
@@ -474,5 +480,6 @@ public class CustomerScreen extends JFrame {
 		
 	}
 }
+
 
 
