@@ -29,20 +29,6 @@ public class SpecificCarScreen extends JFrame {
 	private Car car;
 	private String[] dealerInfo;
 
-	/*
-	 * hard code
-	 */
-	public static void main(String[] args) throws IOException {
-		Integer num=2016;
-		Car c = new Car("2656440533","gmps-priority", project.vehicle.management.data.Category.NEW, num, "Chevrolet",
-	            "Equinox", "LT", "SUV", 27029.0f);
-		
-		new SpecificCarScreen(c);
-	}
-	/*
-	 * hard code
-	 */
-	
 	
 	public SpecificCarScreen(Car car) throws IOException {
 		this.car=car;
@@ -58,13 +44,18 @@ public class SpecificCarScreen extends JFrame {
 		setVisible(true);
 		
 	}
+	
+	private void close() {
+		this.dispose();
+		
+	}
 
 	private void addListeners() {
 		search.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				close();
 			}
 			
 		});
