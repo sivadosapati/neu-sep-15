@@ -272,11 +272,11 @@ public class CustomerScreen extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JCheckBox cb=(JCheckBox)e.getSource();
 			if(cb==chckbxNew){
-				category[0]=true;
+				category[0]=(!category[0]);
 			}else if(cb==chckbxUsed){
-				category[1]=true;
+				category[1]=(!category[1]);
 			}else if(cb==chckbxCertified){
-				category[2]=true;
+				category[2]=(!category[2]);
 			}
 			sf.setCategory(category);
 		}
