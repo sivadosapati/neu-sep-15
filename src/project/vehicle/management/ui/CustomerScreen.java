@@ -95,7 +95,7 @@ public class CustomerScreen extends JFrame {
 		sortLabel = new JLabel("Sort By:");
 		String[] sortStrings = { " ", "Price (Low to High)", "Price (High to Low)", "Year (Low to High)", "Year (High to Low)"};
 		sortComboBox = new JComboBox(sortStrings);
-		header = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
+		header = new JLabel(new ImageIcon("pictures/CustomerScreen.jpg"));
 		// add
 		BorderLayout bl = new BorderLayout();
 		Container con = super.getContentPane();
