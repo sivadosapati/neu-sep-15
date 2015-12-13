@@ -3,6 +3,7 @@ package project.vehicle.management.ui;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -19,6 +20,7 @@ import project.vehicle.management.data.Car;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -38,48 +40,44 @@ public class SpecificCarScreen extends JFrame {
 	public SpecificCarScreen(Car car) throws IOException {
 		this.car=car;
 		dealerInfo = car.getDealerInfo();
+		setTitle("Car Detail");
 		create();
 		add();
+		addListeners();
 		display();
 		
 	}
-
-	private void display() {
-		setSize(900, 600);
-		setVisible(true);
+	
+	private void create() {
+		carPrice = new JLabel("Car price:"+"$"+car.getPrice());
+		category= new JLabel("Category:"+car.getCategory());
+		type= new JLabel("Body style:"+car.getType());
+		make= new JLabel("Make:"+car.getMake());
+		model= new JLabel("Model:"+car.getModel());
+		year= new JLabel("Year:"+car.getYear());
+		trim= new JLabel("Trim:"+car.getTrim());
 		
 	}
 	
-	private void close() {
-		this.dispose();
-		
-	}
-
-	private void addListeners() {
-		search.addActionListener(new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				close();
-			}
-			
-		});
-	}
 	private void add(){
 		addTopPanel();
 		addPhotoPanel();
 		addCarInfoPanel(); 
 		addDetailPanel();
-		addListeners();
 	}
-
+	
 	private void addTopPanel() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(200, 200, 900, 600);
+		int w=Toolkit.getDefaultToolkit().getScreenSize().width;
+		int h=Toolkit.getDefaultToolkit().getScreenSize().height;
+		setBounds(w, h,w, h);
+
+		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
 	
 		
 		search = new JButton("Back to Search");
@@ -97,18 +95,11 @@ public class SpecificCarScreen extends JFrame {
 	 */
 	private void addPhotoPanel() {
 		// set photo
-		picture = new JLabel();
-        int h = this.getHeight();
-        int w = this.getWidth();
-        picture.setText("<html><body><image width='"
-                        + w
-                        + "' height='"
-                        + h
-                        + "' src="
-                        + "http://i01.i.aliimg.com/wsphoto/v0/798703829/Toy-car-automobile-race-2-alloy-car-models-large-die-model.jpg"
-                        + "'></img></body></html>");
-		picture.setBounds(4, 82, 422, 250);
-		contentPane.add(picture);
+		picture = new JLabel(new ImageIcon("pictures/carDetail.png"));
+		JPanel panelpicture = new JPanel();
+		panelpicture.setBounds(16, 91, 640, 320);
+		panelpicture.add(picture);
+		contentPane.add(panelpicture);
 	}
 	/*
 	 * hard code
@@ -116,7 +107,7 @@ public class SpecificCarScreen extends JFrame {
 	
 	private void addCarInfoPanel() {
 		JPanel center = new JPanel();
-		center.setBounds(480, 82, 316, 234);
+		center.setBounds(775, 104, 255, 247);
 		contentPane.add(center);
 		center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 		center.add(Box.createVerticalStrut(30));
@@ -129,13 +120,14 @@ public class SpecificCarScreen extends JFrame {
 	
 	private void addDetailPanel() {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(4, 356, 896, 188);
+		tabbedPane.setBounds(16, 420, 1241, 281);
 		contentPane.add(tabbedPane);
 		setFeatures(tabbedPane);
 		setDealerInfo(tabbedPane);
 		setMorePhotos(tabbedPane);
 	}
 
+	//first part of detail panel
 	private void setFeatures(JTabbedPane tabbedPane) {
 		JPanel features = new JPanel();
 		tabbedPane.addTab("Features", null, features, null);
@@ -148,6 +140,7 @@ public class SpecificCarScreen extends JFrame {
 		
 	}
 	
+	//second part of detail panel
 	private void setDealerInfo(JTabbedPane tabbedPane) {
 		JPanel contact = new JPanel();
 		tabbedPane.addTab("Dealers ", null, contact, null);
@@ -168,24 +161,14 @@ public class SpecificCarScreen extends JFrame {
 		
 	}
 	
+	//third part
 	private void setMorePhotos(JTabbedPane tabbedPane) {
 		/*
 		 * hard code
 		 */
 		JPanel photo = new JPanel();
 		//more photos
-		picture1 = new JLabel();
-        // set photo
-        int h1 = this.getHeight();
-        int w1 = this.getWidth();
-        picture1.setText("<html><body><image width='"
-                        + w1
-                        + "' height='"
-                        + h1
-                        + "' src="
-                        + "https://i.ytimg.com/vi/aBDHBJ-yQWc/maxresdefault.jpg"
-                        + "'></img></body></html>");
-		picture1.setBounds(4, 4, 4, 4);
+		picture1 = new JLabel(new ImageIcon("pictures/detail.jpg"));
 		photo.add(picture1);
 		JScrollPane scrollphoto = new JScrollPane(photo);
 		tabbedPane.addTab("More Photos", null, scrollphoto, null);
@@ -193,15 +176,28 @@ public class SpecificCarScreen extends JFrame {
 		 * hard code
 		 */
 	}
+	
+	
+	//add button function
+	private void close() {
+		this.dispose();
+		
+	}
 
-	private void create() {
-		carPrice = new JLabel("Car price:"+car.getPrice()+"$");
-		category= new JLabel("Category:"+car.getCategory());
-		type= new JLabel("Body style:"+car.getType());
-		make= new JLabel("Make:"+car.getMake());
-		model= new JLabel("Model:"+car.getModel());
-		year= new JLabel("Year:"+car.getYear());
-		trim= new JLabel("Trim:"+car.getTrim());
+	private void addListeners() {
+		search.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				close();
+			}
+		});
+	}
+	
+	//display
+	private void display() {
+		setSize(Toolkit.getDefaultToolkit().getScreenSize().width,
+				Toolkit.getDefaultToolkit().getScreenSize().height);
+		setVisible(true);
 		
 	}
 }
