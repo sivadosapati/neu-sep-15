@@ -1,12 +1,17 @@
 package project.vehicle.management.ui;
 
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
 
@@ -130,7 +135,7 @@ public class SpecificCarScreen extends JFrame {
 		setDealerInfo(tabbedPane);
 		setMorePhotos(tabbedPane);
 	}
-	
+
 	private void setFeatures(JTabbedPane tabbedPane) {
 		JPanel features = new JPanel();
 		tabbedPane.addTab("Features", null, features, null);
@@ -142,7 +147,7 @@ public class SpecificCarScreen extends JFrame {
 		features.add(trim);
 		
 	}
-
+	
 	private void setDealerInfo(JTabbedPane tabbedPane) {
 		JPanel contact = new JPanel();
 		tabbedPane.addTab("Dealers ", null, contact, null);
@@ -158,7 +163,7 @@ public class SpecificCarScreen extends JFrame {
 		contact.add(dealerid);
 		JLabel country = new JLabel("Country:"+dealerInfo[1]);
 		contact.add(country);
-		JLabel web = new JLabel("Webside:"+dealerInfo[2]);
+		LinkLabel web = new LinkLabel(dealerInfo[2],dealerInfo[2]);
 		contact.add(web);
 		
 	}
@@ -182,7 +187,8 @@ public class SpecificCarScreen extends JFrame {
                         + "'></img></body></html>");
 		picture1.setBounds(4, 4, 4, 4);
 		photo.add(picture1);
-		tabbedPane.addTab("More Photos", null, photo, null);
+		JScrollPane scrollphoto = new JScrollPane(photo);
+		tabbedPane.addTab("More Photos", null, scrollphoto, null);
 		/*
 		 * hard code
 		 */
@@ -197,5 +203,47 @@ public class SpecificCarScreen extends JFrame {
 		year= new JLabel("Year:"+car.getYear());
 		trim= new JLabel("Trim:"+car.getTrim());
 		
+	}
+}
+class LinkLabel extends JLabel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
+	private String text, url;
+	private boolean isSupported;
+	public LinkLabel(String text, String url) {
+	     this.text = text;
+	     this.url = "http://"+url;
+	     try {
+	      this.isSupported = Desktop.isDesktopSupported()
+	        && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE);
+	     } catch (Exception e) {
+	      this.isSupported = false;
+	     }
+	     setText(false);
+	     addMouseListener(new MouseAdapter() {
+	      public void mouseEntered(MouseEvent e) {
+	       setText(isSupported);
+	       if (isSupported)
+	        setCursor(new Cursor(Cursor.HAND_CURSOR));
+	      }
+	      public void mouseExited(MouseEvent e) {
+	       setText(false);
+	      }
+	      public void mouseClicked(MouseEvent e) {
+	       try {
+	        Desktop.getDesktop().browse(
+	          new java.net.URI(LinkLabel.this.url));
+	       } catch (Exception ex) {
+	       }
+	      }
+	     });
+	}
+	private void setText(boolean b) {
+	     if (!b)
+	      setText("<html><font color=blue><u>" + text);
+	     else
+	      setText("<html><font color=red><u>" + text);
 	}
 }
