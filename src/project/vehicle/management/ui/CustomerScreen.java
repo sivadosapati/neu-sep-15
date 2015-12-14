@@ -134,7 +134,7 @@ public class CustomerScreen extends JFrame {
 					List<Car> carAfterSearch=test.search(sf);
 					table.setModel(new CarTableModel(carAfterSearch));
 					table.updateUI();
-					System.out.println(carAfterSearch);
+					//System.out.println(carAfterSearch);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -167,6 +167,7 @@ public class CustomerScreen extends JFrame {
 				List<Car> carAfterSearchSort = carManager.sort(sf, sc);
 				table.setModel(new CarTableModel(carAfterSearchSort));
 				table.updateUI();
+				//System.out.println(carAfterSearchSort);
 				//System.out.println(sf.getKeywords() + sf.getMake() + sf.getModel() + sf.getTrim() + sf.getCategory()[0]);
 				//System.out.println(sc.getAttribute() + sc.getSequence());
 				//System.out.println(dealerIDS);
