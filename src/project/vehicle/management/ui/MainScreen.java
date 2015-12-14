@@ -120,7 +120,7 @@ public class MainScreen extends JFrame {
 
           dealerComboBox.addItemListener(e -> {
         	  
-        	  DefaultComboBoxModel mo=(DefaultComboBoxModel)dealerComboBox.getModel();
+        	  DefaultComboBoxModel<String> mo=(DefaultComboBoxModel<String>)dealerComboBox.getModel();
               
         	  
         	  if(mo.getElementAt(0).equals("Please select a dealer !")){
