@@ -37,6 +37,7 @@ public class DearlerMainScreen extends JFrame {
 	private JTable resultTable;
 	private JScrollPane resultScroll;
 	private JLabel head = null;
+	MyTableModel tableM = null;
 	private BufferedImage buttonIcon = null;
 	private BufferedImage buttonIcon2 = null;
 	private BufferedImage buttonIcon3 = null;
@@ -86,7 +87,8 @@ public class DearlerMainScreen extends JFrame {
 		updateButton.setMargin(new Insets(0, 0, 0, 0));
 		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
 		
-		resultTable = new JTable(new MyTableModel(items, dealer.listCars()));
+		tableM = new MyTableModel(items, dealer.listCars());
+		resultTable = new JTable(tableM);
 		resultTable.setRowHeight(20);
 		resultScroll = new JScrollPane(resultTable);
 		
@@ -138,8 +140,10 @@ public class DearlerMainScreen extends JFrame {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == searchButton)
-				;
+			if(e.getSource() == searchButton){
+				for(int i = 0; i<operatedList.size(); i++)
+            		System.out.println(operatedList.get(i).getID());
+			}
 			else if(e.getSource() == addButton)
 				;//new DeaerAddFunc(dealer);
 			else if(e.getSource() == updateButton){
@@ -151,8 +155,9 @@ public class DearlerMainScreen extends JFrame {
 				}*/
 			}
 			else if(e.getSource() == deleteButton){
-//				new DealerDelFunc(operatedList);
-					resultTable.updateUI();
+				new DealerDelFunc(dealer, operatedList);
+				tableM.fireTableRowsDeleted(0, tableM.getRowCount()-1);
+				resultTable.updateUI();
 			}
 		}
 		
@@ -229,7 +234,13 @@ public class DearlerMainScreen extends JFrame {
         	if(col == 0){
         		boolBox[row] = (boolean) value;
             	fireTableCellUpdated(row, col);
-            	operatedList.add(cars.get(row));
+            	System.out.println(value);
+            	if(boolBox[row] == true){
+            		operatedList.add(cars.get(row));
+            	}
+            	else{
+            		operatedList.remove(cars.get(row));
+            	}
             }
         }
 	}
@@ -273,13 +284,13 @@ public class DearlerMainScreen extends JFrame {
 	}*/
 	
 	public void display() {
-		setSize(1200, 730); 
+		setSize(1200, 730);
 		setVisible(true);
 	}
 	
 	public static void main(String[] args) {
 		try {
-			new DearlerMainScreen("gmps-camino");
+			new DearlerMainScreen("gmps-chaparral2");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

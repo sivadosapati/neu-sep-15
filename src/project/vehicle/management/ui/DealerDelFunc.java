@@ -81,6 +81,7 @@ public class DealerDelFunc extends JFrame {
 			if (e.getSource() == yes)
 				try {
 					List<Car> rett = delete(ret);
+					dispose();
 					// String[] items =
 					// {"selection","carId","dealerId","category","year","make","model","trim","type","price"};
 					// table.setModel(new MyTableModel(items, rett));
