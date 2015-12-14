@@ -43,7 +43,7 @@ public class DearlerMainScreen extends JFrame {
 	private BufferedImage buttonIcon3 = null;
 	private BufferedImage buttonIcon4 = null;
 	
-	private List<Car> operatedList = null;
+	private List<Integer> operateIndex = null;
 	private String[] items;
 	
 	private CarManager dealer;
@@ -67,7 +67,7 @@ public class DearlerMainScreen extends JFrame {
 	public void create() {
 		String[] firstline = {"selection","carId","dealerId","category","year","make","model","trim","type","price"};
 		items = firstline;
-		operatedList = new ArrayList<Car>();
+		operateIndex = new ArrayList<>();
 		
 		try {
 			buttonIcon = ImageIO.read(new File("pictures/search.png"));
@@ -141,8 +141,8 @@ public class DearlerMainScreen extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource() == searchButton){
-				for(int i = 0; i<operatedList.size(); i++)
-            		System.out.println(operatedList.get(i).getID());
+				for(int i = 0; i<operateIndex.size(); i++)
+            		System.out.println(tableM.getCars().get(operateIndex.get(i)).getID());
 			}
 			else if(e.getSource() == addButton)
 				;//new DeaerAddFunc(dealer);
@@ -155,9 +155,7 @@ public class DearlerMainScreen extends JFrame {
 				}*/
 			}
 			else if(e.getSource() == deleteButton){
-				new DealerDelFunc(dealer, operatedList);
-				tableM.fireTableRowsDeleted(0, tableM.getRowCount()-1);
-				resultTable.updateUI();
+				DealerDelFunc deleteScreen = new DealerDelFunc(dealer, operateIndex, tableM);
 			}
 		}
 		
@@ -171,9 +169,14 @@ public class DearlerMainScreen extends JFrame {
 		public MyTableModel(String[] items, List<Car> cars) {
 			super();
 			this.Items = items;
-			this.cars = cars;
+			this.setCars(cars);
 			this.boolBox = new boolean[cars.size()];
 			
+		}
+		
+		public void deleteOneRow(int row){
+			getCars().remove(row);
+			boolBox[row] = false;
 		}
 
 		public int getColumnCount() {
@@ -181,7 +184,7 @@ public class DearlerMainScreen extends JFrame {
         }
 
         public int getRowCount() {
-            return cars.size();
+            return getCars().size();
         }
 
         public String getColumnName(int col) {
@@ -189,7 +192,7 @@ public class DearlerMainScreen extends JFrame {
         }
 
         public Object getValueAt(int row, int col) {
-            Car oneCar = cars.get(row);
+            Car oneCar = getCars().get(row);
         	switch(col){
         	case 0:
         		return new Boolean(boolBox[row]);
@@ -236,13 +239,21 @@ public class DearlerMainScreen extends JFrame {
             	fireTableCellUpdated(row, col);
             	System.out.println(value);
             	if(boolBox[row] == true){
-            		operatedList.add(cars.get(row));
+            		operateIndex.add(row);
             	}
             	else{
-            		operatedList.remove(cars.get(row));
+            		operateIndex.remove((Integer)row);
             	}
             }
         }
+
+		public List<Car> getCars() {
+			return cars;
+		}
+
+		public void setCars(List<Car> cars) {
+			this.cars = cars;
+		}
 	}
 	
 	/*class DataFetcher {

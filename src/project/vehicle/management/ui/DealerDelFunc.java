@@ -5,6 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -14,8 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.access.CarManager;
+import project.vehicle.management.ui.DearlerMainScreen.MyTableModel;
 
 @SuppressWarnings("serial")
 public class DealerDelFunc extends JFrame {
@@ -28,11 +32,12 @@ public class DealerDelFunc extends JFrame {
 	private JTable table;
 	private Container con;
 	String dealerid;
-	public List<Car> ret;
+	public List<Integer> ret;
 	public CarManager dealer;
+	private MyTableModel tableM;
 
 //	public DealerDelFunc(CarManager dealerRes, List<Car> res, JTable table) {
-		public DealerDelFunc(CarManager dealerRes, List<Car> res) {
+	public DealerDelFunc(CarManager dealerRes, List<Integer> res, MyTableModel tableM) {
 		setTitle("Delete");
 		create();
 		add();
@@ -41,17 +46,20 @@ public class DealerDelFunc extends JFrame {
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		this.tableM = tableM;
 		this.ret = res;
 		this.dealer = dealerRes;
 		this.table = table;
+		
 	}
 
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		yes.addActionListener(bc);
 		no.addActionListener(bc);
+		
 	}
-
+	
 	private void create() {
 		yes = new JButton("yes");
 		no = new JButton("no");
@@ -60,7 +68,7 @@ public class DealerDelFunc extends JFrame {
 		temp = new JPanel();
 		con = super.getContentPane();
 		button = new JPanel(new CardLayout());
-
+		
 	}
 
 	private void add() {
@@ -80,11 +88,12 @@ public class DealerDelFunc extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == yes)
 				try {
-					List<Car> rett = delete(ret);
+					delete(ret);
+					for(int i = 0; i<ret.size(); i++)
+						tableM.deleteOneRow(ret.get(i));
+					tableM.fireTableRowsDeleted(0, tableM.getRowCount()-1);
 					dispose();
-					// String[] items =
-					// {"selection","carId","dealerId","category","year","make","model","trim","type","price"};
-					// table.setModel(new MyTableModel(items, rett));
+			
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -94,12 +103,10 @@ public class DealerDelFunc extends JFrame {
 		}
 	}
 
-	private List<Car> delete(List<Car> ret) throws IOException {
+	private void delete(List<Integer> ret) throws IOException {
 
-		for (Car car : ret)
-			dealer.deleteCar(car.getID());
-		return dealer.listCars();
-
+		for (Integer index: ret)
+			dealer.deleteCar(tableM.getCars().get(index).getID());
 	}
 
 	public static void main(String[] args) {
