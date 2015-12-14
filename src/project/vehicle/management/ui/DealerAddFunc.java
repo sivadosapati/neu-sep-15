@@ -29,7 +29,7 @@ public class DealerAddFunc extends JFrame{
 	DealerAddFunc(String str)
 	{
 		super(str);
-		setSize(700,400);
+		setSize(1000,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(g);
 		//use functions
@@ -175,11 +175,11 @@ public class DealerAddFunc extends JFrame{
 		Type2=new JRadioButton("TRUCK");
 		add(g,c,Type2,2,8,1,1);
 		Type3=new JRadioButton("WAGON");
-		add(g,c,Type3,3,8,1,1);
+		add(g,c,Type3,1,10,1,1);
 		Type4=new JRadioButton("VAN");
-		add(g,c,Type4,4,8,1,1);
+		add(g,c,Type4,1,9,1,1);
 		Type5=new JRadioButton("SUV");
-		add(g,c,Type5,5,8,1,1);
+		add(g,c,Type5,2,9,1,1);
 
 		group.add(Type1);
 		group.add(Type2);
@@ -188,20 +188,21 @@ public class DealerAddFunc extends JFrame{
 		group.add(Type5);
 		//Price
 		Price=new JLabel("Price:");
-		add(g,c,Price,0,10,1,1);
+		add(g,c,Price,0,11,1,1);
 		//Input Price
 		textPrice=new JTextField(10);
-		add(g,c,textPrice,1,10,2,1);
+		add(g,c,textPrice,1,11,2,1);
 		
 		
 		//Submit button
 		submit=new JButton("Submit");
-		add(g,c,submit,1,11,1,1);
+		add(g,c,submit,1,13,1,1);
 		//Cancel button
 		cancel = new JButton("Cancel");
-		add(g, c, cancel, 2, 11, 1, 1);
+		add(g, c, cancel, 2, 13, 1, 1);
 		
-		
+		JLabel head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
+		add(g, c, head, 0, 0, 0, 0);
 	}
 	public void actionPerformed(ActionEvent e){
 		
