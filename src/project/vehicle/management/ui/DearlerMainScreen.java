@@ -254,45 +254,14 @@ public class DearlerMainScreen extends JFrame {
 		public void setCars(List<Car> cars) {
 			this.cars = cars;
 		}
-	}
-	
-	/*class DataFetcher {
-		private File file;
-		private FileInputStream inputStr;
-		private InputStreamReader inputReader; 
-		private BufferedReader readBuffer;
-		private String result;//Store one line read from file
-		private ArrayList<String[]> storeBox = new ArrayList<>();//String list to store the file string
 		
-		public Object[][] readTheFile(String filePath, int collength) throws IOException {
-			if(filePath == null)
-				throw new FileNotFoundException();
-
-			file = new File(filePath);
-			inputStr = new FileInputStream(file);
-			inputReader = new InputStreamReader(inputStr);
-			readBuffer = new BufferedReader(inputReader);
-			String[] res = new String[collength-1];
-			readBuffer.readLine();
-			while((result = readBuffer.readLine()) != null){
-				if(!result.isEmpty()){
-					res = result.split("~");
-					storeBox.add(res);
-				}
-			}
-			System.out.println(collength+" "+storeBox.size()+" "+res.length+" "+storeBox.get(1).length);
-			Object[][] ret = new Object[storeBox.size()][collength+1];
-			for(int i = 0; i<storeBox.size(); i++){
-				ret[i][0] = new Boolean(false);
-				res = storeBox.get(i);
-				for(int l = 0; l<collength-1; l++)
-					ret[i][l+1] = res[l];
-			}
-					
-			return ret;
+		public void deleteTable(List<Integer> ret) {
+			for(int i = 0; i<ret.size(); i++)
+				tableM.deleteOneRow(ret.get(i));
+			tableM.fireTableRowsDeleted(0, tableM.getRowCount()-1);
 		}
-		
-	}*/
+
+	}
 	
 	public void display() {
 		setSize(1200, 730);

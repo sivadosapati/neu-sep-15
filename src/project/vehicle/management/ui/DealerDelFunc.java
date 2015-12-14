@@ -5,7 +5,7 @@ import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -13,11 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 
-import org.omg.PortableServer.RequestProcessingPolicyValue;
-
-import project.vehicle.management.data.Car;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.ui.DearlerMainScreen.MyTableModel;
 
@@ -29,7 +25,6 @@ public class DealerDelFunc extends JFrame {
 	private JPanel temp;
 	private JPanel button;
 	private JPanel label;
-	private JTable table;
 	private Container con;
 	String dealerid;
 	public List<Integer> ret;
@@ -49,8 +44,7 @@ public class DealerDelFunc extends JFrame {
 		this.tableM = tableM;
 		this.ret = res;
 		this.dealer = dealerRes;
-		this.table = table;
-		
+
 	}
 
 	private void addListeners() {
@@ -89,13 +83,8 @@ public class DealerDelFunc extends JFrame {
 			if (e.getSource() == yes)
 				try {
 					delete(ret);
-					for(int i = 0; i<ret.size(); i++)
-						tableM.deleteOneRow(ret.get(i));
-					tableM.fireTableRowsDeleted(0, tableM.getRowCount()-1);
 					dispose();
-			
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			else
@@ -104,11 +93,14 @@ public class DealerDelFunc extends JFrame {
 	}
 
 	private void delete(List<Integer> ret) throws IOException {
-
+		
 		for (Integer index: ret)
 			dealer.deleteCar(tableM.getCars().get(index).getID());
+		
+		tableM.deleteTable(ret);
 	}
 
+	
 	public static void main(String[] args) {
 
 	}
