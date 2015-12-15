@@ -3,7 +3,6 @@ package project.vehicle.management.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,9 +30,8 @@ public class DealerUpdate extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static final int DEFAULT_WIDTH = 1200;
-	public static final int DEFAULT_HEIGHT = 800;
-	static Font font = new Font("Times New Roman", Font.BOLD, 18);
+	public static final int DEFAULT_WIDTH = 800;
+	public static final int DEFAULT_HEIGHT = 500;
 	private JButton cancelButton;
 	private JButton submitButton;
 	private JPanel panel1;
@@ -72,8 +70,6 @@ public class DealerUpdate extends JFrame {
 	public void addButton() {
 		cancelButton = new JButton("CANCEL");
 		submitButton = new JButton("SUBMIT");
-		cancelButton.setFont(font);
-		submitButton.setFont(font);
 		panel2 = new JPanel();
 		FlowLayout out = new FlowLayout();
 		panel2.setLayout(out);
