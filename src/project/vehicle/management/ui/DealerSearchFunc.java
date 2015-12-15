@@ -49,18 +49,16 @@ public class DealerSearchFunc {
 	 */
 
 	public static void main(String[] args) {
-		// EventQueue.invokeLater(new Runnable() {
-		// public void run() {
-		// try {
-		// CarManager carManager = new
-		// CarManagerFactory().getCarManager("gmps-bresee");
-		// new DealerSearchFunc(carManager, null, null).frame.setVisible(true);
-		// // window.;
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// });
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					CarManager carManager = new CarManagerFactory().getCarManager("gmps-chaparral2");
+					new DealerSearchFunc(carManager, null).frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
@@ -131,7 +129,7 @@ public class DealerSearchFunc {
 		gbc_categoryCertified_1.gridy = 0;
 		frame.getContentPane().add(categoryCertified, gbc_categoryCertified_1);
 
-		JLabel lblMake = new JLabel("Brand");
+		JLabel lblMake = new JLabel("Make");
 		GridBagConstraints gbc_lblMake = new GridBagConstraints();
 		gbc_lblMake.anchor = GridBagConstraints.WEST;
 		gbc_lblMake.insets = new Insets(0, 50, 5, 5);
@@ -139,9 +137,10 @@ public class DealerSearchFunc {
 		gbc_lblMake.gridy = 1;
 		frame.getContentPane().add(lblMake, gbc_lblMake);
 
-		String brandStr[] = { "BMW", "Toyota", "Cameri" };
-		comboBox_brand = new JComboBox(brandStr);
+		comboBox_brand = new JComboBox(list.get(1).toArray());
+		comboBox_brand.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_4 = new GridBagConstraints();
+		gbc_comboBox_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_4.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_4.gridx = 1;
 		gbc_comboBox_4.gridy = 1;
@@ -156,6 +155,7 @@ public class DealerSearchFunc {
 		frame.getContentPane().add(lblModel, gbc_lblModel);
 
 		comboBox_model = new JComboBox(list.get(0).toArray());
+		comboBox_model.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_model = new GridBagConstraints();
 		gbc_comboBox_model.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_model.insets = new Insets(0, 0, 5, 5);
@@ -172,6 +172,7 @@ public class DealerSearchFunc {
 		frame.getContentPane().add(lblTrim, gbc_lblTrim);
 
 		comboBox_trim = new JComboBox(list.get(2).toArray());
+		comboBox_trim.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_trim = new GridBagConstraints();
 		gbc_comboBox_trim.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_trim.insets = new Insets(0, 0, 5, 5);
@@ -189,6 +190,7 @@ public class DealerSearchFunc {
 
 		String yearStr[] = { "<2000", "2000-2005", "2006-2010", "2011-2015" };
 		comboBox_year = new JComboBox(yearStr);
+		comboBox_year.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_year = new GridBagConstraints();
 		gbc_comboBox_year.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_year.insets = new Insets(0, 0, 5, 5);
@@ -207,6 +209,7 @@ public class DealerSearchFunc {
 		String priceStr[] = { "<10000", "10000-15000", "15000-20000", "20000-25000", "25000-30000", "30000-50000",
 				">50000" };
 		comboBox_price = new JComboBox(priceStr);
+		comboBox_price.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_price = new GridBagConstraints();
 		gbc_comboBox_price.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_price.insets = new Insets(0, 0, 5, 5);
@@ -269,7 +272,6 @@ public class DealerSearchFunc {
 		public void actionPerformed(ActionEvent e) {
 			if (categoryNew.isSelected())
 				category[0] = categoryNew.isSelected();
-
 			if (!categoryNew.isSelected())
 				category[0] = categoryNew.isSelected();
 
@@ -277,6 +279,7 @@ public class DealerSearchFunc {
 				category[1] = categoryUsed.isSelected();
 			if (!categoryUsed.isSelected())
 				category[1] = categoryUsed.isSelected();
+
 			if (categoryCertified.isSelected())
 				category[2] = categoryCertified.isSelected();
 			if (!categoryCertified.isSelected())
@@ -286,6 +289,7 @@ public class DealerSearchFunc {
 				sf.setKeywords(keyWords.getText());
 				sf.setCategory(category);
 				tableM.setCars(carManager.search(sf));
+
 				frame.dispose();
 			}
 
