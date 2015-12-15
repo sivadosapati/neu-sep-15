@@ -381,6 +381,14 @@ public class CustomerScreen extends JFrame {
 		private List<Object[]> carList;
 		private String[] columnNames = {"Category", "Year", "Brand", 
 				"Model", "Trim", "Price"};
+		
+		public List<Car> getCars() {
+			return cars;
+		}
+
+		public void setCars(List<Car> cars) {
+			this.cars = cars;
+		}
 
 		public CarTableModel(List<Car> cars) {
 			this.cars = cars;
@@ -460,10 +468,11 @@ public class CustomerScreen extends JFrame {
 		table = new JTable(new CarTableModel(cars));
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				List<Car> current_cars = ((CarTableModel) table.getModel()).getCars();
 				int r = table.getSelectedRow();
 				if (e.getClickCount() == 2) {
 					try {
-						new SpecificCarScreen(cars.get(r));
+						new SpecificCarScreen(current_cars.get(r));
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
