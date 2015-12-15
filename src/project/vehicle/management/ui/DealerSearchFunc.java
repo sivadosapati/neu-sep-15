@@ -16,11 +16,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Range;
 import project.vehicle.management.data.SearchFilter;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
 import project.vehicle.management.data.access.CarManagerImpl;
+import project.vehicle.management.ui.DearlerMainScreen.MyTableModel;
 
 public class DealerSearchFunc {
 
@@ -30,42 +32,51 @@ public class DealerSearchFunc {
 	private JCheckBox categoryCertified;
 	private JCheckBox categoryUsed;
 	private JComboBox comboBox, comboBox_model, comboBox_trim, comboBox_price, comboBox_year, comboBox_brand;
-	private CarManager carManager;
+	public CarManager carManager;
 	private JButton btnSearch;
 	private JButton Cancel;
 	private JTextField keyWords;
 	private SearchFilter sf = new SearchFilter();
 	private boolean category[] = { false, false, false };
-	private CarManagerImpl carSearch;
 	List<List<String>> list;
+	List<Car> carList;
+	public MyTableModel tableM;
+	public List<Integer> ret;
+	public CarManagerImpl cmi;
 
 	/**
 	 * Launch the application.
 	 */
 
 	public static void main(String[] args) {
-
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CarManager carManager = new CarManagerFactory().getCarManager("gmps-bresee");
-					DealerSearchFunc window = new DealerSearchFunc(carManager);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		// EventQueue.invokeLater(new Runnable() {
+		// public void run() {
+		// try {
+		// CarManager carManager = new
+		// CarManagerFactory().getCarManager("gmps-bresee");
+		// new DealerSearchFunc(carManager, null, null).frame.setVisible(true);
+		// // window.;
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// });
 	}
 
 	/**
 	 * Create the application.
 	 */
-	public DealerSearchFunc(CarManager carManager) {
+	public DealerSearchFunc(CarManager carManager, MyTableModel tableM) {
 		this.carManager = carManager;
+		this.tableM = tableM;
 		initialize();
 		addListeners();
+		create();
 
+	}
+
+	private void create() {
+		frame.setVisible(true);
 	}
 
 	/**
@@ -78,7 +89,7 @@ public class DealerSearchFunc {
 		frame.setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(DealerSearchFunc.class.getResource("/sun/print/resources/oneside.png")));
 		frame.setTitle("Search");
-		frame.setBounds(100, 100, 500, 350);
+		frame.setBounds(100, 100, 700, 350);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 60, 0, 0, 0, 0 };
@@ -131,7 +142,6 @@ public class DealerSearchFunc {
 		String brandStr[] = { "BMW", "Toyota", "Cameri" };
 		comboBox_brand = new JComboBox(brandStr);
 		GridBagConstraints gbc_comboBox_4 = new GridBagConstraints();
-		gbc_comboBox_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_4.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_4.gridx = 1;
 		gbc_comboBox_4.gridy = 1;
@@ -230,7 +240,7 @@ public class DealerSearchFunc {
 
 		Cancel = new JButton("Cancel");
 		GridBagConstraints gbc_Cancel = new GridBagConstraints();
-		gbc_Cancel.insets = new Insets(0, 0, 0, 5);
+		gbc_Cancel.anchor = GridBagConstraints.EAST;
 		gbc_Cancel.gridx = 1;
 		gbc_Cancel.gridy = 7;
 		frame.getContentPane().add(Cancel, gbc_Cancel);
@@ -243,6 +253,7 @@ public class DealerSearchFunc {
 		categoryUsed.addActionListener(bc);
 		categoryCertified.addActionListener(bc);
 		btnSearch.addActionListener(bc);
+		Cancel.addActionListener(bc);
 		selectAction s = new selectAction();
 		comboBox_brand.addActionListener(s);
 		comboBox_trim.addActionListener(s);
@@ -274,8 +285,16 @@ public class DealerSearchFunc {
 			if (e.getSource() == btnSearch) {
 				sf.setKeywords(keyWords.getText());
 				sf.setCategory(category);
+				tableM.setCars(carManager.search(sf));
+				frame.dispose();
+			}
+
+			if (e.getSource() == Cancel) {
+
+				frame.dispose();
 			}
 		}
+
 	}
 
 	class selectAction implements ActionListener {

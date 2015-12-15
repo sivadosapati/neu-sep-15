@@ -3,11 +3,13 @@ package project.vehicle.management.data.access;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import project.vehicle.management.ui.MainScreen;
 
 public class DealerCarManagerImpl implements DealerCarManager {
 	private File file;
@@ -32,11 +34,9 @@ public class DealerCarManagerImpl implements DealerCarManager {
 				dealerIds.add(dealerId);
 			}
 			br.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(new MainScreen(""), e.getMessage()+"\nPlease contact administrator to fix it!");
+			System.exit(1);
 			e.printStackTrace();
 		} finally {
 			return dealerIds.toArray(new String[dealerIds.size()]);
