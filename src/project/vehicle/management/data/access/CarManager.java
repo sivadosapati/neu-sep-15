@@ -18,5 +18,9 @@ public interface CarManager {
 
 	List<Car> sort(SearchFilter sf, SortCriteria sc);
 	
-	List<List<String>> listInitralize(List<Car> list);
+	List<String> setMake();
+	
+	List<String> setModel(String make);
+	
+	List<String> setTrim(String model,String make);
 }

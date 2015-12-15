@@ -13,7 +13,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 
@@ -266,23 +265,33 @@ public class CarManagerImpl implements CarManager {
         return carList;
 	}
 
-    @Override
-    public List<List<String>> listInitralize(List<Car> list) {
-        List<List<String>> result = new ArrayList();
-        HashSet<String> model = new HashSet();
-        HashSet<String> make = new HashSet();
-        HashSet<String> trim = new HashSet();
-        for(Car car : list){
-            model.add(car.getModel());
-            make.add(car.getMake());
-            trim.add(car.getTrim());
-        }
-        List<String> models = new ArrayList<String>(model);
-        List<String> makes = new ArrayList<String>(make);
-        List<String> trims = new ArrayList<String>(trim);
-        result.add(models);
-        result.add(makes);
-        result.add(trims);
-        return result;
-    }
+	@Override
+	public List<String> setMake() {
+		HashSet<String> makes = new HashSet<String>();
+		for(Car car : carList){
+            makes.add(car.getMake());
+		}
+		return new ArrayList<String>(makes);
+	}
+
+	@Override
+	public List<String> setModel(String make) {
+		HashSet<String> models = new HashSet<String>();
+		for(Car car : carList){
+            if(car.getMake().equals(make))
+            	models.add(car.getMake());
+		}
+		return new ArrayList<String>(models);
+	}
+
+	@Override
+	public List<String> setTrim(String model, String make) {
+		HashSet<String> trims = new HashSet<String>();
+		for(Car car : carList){
+            if(car.getMake().equals(make))
+            	if(car.getModel().equals(model))
+            		trims.add(car.getMake());
+		}
+		return new ArrayList<String>(trims);
+	}
 }
