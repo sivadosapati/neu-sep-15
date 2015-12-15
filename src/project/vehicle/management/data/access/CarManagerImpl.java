@@ -23,29 +23,46 @@ import project.vehicle.management.data.SearchFilter;
 import project.vehicle.management.data.SortCriteria;
 
 /**
- * @author
- *
+ * @author: Zhang Yang, Liu Yang, Jia Jigang, Ma Changzheng
+ * 
  */
 public class CarManagerImpl implements CarManager {
 
-	private List<Car> carList;
 	private String dealerID;
 	private File file;
-
+	private List<Car> carList;
+	
+	public CarManagerImpl(String dealerID) throws IOException {
+        this.setDealerID(dealerID);
+        this.file = new File(dealerID);
+        this.carList = buildCarList();
+    }
+	
+	/**
+     * Get dealer ID of certain CarManagerImpl instance
+     * @param none
+     * @return dealerID of certain CarManagerImpl instance
+     */
 	public String getDealerID() {
 		return dealerID;
 	}
-
+	
+	/**
+     * Set the dealerID for an CarManagerImpl
+     * @param dealerID of which will be applied to the CarManagerImpl
+     * @return none
+     */
 	public void setDealerID(String dealerID) {
 		this.dealerID = dealerID;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see project.vehicle.management.data.access.CarManager#listCars()
+	/**
+	 * Read the corresponding file of the dealer, convert data into a list of cars
+	 * @param none
+	 * @return List<Car> all the cars of certain dealer.
+	 * @exception IOException On input error
+	 * @see IOException
 	 */
-
 	private List<Car> buildCarList() throws IOException {
 		List<Car> result = new ArrayList<Car>();
 		FileInputStream fis = new FileInputStream(file);
@@ -85,13 +102,6 @@ public class CarManagerImpl implements CarManager {
 		Float price = Float.parseFloat(l[8]);
 		return new Car(id, dealerId, category, year, make, model, trim, type,
 				price);
-	}
-
-	public CarManagerImpl(String dealerID) throws IOException {
-		this.setDealerID(dealerID);
-		String filePath = dealerID;
-		this.file = new File(filePath);
-		this.carList = buildCarList();
 	}
 
 	@Override
@@ -292,6 +302,6 @@ public class CarManagerImpl implements CarManager {
             	if(car.getModel().equals(model))
             		trims.add(car.getTrim());
 		}
-		return new ArrayList<String>(trims);
-	}
+        return new ArrayList<String>(trims);
+    }
 }
