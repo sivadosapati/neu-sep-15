@@ -52,9 +52,11 @@ public class CustomerScreen extends JFrame {
 	private JTable table;
 	private SearchFilter sf = new SearchFilter(null, null, null, null, null, null,null);
 	private SortCriteria sc = new SortCriteria(null, true);
-
+    boolean initcombomodel=false;
+    boolean initcombotrim=false;
 	private CarManager carManager;
 
+	List<String> make,model,trim;
 	public CustomerScreen() {
 		init();
 	}
@@ -181,7 +183,7 @@ public class CustomerScreen extends JFrame {
 	
     private void initchoosePane(CarManager cm) {
 		
-		List<List<String>> list = cm.listInitralize(cm.listCars());
+		make = cm.setMake();
 		
 		
 		JPanel choosecondiPanel=new JPanel();
@@ -214,10 +216,9 @@ public class CustomerScreen extends JFrame {
 		brandComboPanel.add(lblBrand);
 		//lblBrand.setLocation(30, 100);
 
-		list.get(0).add(0, "");
-		list.get(1).add(0, "");
-		list.get(2).add(0, "");
-		comboBox = new JComboBox(list.get(1).toArray());
+		make.add(0, "");
+		
+		comboBox = new JComboBox(make.toArray());
 		comboBox.setSelectedItem(null);
 		//comboBox.setLocation(30, 600);
 		brandComboPanel.add(comboBox);
@@ -235,8 +236,8 @@ public class CustomerScreen extends JFrame {
 		modelComboPanel.add(lblModel);
 
 
-		comboBox_1 = new JComboBox(list.get(0).toArray());
-		comboBox_1.setSelectedItem(null);
+		comboBox_1 = new JComboBox();
+		//comboBox_1.setSelectedItem(null);
 		modelComboPanel.add(comboBox_1);
 		choosecondiPanel.add(modelComboPanel);
 
@@ -245,8 +246,8 @@ public class CustomerScreen extends JFrame {
 		JLabel lblTrim = new JLabel("Trim");
 		trimComboPanel.add(lblTrim);
 
-		comboBox_2 = new JComboBox(list.get(2).toArray());
-		comboBox_2.setSelectedItem(null);
+		comboBox_2 = new JComboBox();
+		//comboBox_2.setSelectedItem(null);
 		trimComboPanel.add(comboBox_2);
 		choosecondiPanel.add(trimComboPanel);
 		
@@ -288,13 +289,14 @@ public class CustomerScreen extends JFrame {
     
     public String checknull(String s){
     	if(s==""){
+    		
     		return null;
     	}else{
     		return s;
     	}
     }
 
-	class clickCheckAction implements ActionListener{ //取消勾选没有监听
+	class clickCheckAction implements ActionListener{ 
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -327,11 +329,41 @@ public class CustomerScreen extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JComboBox cb=(JComboBox)e.getSource();
 			String choice = cb.getSelectedItem().toString();
+			System.out.println(choice);
 			Range r,p;
+			
+			
+			List<String> model,trim;
 			if(cb==comboBox){
+				//if(!initcombomodel){
+				//	comboBox_1.removeAllItems();
+				//}
 				sf.setMake(checknull(choice));
+				if(choice!=""){
+					//System.out.println("here1");			       
+					model=carManager.setModel(sf.getMake());
+					model.add(0, "");
+					
+					for(String s:model){
+						comboBox_1.addItem(s);                    //执行了两次插入列表
+					}                                             //选择不同的brand会导致这些brand的model都插入到列表中
+					//initcombomodel=!initcombomodel;
+				}/*else{
+					System.out.println("here1");                   //brand置空清空model后再选brand无法生成model列表
+					comboBox_1.removeAllItems();		             
+				}*/				
+				//comboBox_1 = new JComboBox(list.get(0).toArray());
+				//comboBox_1.setSelectedItem(null);
 			}else if(cb==comboBox_1){
+				
 				sf.setModel(checknull(choice));
+				if(choice!=""){
+					trim=carManager.setTrim(sf.getModel(), sf.getMake());
+					trim.add(0, "");
+					for(String s:trim){
+						comboBox_2.addItem(s);
+					}
+				}
 			}else if(cb==comboBox_2){
 				sf.setTrim(checknull(choice));
 			}else if(cb==comboBox_3){

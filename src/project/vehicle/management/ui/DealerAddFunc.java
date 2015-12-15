@@ -7,7 +7,10 @@ import javax.swing.*;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Category;
+import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
+import project.vehicle.management.data.access.CarManagerImpl;
+import project.vehicle.management.ui.DearlerMainScreen.MyTableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,22 +18,25 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class DealerAddFunc extends JFrame{
-	JLabel noteInformation,Model,DealerID,Trim;
-	JLabel jCategory,Year, Type, Price;
-	JTextField textModel,textDealerID, textTrim,textMake,textID,textPrice;
-	JRadioButton NewType,OldType,Type1, Type2, Type3, Type4,Type5;
-	JComboBox year;
-	JButton submit,cancel;
-	JLabel head;
-
-	Car car = null;
+	private JLabel noteInformation,ID,Model,Trim;
+	private JLabel jCategory,Year, Type, Price;
+	private JTextField textModel,textTrim,textMake,textID,textPrice;
+	private JRadioButton NewType,OldType,CerType,Type1, Type2, Type3, Type4,Type5;
+	private JComboBox year;
+	private JButton submit,cancel;
+	private JLabel head;
+	private Category category;
+	private CarManager dealer;
+	private Car car = null;
+	private MyTableModel mtm;
+	private String did;
 
 	GridBagLayout g = new GridBagLayout();
 	GridBagConstraints c = new GridBagConstraints();
-	public Category category;
-	DealerAddFunc(String str)
+	
+	DealerAddFunc(CarManagerImpl dealerid, MyTableModel mtm)
 	{
-		super(str);
+		setTitle("Add Function");
 		setSize(590,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(g);
@@ -40,6 +46,11 @@ public class DealerAddFunc extends JFrame{
 		addListeners();
 		//display in the middle
 		setLocationRelativeTo(null);
+		this.dealer = dealerid;
+		this.mtm = mtm;
+		did = dealerid.getDealerID();
+		
+		
 	}
 	
 	
@@ -59,21 +70,25 @@ public class DealerAddFunc extends JFrame{
 				dispose();
 	        }
 			//event for submit
-			else if(e.getSource() == NewType){
-				if(NewType.getText()=="CERTIFIED")
-					category = Category.CERTIFIED;
-				else if(NewType.getText()=="NEW")
-					category = Category.NEW;
-				else if(NewType.getText()=="USED")
-					category = Category.USED;
-				car.setCategory(category);
-			}
+			
 			if(e.getSource()==submit){
+				//choose the category
+				if(e.getSource()==NewType){
+					category = Category.NEW;
+				}
+					
+				else if(e.getSource()==OldType){
+					category = Category.USED;
+				}
+				else{
+					category = Category.CERTIFIED;
+				}
+		
 				String id=textID.getText();
-				String did=textDealerID.getText();
-				String nt=NewType.getText();
-				String ot=OldType.getText();
-				Integer y=(Integer) year.getSelectedItem();
+				
+				
+				String stringyear = year.getSelectedItem().toString();
+				int y = Integer.parseInt(stringyear);
 				String m=textMake.getText();
 				String mo=textModel.getText();
 				String t=textTrim.getText();
@@ -101,13 +116,19 @@ public class DealerAddFunc extends JFrame{
 				else {
 					type = t5;
 				}
-				Car addcar = new Car(id, did, category, y, m, mo, t, type, pf);
+				
+				Car car = new Car(id, did, category, y, m, mo, t, type, pf);
 				try {
-					new CarManagerFactory().getCarManager(did).addCar(addcar);
+					dealer.addCar(car);
+					;//mtm.addCar();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+					
 					e1.printStackTrace();
 				}
+				
+				
+				
+				
 			}
 		}
 	}
@@ -123,17 +144,12 @@ public class DealerAddFunc extends JFrame{
 		noteInformation=new JLabel("Add A Car!");
 		add(g,c,noteInformation,0,1,1,1);
 		//ID
-		Model=new JLabel("ID:");
-		add(g,c,Model,0,2,1,1);
+		ID=new JLabel("ID:");
+		add(g,c,ID,0,2,1,1);
 		//Input ID
-		textModel=new JTextField(10);
-		add(g,c,textModel,1,2,2,1);
-		//DealerID
-		DealerID=new JLabel("Dealer ID:");
-		add(g,c,DealerID,0,3,1,1);
-		//Input Dealer ID
-		textDealerID=new JTextField(10);
-		add(g,c,textDealerID,1,3,2,1);
+		textID=new JTextField(10);
+		add(g,c,textID,1,2,2,1);
+		
 		//jCategory
 		jCategory=new JLabel("Category:");
 		add(g,c,jCategory,0,4,1,1);
@@ -141,54 +157,57 @@ public class DealerAddFunc extends JFrame{
 		//Choose from the new and old
 		NewType=new JRadioButton("New");
 		OldType=new JRadioButton("Used");
+		CerType=new JRadioButton("Certified");
 		ButtonGroup group=new ButtonGroup();
 		group.add(NewType);
 		group.add(OldType);
+		group.add(CerType);
 		add(g,c,NewType,1,4,1,1);
 		add(g,c,OldType,2,4,1,1);
+		add(g, c, CerType, 1, 5, 1, 1);
 		//Year
 		Year=new JLabel("Year:");
-		add(g,c,Year,0,5,1,1);
+		add(g,c,Year,0,6,1,1);
 		//content of year
 		String[] YEARS=new String[16];
 		for(int i=2000,k=0;i<=2015;i++,k++)
 		{
 		YEARS[k]=i+"";
 		}
-		year=new JComboBox(YEARS);
-		add(g,c,year,1,5,1,1);
+		year = new JComboBox<>(YEARS);
+		add(g,c,year,1,6,1,1);
 		//Make
 		Model=new JLabel("Make:");
-		add(g,c,Model,0,6,1,1);
+		add(g,c,Model,0,7,1,1);
 		//Input Make
-		textModel=new JTextField(10);
-		add(g,c,textModel,1,6,2,1);
+		textMake=new JTextField(10);
+		add(g,c,textMake,1,7,2,1);
 		//Model
 		Model=new JLabel("Model:");
-		add(g,c,Model,0,7,1,1);
+		add(g,c,Model,0,8,1,1);
 		//Input Model
 		textModel=new JTextField(10);
-		add(g,c,textModel,1,7,2,1);
+		add(g,c,textModel,1,8,2,1);
 		//Trim
 		Trim=new JLabel("Trim:");
-		add(g,c,Trim,0,8,1,1);
+		add(g,c,Trim,0,9,1,1);
 		//Input Trim
 		textTrim=new JTextField(20);
-		add(g,c,textTrim,1,8,2,1);
+		add(g,c,textTrim,1,9,2,1);
 		//Type
 		Type=new JLabel("Type:");
-		add(g,c,Type,0,9,1,1);
+		add(g,c,Type,0,10,1,1);
 		//Choose from the types
 		Type1=new JRadioButton("CAR");
-		add(g,c,Type1,1,9,1,1);
+		add(g,c,Type1,1,10,1,1);
 		Type2=new JRadioButton("TRUCK");
-		add(g,c,Type2,2,9,1,1);
+		add(g,c,Type2,2,10,1,1);
 		Type3=new JRadioButton("WAGON");
-		add(g,c,Type3,1,11,1,1);
+		add(g,c,Type3,1,12,1,1);
 		Type4=new JRadioButton("VAN");
-		add(g,c,Type4,1,10,1,1);
+		add(g,c,Type4,1,11,1,1);
 		Type5=new JRadioButton("SUV");
-		add(g,c,Type5,2,10,1,1);
+		add(g,c,Type5,2,11,1,1);
 
 		ButtonGroup group1=new ButtonGroup();
 		group1.add(Type1);
@@ -198,17 +217,17 @@ public class DealerAddFunc extends JFrame{
 		group1.add(Type5);
 		//Price
 		Price=new JLabel("Price:");
-		add(g,c,Price,0,12,1,1);
+		add(g,c,Price,0,13,1,1);
 		//Input Price
 		textPrice=new JTextField(10);
-		add(g,c,textPrice,1,12,2,1);
+		add(g,c,textPrice,1,13,2,1);
 	
 		//Submit button
 		submit=new JButton("Submit");
-		add(g,c,submit,1,14,1,1);
+		add(g,c,submit,1,15,1,1);
 		//Cancel button
 		cancel = new JButton("Cancel");
-		add(g, c, cancel, 2, 14, 1, 1);
+		add(g, c, cancel, 2, 15, 1, 1);
 		
 		
 	}
@@ -229,7 +248,7 @@ public class DealerAddFunc extends JFrame{
 	}
 	public static void main(String args[]){
 		
-		new DealerAddFunc("Add Function");
+//		new DealerAddFunc();
 	}
 
 
