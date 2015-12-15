@@ -60,21 +60,25 @@ public class DealerAddFunc extends JFrame{
 				dispose();
 	        }
 			//event for submit
-			else if(e.getSource() == NewType){
-				if(NewType.getText()=="CERTIFIED")
-					category = Category.CERTIFIED;
-				else if(NewType.getText()=="NEW")
-					category = Category.NEW;
-				else if(NewType.getText()=="USED")
-					category = Category.USED;
-				car.setCategory(category);
-			}
+			
 			if(e.getSource()==submit){
-				
+				//choose the category
+				if(e.getSource()==NewType){
+					category = Category.NEW;
+				}
+					
+				else if(e.getSource()==OldType){
+					category = Category.USED;
+				}
+				else{
+					category = Category.CERTIFIED;
+				}
+		
 				String id=textID.getText();
 				String did=textDealerID.getText();
 				
-				Integer y=Integer.getInteger((String) year.getSelectedItem());
+				String stringyear = year.getSelectedItem().toString();
+				int y = Integer.parseInt(stringyear);
 				String m=textMake.getText();
 				String mo=textModel.getText();
 				String t=textTrim.getText();
@@ -103,7 +107,7 @@ public class DealerAddFunc extends JFrame{
 					type = t5;
 				}
 				Car addcar = new Car(id, did, category, y, m, mo, t, type, pf);
-			
+				
 				try {
 					new CarManagerFactory().getCarManager(did).addCar(addcar);
 				} catch (IOException e1) {
