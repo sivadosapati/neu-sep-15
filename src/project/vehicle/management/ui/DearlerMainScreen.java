@@ -8,7 +8,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import project.vehicle.management.data.Car;
-import project.vehicle.management.data.Dealer;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
 
@@ -62,6 +60,15 @@ public class DearlerMainScreen extends JFrame {
 		display();
 	}
 
+	/*private List<Car> getCarList(List<Integer> carIndex) {
+	List<Car> operatedCars = new ArrayList<>();
+	List<Car> ori = t.getCars();
+	for(int i = 0; i<carIndex.size();i++){
+		operatedCars.add(ori.get(carIndex.get(i)));
+	}
+	return operatedCars;
+}*/
+	
 	public void create() {
 		String[] firstline = { "selection", "carId", "dealerId", "category", "year", "make", "model", "trim", "type",
 				"price" };
@@ -153,7 +160,7 @@ public class DearlerMainScreen extends JFrame {
 					}
 				});
 			} else if (e.getSource() == addButton)
-				;// new DeaerAddFunc(dealer);
+				 ;//new DeaerAddFunc(dealer);
 			else if (e.getSource() == updateButton) {
 				try {
 					new DealerUpdate(dealer, operateIndex, tableM);
