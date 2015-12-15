@@ -6,6 +6,7 @@ package project.vehicle.management.ui;
 import javax.swing.*;
 
 import project.vehicle.management.data.Car;
+import project.vehicle.management.data.Category;
 import project.vehicle.management.data.access.CarManagerFactory;
 
 import java.awt.*;
@@ -15,20 +16,22 @@ import java.io.IOException;
 
 public class DealerAddFunc extends JFrame{
 	JLabel noteInformation,Model,DealerID,Trim;
-	JLabel Category,Year, Type, Price;
+	JLabel jCategory,Year, Type, Price;
 	JTextField textModel,textDealerID, textTrim,textMake,textID,textPrice;
 	JRadioButton NewType,OldType,Type1, Type2, Type3, Type4,Type5;
 	JComboBox year;
 	JButton submit,cancel;
 	JLabel head;
 
-	
+	Car car = null;
+
 	GridBagLayout g = new GridBagLayout();
 	GridBagConstraints c = new GridBagConstraints();
-	public project.vehicle.management.data.Category category;
+	public Category category;
 	DealerAddFunc(String str)
 	{
 		super(str);
+		setSize(590,600);
 		setSize(900,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(g);
@@ -45,6 +48,7 @@ public class DealerAddFunc extends JFrame{
 		ButtonClick bc = new ButtonClick();
 		submit.addActionListener(bc);
 		cancel.addActionListener(bc);
+		NewType.addActionListener(bc);
 	}
 
 	class ButtonClick implements ActionListener{
@@ -56,6 +60,15 @@ public class DealerAddFunc extends JFrame{
 				dispose();
 	        }
 			//event for submit
+			else if(e.getSource() == NewType){
+				if(NewType.getText()=="CERTIFIED")
+					category = Category.CERTIFIED;
+				else if(NewType.getText()=="NEW")
+					category = Category.NEW;
+				else if(NewType.getText()=="USED")
+					category = Category.USED;
+				car.setCategory(category);
+			}
 			if(e.getSource()==submit){
 				String id=textID.getText();
 				String did=textDealerID.getText();
@@ -73,10 +86,10 @@ public class DealerAddFunc extends JFrame{
 				String p=textPrice.getText();
 				float pf = Float.parseFloat(p); 
 				if(nt==null){
-					String category = ot;
+					String jCategory = ot;
 				}
 				else{
-					String category = nt;
+					String jCategory = nt;
 				}
 				String type;
 				if(t1 != null){
@@ -108,6 +121,7 @@ public class DealerAddFunc extends JFrame{
 
 	//Add all components
 	public void addComponent(){
+		car = new Car();
 		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
 		add(g, c, head, 0, 0, 3, c.gridheight);
 		//Title
@@ -126,9 +140,13 @@ public class DealerAddFunc extends JFrame{
 		//Input Dealer ID
 		textDealerID=new JTextField(10);
 		add(g,c,textDealerID,1,3,2,1);
+		//jCategory
+		jCategory=new JLabel("jCategory:");
+		add(g,c,jCategory,0,4,1,1);
 		//Category
-		Category=new JLabel("Category:");
-		add(g,c,Category,0,4,1,1);
+		jCategory=new JLabel("Category:");
+		add(g,c,jCategory,0,4,1,1);
+
 		//Choose from the new and old
 		NewType=new JRadioButton("New");
 		OldType=new JRadioButton("Used");
@@ -180,6 +198,13 @@ public class DealerAddFunc extends JFrame{
 		add(g,c,Type4,1,10,1,1);
 		Type5=new JRadioButton("SUV");
 		add(g,c,Type5,2,10,1,1);
+
+		group.add(Type1);
+		group.add(Type2);
+		group.add(Type3);
+		group.add(Type4);
+		group.add(Type5);
+
 		ButtonGroup group1=new ButtonGroup();
 		group1.add(Type1);
 		group1.add(Type2);
@@ -203,10 +228,6 @@ public class DealerAddFunc extends JFrame{
 		
 		
 	}
-	public void actionPerformed(ActionEvent e){
-		
-		
-	}   
 		
 
 	public void add(GridBagLayout g,GridBagConstraints c,JComponent jc,int x ,int y,int gw,int gh){
