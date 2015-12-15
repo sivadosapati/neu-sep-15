@@ -32,11 +32,9 @@ public class DealerCarManagerImpl implements DealerCarManager {
 				dealerIds.add(dealerId);
 			}
 			br.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		}catch (Exception e) {
+			JOptionPane.showMessageDialog(new MainScreen(""), e.getMessage()+"\nPlease contact administrator to fix it!");
+			System.exit(1);
 			e.printStackTrace();
 		} finally {
 			return dealerIds.toArray(new String[dealerIds.size()]);
