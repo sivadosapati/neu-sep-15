@@ -79,6 +79,8 @@ public class DealerSearchFunc {
 
 	private void create() {
 		frame.setVisible(true);
+		frame.setResizable(false);
+		frame.getRootPane().setDefaultButton(btnSearch);
 	}
 
 	/**
