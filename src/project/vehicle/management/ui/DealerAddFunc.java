@@ -7,7 +7,10 @@ import javax.swing.*;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.Category;
+import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
+import project.vehicle.management.data.access.CarManagerImpl;
+import project.vehicle.management.ui.DearlerMainScreen.MyTableModel;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,23 +18,25 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class DealerAddFunc extends JFrame{
-	JLabel noteInformation,ID,Model,DealerID,Trim;
-	JLabel jCategory,Year, Type, Price;
-	JTextField textModel,textDealerID, textTrim,textMake,textID,textPrice;
-	JRadioButton NewType,OldType,CerType,Type1, Type2, Type3, Type4,Type5;
-	JComboBox year;
-	JButton submit,cancel;
-	JLabel head;
-	Category category;
-	
-	Car car = null;
+	private JLabel noteInformation,ID,Model,Trim;
+	private JLabel jCategory,Year, Type, Price;
+	private JTextField textModel,textTrim,textMake,textID,textPrice;
+	private JRadioButton NewType,OldType,CerType,Type1, Type2, Type3, Type4,Type5;
+	private JComboBox year;
+	private JButton submit,cancel;
+	private JLabel head;
+	private Category category;
+	private CarManager dealer;
+	private Car car = null;
+	private MyTableModel mtm;
+	private String did;
 
 	GridBagLayout g = new GridBagLayout();
 	GridBagConstraints c = new GridBagConstraints();
 	
-	DealerAddFunc(String str)
+	DealerAddFunc(CarManagerImpl dealerid, MyTableModel mtm)
 	{
-		super(str);
+		setTitle("Add Function");
 		setSize(590,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(g);
@@ -41,6 +46,11 @@ public class DealerAddFunc extends JFrame{
 		addListeners();
 		//display in the middle
 		setLocationRelativeTo(null);
+		this.dealer = dealerid;
+		this.mtm = mtm;
+		did = dealerid.getDealerID();
+		
+		
 	}
 	
 	
@@ -75,7 +85,7 @@ public class DealerAddFunc extends JFrame{
 				}
 		
 				String id=textID.getText();
-				String did=textDealerID.getText();
+				
 				
 				String stringyear = year.getSelectedItem().toString();
 				int y = Integer.parseInt(stringyear);
@@ -106,14 +116,18 @@ public class DealerAddFunc extends JFrame{
 				else {
 					type = t5;
 				}
-				Car addcar = new Car(id, did, category, y, m, mo, t, type, pf);
 				
+				Car car = new Car(id, did, category, y, m, mo, t, type, pf);
 				try {
-					new CarManagerFactory().getCarManager(did).addCar(addcar);
+					dealer.addCar(car);
+					;//mtm.addCar();
 				} catch (IOException e1) {
 					
 					e1.printStackTrace();
 				}
+				
+				
+				
 				
 			}
 		}
@@ -135,12 +149,7 @@ public class DealerAddFunc extends JFrame{
 		//Input ID
 		textID=new JTextField(10);
 		add(g,c,textID,1,2,2,1);
-		//DealerID
-		DealerID=new JLabel("Dealer ID:");
-		add(g,c,DealerID,0,3,1,1);
-		//Input Dealer ID
-		textDealerID=new JTextField(10);
-		add(g,c,textDealerID,1,3,2,1);
+		
 		//jCategory
 		jCategory=new JLabel("Category:");
 		add(g,c,jCategory,0,4,1,1);
@@ -239,7 +248,7 @@ public class DealerAddFunc extends JFrame{
 	}
 	public static void main(String args[]){
 		
-		new DealerAddFunc("Add Function");
+//		new DealerAddFunc();
 	}
 
 

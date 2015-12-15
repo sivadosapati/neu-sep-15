@@ -31,7 +31,6 @@ public class DealerDelFunc extends JFrame {
 	public CarManager dealer;
 	private MyTableModel tableM;
 
-//	public DealerDelFunc(CarManager dealerRes, List<Car> res, JTable table) {
 	public DealerDelFunc(CarManager dealerRes, List<Integer> res, MyTableModel tableM) {
 		setTitle("Delete");
 		create();
@@ -51,9 +50,9 @@ public class DealerDelFunc extends JFrame {
 		ButtonClick bc = new ButtonClick();
 		yes.addActionListener(bc);
 		no.addActionListener(bc);
-		
+
 	}
-	
+
 	private void create() {
 		yes = new JButton("yes");
 		no = new JButton("no");
@@ -62,7 +61,7 @@ public class DealerDelFunc extends JFrame {
 		temp = new JPanel();
 		con = super.getContentPane();
 		button = new JPanel(new CardLayout());
-		
+
 	}
 
 	private void add() {
@@ -93,14 +92,13 @@ public class DealerDelFunc extends JFrame {
 	}
 
 	private void delete(List<Integer> ret) throws IOException {
-		
-		for (Integer index: ret)
+
+		for (Integer index : ret)
 			dealer.deleteCar(tableM.getCars().get(index).getID());
-		
+
 		tableM.deleteTable(ret);
 	}
 
-	
 	public static void main(String[] args) {
 
 	}
