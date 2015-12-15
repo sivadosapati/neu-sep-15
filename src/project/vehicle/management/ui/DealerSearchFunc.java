@@ -325,7 +325,7 @@ public class DealerSearchFunc {
 				sf.setCategory(category);
 
 				System.out.println(sf.getKeywords());
-				tableM.setCars(carManager.search(sf));
+				tableM.searchCars(carManager.search(sf));
 				System.out.println(sf.getMake());
 				System.out.println(sf.getModel());
 				System.out.println(sf.getTrim());
