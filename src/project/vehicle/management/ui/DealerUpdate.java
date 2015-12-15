@@ -204,7 +204,7 @@ public class DealerUpdate extends JFrame {
 	
 	private void update(List<Integer> operatedList) throws IOException {
 		for (Integer index : operatedList) {
-			update.updateCar(t.getCar());
+			update.updateCar(t.Cars.get(Index));
 		}
 	}
 }
