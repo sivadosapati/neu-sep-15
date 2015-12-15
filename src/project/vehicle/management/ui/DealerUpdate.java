@@ -37,15 +37,15 @@ public class DealerUpdate extends JFrame {
 	CarManager update;
 	List<Integer> operatedList;
 	private MyTableModel t;
-	
+	/////////////////////////////
 	public void addTable(){
 		panel1 = new JPanel();
 		GridLayout lay = new GridLayout();
 		panel1.setLayout(lay);
-		panel1.setOpaque(true);
+//		panel1.setOpaque(true);
 		JTable table = new JTable(t);///////////////////input table //////////////////////////////////
-        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        table.setFillsViewportHeight(true);
+       /* table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+        table.setFillsViewportHeight(true);*/
         JScrollPane scrollPane = new JScrollPane(table);
         panel1.add(scrollPane);
 	}
@@ -63,7 +63,7 @@ public class DealerUpdate extends JFrame {
 	}
 	
 	public  void display(){
-		JFrame frame = new JFrame("UPDATE");
+	JFrame frame = new JFrame("UPDATE");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout out = new BorderLayout();
         frame.setLayout(out);
@@ -76,8 +76,8 @@ public class DealerUpdate extends JFrame {
 	
 	public DealerUpdate(CarManager cm, List<Integer> list, MyTableModel mtm ) throws IOException {//////////////////////(what in List<Integet>)//////////////////////////////////////////////
         //DearlerMainScreen dms = new DearlerMainScreen("gmps-chaparral2");
-		addTable(); 
         addButton();
+        addTable(); 
         display();
         addListeners();
         this.t = mtm;
@@ -88,8 +88,8 @@ public class DealerUpdate extends JFrame {
 	
 	public static void main(String[] args){
 		try {  
-			//DearlerMainScreen dms = new DearlerMainScreen("gmps-chaparral2");
-			new DealerUpdate(update, operatedList, t);
+//			DearlerMainScreen dms = new DearlerMainScreen("gmps-chaparral2");
+			new DealerUpdate(null, null, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -156,7 +156,7 @@ public class DealerUpdate extends JFrame {
         }
 
         public Object getValueAt(int row, int col) {
-            Car oneCar = getCars().get(row);
+            Car oneCar = getCars().get(row);//////////////////////////////////////////////////////////
         	switch(col){
         	case 0:
         		return oneCar.getID();
@@ -204,7 +204,7 @@ public class DealerUpdate extends JFrame {
 	
 	private void update(List<Integer> operatedList) throws IOException {
 		for (Integer index : operatedList) {
-			update.updateCar(t.Cars.get(Index));
+			update.updateCar(t.cars.get(index));
 		}
 	}
 }
