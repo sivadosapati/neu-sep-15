@@ -36,7 +36,7 @@ public class DearlerMainScreen extends JFrame {
 	private JTable resultTable;
 	private JScrollPane resultScroll;
 	private JLabel head = null;
-	MyTableModel tableM = null;
+	private MyTableModel tableM = null;
 	private BufferedImage buttonIcon = null;
 	private BufferedImage buttonIcon2 = null;
 	private BufferedImage buttonIcon3 = null;
@@ -155,13 +155,12 @@ public class DearlerMainScreen extends JFrame {
 			} else if (e.getSource() == addButton)
 				;// new DeaerAddFunc(dealer);
 			else if (e.getSource() == updateButton) {
-				;
-				/*
-				 * for(int i = 0; i<operatedList.size(); i++){ for(int l = 0;
-				 * l<items.length; l++)
-				 * System.out.print(results[operatedList.get(i)][l]);
-				 * System.out.println(""); }
-				 */
+				try {
+					new DealerUpdate(dealer, operateIndex, tableM);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else if (e.getSource() == deleteButton) {
 				DealerDelFunc deleteScreen = new DealerDelFunc(dealer, operateIndex, tableM);
 			}
