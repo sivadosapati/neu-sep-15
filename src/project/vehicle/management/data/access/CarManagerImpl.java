@@ -38,31 +38,31 @@ public class CarManagerImpl implements CarManager {
         this.carList = buildCarList();
     }
 	
-	/**
-     * Get dealer ID of certain CarManagerImpl instance
-     * @param None
-     * @return dealerID Dealer id of certain CarManagerImpl instance
-     */
+   /**
+    * Get dealer ID of certain CarManagerImpl instance
+    * @param   none
+    * @return  the dealer id of certain CarManagerImpl instance
+    */
 	public String getDealerID() {
 		return dealerID;
 	}
 	
-	/**
-     * Set the dealerID for an CarManagerImpl
-     * @param dealerID Dealer id of which will be applied to the CarManagerImpl
-     * @return None
-     */
+   /**
+    * Set the dealerID for an CarManagerImpl
+    * @param  dealerID  an Dealer id of which is being applied to the CarManagerImpl
+    * @return           none
+    */
 	public void setDealerID(String dealerID) {
 		this.dealerID = dealerID;
 	}
 	
-	/**
-	 * Read the corresponding file of the dealer, convert data into a list of cars
-	 * @param None
-	 * @return List<Car> All the cars of certain dealer.
-	 * @exception IOException On input error
-	 * @see IOException
-	 */
+   /**
+	* Read the corresponding file of the dealer, convert data into a list of cars
+	* @param      none
+	* @return     all the cars of certain dealer.
+    * @exception  IOException On input error
+	* @see        IOException
+	*/
 	private List<Car> buildCarList() throws IOException {
 		List<Car> result = new ArrayList<Car>();
 		FileInputStream fis = new FileInputStream(file);
@@ -89,11 +89,11 @@ public class CarManagerImpl implements CarManager {
 		return cars;
 	}
 	
-	/**
-     * Split each line in file with "~" to get car information and build a car.
-     * @param line Each line in file, except the first line
-     * @return Car The corresponding car of the line in the file
-     */
+   /**
+    * Split each line in file with "~" to get car information and build a car.
+    * @param  line  each line in file, except the first line
+    * @return       the corresponding car of the line in the file
+    */
 	private Car lineToCar(String line) {
 		String[] l = line.split("~");
 		String id = l[0];
@@ -108,21 +108,21 @@ public class CarManagerImpl implements CarManager {
 		return new Car(id, dealerId, category, year, make, model, trim, type, price);
 	}
 	
-	/**
-     * Get all the cars of this dealer
-     * @param None
-     * @return List<Car> All the cars of certain dealer, without searching and sorting
-     */
+   /**
+    * Get all the cars of this dealer
+    * @param   None
+    * @return  all the cars of certain dealer, without searching and sorting
+    */
 	@Override
 	public List<Car> listCars() {
 		return carList;
 	}
 
-	/**
-     * Get cars which match defined SearchFilter
-     * @param sf SearchFilter with all attributes defined
-     * @return List<Car> All the cars meet the condition.
-     */
+   /**
+    * Get cars which match defined SearchFilter
+    * @param  sf  an defined SearchFilter which is being applied
+    * @return     all the cars meet the condition.
+    */
 	@Override
 	public List<Car> search(SearchFilter sf) {
 		List<Car> result = new ArrayList<Car>();
@@ -132,7 +132,12 @@ public class CarManagerImpl implements CarManager {
 		}
 		return result;
 	}
-
+	
+   /**
+    * Check if a car meets the condition of a SearchFilter
+    * @param  car  a car which is being check
+    * @return      true if the car meet condition, otherwise false
+    */
 	private boolean checkSearchCondition(Car car, SearchFilter sf) {
 		if (!checkCondition(sf.getMake(),car.getMake()))
 			return false;
@@ -150,6 +155,12 @@ public class CarManagerImpl implements CarManager {
 			return false;
 		return true;
 	}
+	
+   /**
+	* Check if the information of a car contains one or more keywords
+	* @param  car  a car which is being check
+	* @return      true if the car meet condition, otherwise false
+	*/
 	private boolean checkCondition(Car car,String keywords){
 		if(keywords==null||keywords.equals(""))
 			return true;
