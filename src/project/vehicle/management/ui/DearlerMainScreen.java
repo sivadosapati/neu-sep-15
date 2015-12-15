@@ -178,11 +178,9 @@ public class DearlerMainScreen extends JFrame {
 			this.updatePermition = false;
 			this.Items = items;
 			this.setCars(cars);
-			this.boolBox = new ArrayList<>(cars.size());
-			for(int i = 0; i<boolBox.size(); i++)	
-				boolBox.set(i, false);
-			System.out.println(boolBox.size());
-			System.out.println(cars.size());
+			this.boolBox = new ArrayList<>();
+			for(int i = 0; i<cars.size(); i++)	
+				boolBox.add(new Boolean(false));
 		}
 
 		public int getColumnCount() {
