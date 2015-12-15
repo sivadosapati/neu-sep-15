@@ -59,15 +59,6 @@ public class DearlerMainScreen extends JFrame {
 		addListeners();
 		display();
 	}
-
-	/*private List<Car> getCarList(List<Integer> carIndex) {
-	List<Car> operatedCars = new ArrayList<>();
-	List<Car> ori = t.getCars();
-	for(int i = 0; i<carIndex.size();i++){
-		operatedCars.add(ori.get(carIndex.get(i)));
-	}
-	return operatedCars;
-}*/
 	
 	public void create() {
 		String[] firstline = { "selection", "carId", "dealerId", "category", "year", "make", "model", "trim", "type",
@@ -178,19 +169,17 @@ public class DearlerMainScreen extends JFrame {
 	class MyTableModel extends AbstractTableModel {
 		private String[] Items = null;
 		private List<Car> cars = null;
-		private boolean[] boolBox = null;
+		private List<Boolean> boolBox = null;
+		private boolean updatePermition;
 
 		public MyTableModel(String[] items, List<Car> cars) {
 			super();
+			this.updatePermition = false;
 			this.Items = items;
 			this.setCars(cars);
-			this.boolBox = new boolean[cars.size()];
-
-		}
-
-		public void deleteOneRow(int row) {
-			getCars().remove(row);
-			boolBox[row] = false;
+			this.boolBox = new ArrayList<>(cars.size());
+			for(int i = 0; i<boolBox.size(); i++)	
+				boolBox.set(i, false);
 		}
 
 		public int getColumnCount() {
@@ -209,7 +198,7 @@ public class DearlerMainScreen extends JFrame {
 			Car oneCar = getCars().get(row);
 			switch (col) {
 			case 0:
-				return new Boolean(boolBox[row]);
+				return boolBox.get(row);
 			case 1:
 				return oneCar.getID();
 			case 2:
@@ -241,7 +230,10 @@ public class DearlerMainScreen extends JFrame {
 			// Note that the data/cell address is constant,
 			// no matter where the cell appears onscreen.
 			if (col > 0) {
-				return false;
+				if(updatePermition == false)
+					return false;
+				else
+					return true;
 			} else {
 				return true;
 			}
@@ -249,15 +241,26 @@ public class DearlerMainScreen extends JFrame {
 
 		public void setValueAt(Object value, int row, int col) {
 			if (col == 0) {
-				boolBox[row] = (boolean) value;
+				boolBox.set(row, (Boolean) value);
 				fireTableCellUpdated(row, col);
-				System.out.println(value);
-				if (boolBox[row] == true) {
+				//System.out.println(value);
+				if (boolBox.get(row).equals(true)) {
 					operateIndex.add(row);
 				} else {
 					operateIndex.remove((Integer) row);
 				}
 			}
+			else
+				if(updatePermition == true){
+					Car val = ((Car) value);
+					cars.get(row).setCategory(val.getCategory());
+					cars.get(row).setMake(val.getMake());
+					cars.get(row).setModel(val.getModel());
+					cars.get(row).setTrim(val.getTrim());
+					cars.get(row).setType(val.getType());
+					cars.get(row).setYear(val.getYear());
+					cars.get(row).setPrice(val.getPrice());
+				}
 		}
 
 		public List<Car> getCars() {
@@ -268,12 +271,29 @@ public class DearlerMainScreen extends JFrame {
 			this.cars = cars;
 		}
 
+		public void deleteOneRow(int row) {
+			cars.remove(row);
+			boolBox.set(row, false);
+		}
+		
 		public void deleteTable(List<Integer> ret) {
 			for (int i = 0; i < ret.size(); i++)
-				tableM.deleteOneRow(ret.get(i));
-			tableM.fireTableRowsDeleted(0, tableM.getRowCount() - 1);
+				this.deleteOneRow(ret.get(i));
+			this.fireTableRowsDeleted(0, this.getRowCount() - 1);
 		}
-
+		
+		public void addTable(Car addedCar) {
+			cars.add(addedCar);
+			this.fireTableRowsInserted(this.getRowCount()-3, this.getRowCount()-1);
+		}
+		
+		public void updateTable(List<Integer> ret, List<Car> updatedCars) {
+			updatePermition = true;
+			for (int i = 0; i < ret.size(); i++)
+				this.setValueAt(updatedCars.get(ret.get(i)), ret.get(i),1);
+			updatePermition = false;
+		}
+		
 	}
 
 	public void display() {
