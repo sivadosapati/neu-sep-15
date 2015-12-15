@@ -60,6 +60,15 @@ public class DearlerMainScreen extends JFrame {
 		display();
 	}
 
+	/*private List<Car> getCarList(List<Integer> carIndex) {
+	List<Car> operatedCars = new ArrayList<>();
+	List<Car> ori = t.getCars();
+	for(int i = 0; i<carIndex.size();i++){
+		operatedCars.add(ori.get(carIndex.get(i)));
+	}
+	return operatedCars;
+}*/
+	
 	public void create() {
 		String[] firstline = { "selection", "carId", "dealerId", "category", "year", "make", "model", "trim", "type",
 				"price" };
