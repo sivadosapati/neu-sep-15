@@ -351,10 +351,11 @@ public class CustomerScreen extends JFrame {
 						comboBox_1.setModel(modelm);                    
 					//}                                             
 					//initcombomodel=!initcombomodel;
-				}/*else{
+				}else{
 					System.out.println("here1");                   //brand置空清空model后再选brand无法生成model列表
-					comboBox_1.removeAllItems();		             
-				}*/				
+					comboBox_1.removeAllItems();
+					comboBox_2.removeAllItems();
+				}			
 				//comboBox_1 = new JComboBox(list.get(0).toArray());
 				//comboBox_1.setSelectedItem(null);
 			}else if(cb==comboBox_1){
@@ -366,6 +367,8 @@ public class CustomerScreen extends JFrame {
 					DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
 						comboBox_2.setModel(trimm);
 					
+				}else{
+					comboBox_2.removeAllItems();
 				}
 			}else if(cb==comboBox_2){
 				sf.setTrim(checknull(choice));
