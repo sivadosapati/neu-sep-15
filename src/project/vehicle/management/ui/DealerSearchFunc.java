@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -81,6 +82,12 @@ public class DealerSearchFunc {
 		frame.setVisible(true);
 		frame.setResizable(false);
 		frame.getRootPane().setDefaultButton(btnSearch);
+		frame.setDefaultCloseOperation(1);
+	}
+
+	public void windowClosing(WindowEvent e) {
+		frame.dispose();
+
 	}
 
 	/**
