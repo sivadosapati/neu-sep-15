@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -31,7 +32,7 @@ public class DealerSearchFunc {
 	private JCheckBox used;
 	private JCheckBox categoryCertified;
 	private JCheckBox categoryUsed;
-	private JComboBox comboBox, comboBox_model, comboBox_trim, comboBox_price, comboBox_year, comboBox_brand;
+	private JComboBox comboBox_model, comboBox_trim, comboBox_price, comboBox_year, comboBox_make;
 	public CarManager carManager;
 	private JButton btnSearch;
 	private JButton Cancel;
@@ -43,6 +44,9 @@ public class DealerSearchFunc {
 	public MyTableModel tableM;
 	public List<Integer> ret;
 	public CarManagerImpl cmi;
+	List<String> makeList;
+	List<String> modelList;
+	List<String> trimList;
 
 	/**
 	 * Launch the application.
@@ -81,7 +85,10 @@ public class DealerSearchFunc {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		list = carManager.listInitralize(carManager.listCars());
+		// list = carManager.listInitralize(carManager.listCars());
+		makeList = carManager.setMake();
+		modelList = carManager.setModel(sf.getMake());
+		trimList = carManager.setTrim(sf.getModel(), sf.getMake());
 
 		frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit()
@@ -137,14 +144,14 @@ public class DealerSearchFunc {
 		gbc_lblMake.gridy = 1;
 		frame.getContentPane().add(lblMake, gbc_lblMake);
 
-		comboBox_brand = new JComboBox(list.get(1).toArray());
-		comboBox_brand.setSelectedItem(null);
+		comboBox_make = new JComboBox(makeList.toArray());
+		comboBox_make.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_4 = new GridBagConstraints();
 		gbc_comboBox_4.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox_4.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox_4.gridx = 1;
 		gbc_comboBox_4.gridy = 1;
-		frame.getContentPane().add(comboBox_brand, gbc_comboBox_4);
+		frame.getContentPane().add(comboBox_make, gbc_comboBox_4);
 
 		JLabel lblModel = new JLabel("Model");
 		GridBagConstraints gbc_lblModel = new GridBagConstraints();
@@ -154,7 +161,7 @@ public class DealerSearchFunc {
 		gbc_lblModel.gridy = 2;
 		frame.getContentPane().add(lblModel, gbc_lblModel);
 
-		comboBox_model = new JComboBox(list.get(0).toArray());
+		comboBox_model = new JComboBox(modelList.toArray());
 		comboBox_model.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_model = new GridBagConstraints();
 		gbc_comboBox_model.fill = GridBagConstraints.HORIZONTAL;
@@ -171,7 +178,7 @@ public class DealerSearchFunc {
 		gbc_lblTrim.gridy = 3;
 		frame.getContentPane().add(lblTrim, gbc_lblTrim);
 
-		comboBox_trim = new JComboBox(list.get(2).toArray());
+		comboBox_trim = new JComboBox(trimList.toArray());
 		comboBox_trim.setSelectedItem(null);
 		GridBagConstraints gbc_comboBox_trim = new GridBagConstraints();
 		gbc_comboBox_trim.fill = GridBagConstraints.HORIZONTAL;
@@ -258,7 +265,7 @@ public class DealerSearchFunc {
 		btnSearch.addActionListener(bc);
 		Cancel.addActionListener(bc);
 		selectAction s = new selectAction();
-		comboBox_brand.addActionListener(s);
+		comboBox_make.addActionListener(s);
 		comboBox_trim.addActionListener(s);
 		comboBox_model.addActionListener(s);
 		comboBox_price.addActionListener(s);
@@ -289,7 +296,9 @@ public class DealerSearchFunc {
 				sf.setKeywords(keyWords.getText());
 				sf.setCategory(category);
 				tableM.setCars(carManager.search(sf));
-
+				System.out.println(sf.getMake());
+				System.out.println(sf.getModel());
+				System.out.println(sf.getTrim());
 				frame.dispose();
 			}
 
@@ -309,10 +318,17 @@ public class DealerSearchFunc {
 			String choice = cb.getSelectedItem().toString();
 			Range r, p;
 
-			if (cb == comboBox) {
+			if (cb == comboBox_make) {
 				sf.setMake(choice);
+				modelList = carManager.setModel(sf.getMake());
+				DefaultComboBoxModel model = new DefaultComboBoxModel(modelList.toArray());
+				comboBox_model.setModel(model);
+
 			} else if (cb == comboBox_model) {
 				sf.setModel(choice);
+				trimList = carManager.setTrim(sf.getModel(), sf.getMake());
+				DefaultComboBoxModel trim = new DefaultComboBoxModel(trimList.toArray());
+				comboBox_trim.setModel(trim);
 			} else if (cb == comboBox_trim) {
 				sf.setTrim(choice);
 			} else if (cb == comboBox_price) {
