@@ -29,10 +29,7 @@ public class DealerUpdate extends JFrame {
 	/**
 	 * 
 	 */
-	//////
 	private static final long serialVersionUID = 1L;
-	public static final int DEFAULT_WIDTH = 800;
-	public static final int DEFAULT_HEIGHT = 500;
 	private JButton cancelButton;
 	private JButton submitButton;
 	private JPanel panel1;
@@ -45,7 +42,7 @@ public class DealerUpdate extends JFrame {
 	List<Car> operatedCars;
 	CarManager update;
 
-	//add table
+	// add table
 	public void addTable() {
 		panel1 = new JPanel();
 		GridLayout lay = new GridLayout();
@@ -66,11 +63,11 @@ public class DealerUpdate extends JFrame {
 		}
 		return operatedCars;
 	}
-	
-	//add button
+
+	// add button
 	public void addButton() {
-		cancelButton = new JButton("CANCEL");
-		submitButton = new JButton("SUBMIT");
+		cancelButton = new JButton("Cancel");
+		submitButton = new JButton("Submit");
 		panel2 = new JPanel();
 		FlowLayout out = new FlowLayout();
 		panel2.setLayout(out);
@@ -79,15 +76,15 @@ public class DealerUpdate extends JFrame {
 	}
 
 	public void display() {
-		JLabel pic = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
+		JLabel pic = new JLabel(new ImageIcon("pictures/DealerScreen2.jpg"));
 		frame = new JFrame("UPDATE");
 		BorderLayout out = new BorderLayout();
 		frame.setLayout(out);
 		frame.getContentPane().add(pic, "North");
 		frame.add(panel1, "Center");
 		frame.add(panel2, "South");
-		frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-		frame.setLocation(850, 400);
+		frame.setBounds(100, 100, 600, 400);
+//		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 
