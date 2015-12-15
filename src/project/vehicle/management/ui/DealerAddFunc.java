@@ -112,7 +112,7 @@ public class DealerAddFunc extends JFrame{
 		}
 	}
 		
-
+ 
 	//Add all components
 	public void addComponent(){
 		car = new Car();
