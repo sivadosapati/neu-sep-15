@@ -29,6 +29,7 @@ public class DealerUpdate extends JFrame {
 	/**
 	 * 
 	 */
+	//////
 	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_WIDTH = 800;
 	public static final int DEFAULT_HEIGHT = 500;
