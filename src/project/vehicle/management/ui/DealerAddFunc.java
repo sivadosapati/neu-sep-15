@@ -32,7 +32,6 @@ public class DealerAddFunc extends JFrame{
 	{
 		super(str);
 		setSize(590,600);
-		setSize(900,600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(g);
 		//use functions
@@ -85,12 +84,7 @@ public class DealerAddFunc extends JFrame{
 				String t5=Type5.getText();
 				String p=textPrice.getText();
 				float pf = Float.parseFloat(p); 
-				if(nt==null){
-					String jCategory = ot;
-				}
-				else{
-					String jCategory = nt;
-				}
+				
 				String type;
 				if(t1 != null){
 					type = t1;
@@ -122,7 +116,7 @@ public class DealerAddFunc extends JFrame{
 	//Add all components
 	public void addComponent(){
 		car = new Car();
-		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
+		head = new JLabel(new ImageIcon("pictures/DealerScreen2.jpg"));
 		add(g, c, head, 0, 0, 3, c.gridheight);
 		//Title
 		
@@ -141,9 +135,6 @@ public class DealerAddFunc extends JFrame{
 		textDealerID=new JTextField(10);
 		add(g,c,textDealerID,1,3,2,1);
 		//jCategory
-		jCategory=new JLabel("jCategory:");
-		add(g,c,jCategory,0,4,1,1);
-		//Category
 		jCategory=new JLabel("Category:");
 		add(g,c,jCategory,0,4,1,1);
 
@@ -199,12 +190,6 @@ public class DealerAddFunc extends JFrame{
 		Type5=new JRadioButton("SUV");
 		add(g,c,Type5,2,10,1,1);
 
-		group.add(Type1);
-		group.add(Type2);
-		group.add(Type3);
-		group.add(Type4);
-		group.add(Type5);
-
 		ButtonGroup group1=new ButtonGroup();
 		group1.add(Type1);
 		group1.add(Type2);
@@ -217,8 +202,7 @@ public class DealerAddFunc extends JFrame{
 		//Input Price
 		textPrice=new JTextField(10);
 		add(g,c,textPrice,1,12,2,1);
-		
-		
+	
 		//Submit button
 		submit=new JButton("Submit");
 		add(g,c,submit,1,14,1,1);
