@@ -140,17 +140,7 @@ public class DearlerMainScreen extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == searchButton) {
-				for (int i = 0; i < operateIndex.size(); i++)
-					System.out.println(tableM.getCars().get(operateIndex.get(i)).getID());
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							new DealerSearchFunc(dealer, tableM);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}); 
+				new DealerSearchFunc(dealer, tableM);
 			} else if (e.getSource() == addButton)
 				 new DealerAddFunc((CarManagerImpl) dealer, tableM);
 			else if (e.getSource() == updateButton) {
@@ -261,6 +251,7 @@ public class DearlerMainScreen extends JFrame {
 					cars.get(row).setType(val.getType());
 					cars.get(row).setYear(val.getYear());
 					cars.get(row).setPrice(val.getPrice());
+					this.fireTableRowsUpdated(row-1, row+1);
 				}
 		}
 
@@ -270,6 +261,12 @@ public class DearlerMainScreen extends JFrame {
 
 		public void setCars(List<Car> cars) {
 			this.cars = cars;
+		}
+		
+		public void searchCars(List<Car> cars) {
+			this.cars = cars;
+			this.fireTableRowsUpdated(0, tableM.getRowCount()-1);
+			resultTable.updateUI();
 		}
 
 		public void deleteOneRow(int row) {
@@ -281,11 +278,14 @@ public class DearlerMainScreen extends JFrame {
 			for (int i = 0; i < ret.size(); i++)
 				this.deleteOneRow(ret.get(i));
 			this.fireTableRowsDeleted(0, this.getRowCount() - 1);
+			resultTable.updateUI();
 		}
 		
 		public void addTable(Car addedCar) {
 			cars.add(addedCar);
+			boolBox.add(false);
 			this.fireTableRowsInserted(this.getRowCount()-3, this.getRowCount()-1);
+			resultTable.updateUI();
 		}
 		
 		public void updateTable(List<Integer> ret, List<Car> updatedCars) {
@@ -293,6 +293,7 @@ public class DearlerMainScreen extends JFrame {
 			for (int i = 0; i < ret.size(); i++)
 				this.setValueAt(updatedCars.get(ret.get(i)), ret.get(i),1);
 			updatePermition = false;
+			resultTable.updateUI();
 		}
 		
 	}
@@ -306,7 +307,6 @@ public class DearlerMainScreen extends JFrame {
 		try {
 			new DearlerMainScreen("gmps-chaparral2");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
