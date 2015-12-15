@@ -11,19 +11,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import project.vehicle.management.data.Car;
+import project.vehicle.management.data.Category;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.ui.DearlerMainScreen.MyTableModel;
 
 public class DealerUpdate extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int DEFAULT_WIDTH = 1200;
 	public static final int DEFAULT_HEIGHT = 800;
 	static Font font = new Font("Times New Roman", Font.BOLD, 18);
@@ -46,11 +53,10 @@ public class DealerUpdate extends JFrame {
 		panel1.setLayout(lay);
 		MyTable mytable = new MyTable(getCarList(operatedList));
 		JTable table = new JTable(mytable);
-//		panel1.setOpaque(true);
-        	table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        	table.setFillsViewportHeight(true);
-        	JScrollPane scrollPane = new JScrollPane(table);
-        	panel1.add(scrollPane);
+        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+        table.setFillsViewportHeight(true);
+        JScrollPane scrollPane = new JScrollPane(table);
+        panel1.add(scrollPane);
 	}
 	
 	private List<Car> getCarList(List<Integer> carIndex) {
@@ -64,37 +70,39 @@ public class DealerUpdate extends JFrame {
 
 	public void addButton(){
 		cancelButton = new JButton("CANCEL");
-        	submitButton = new JButton("SUBMIT");
-        	cancelButton.setFont(font);
-        	submitButton.setFont(font);
-        	panel2 = new JPanel();
-        	FlowLayout out = new FlowLayout();
-        	panel2.setLayout(out);
-        	panel2.add(submitButton);
-        	panel2.add(cancelButton);
+        submitButton = new JButton("SUBMIT");
+        cancelButton.setFont(font);
+        submitButton.setFont(font);
+        panel2 = new JPanel();
+        FlowLayout out = new FlowLayout();
+        panel2.setLayout(out);
+        panel2.add(submitButton);
+        panel2.add(cancelButton);
 	}
 	
 	public  void display(){
+		JLabel pic = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
 		frame = new JFrame("UPDATE");
-        	BorderLayout out = new BorderLayout();
-        	frame.setLayout(out);
-        	frame.add(panel1,"Center");
-        	frame.add(panel2, "South"); 
-        	frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-        	frame.setLocation(850,400);
-        	frame.setVisible(true);
+        BorderLayout out = new BorderLayout();
+        frame.setLayout(out);
+        frame.getContentPane().add(pic,"North");
+        frame.add(panel1,"Center");
+        frame.add(panel2, "South"); 
+        frame.setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        frame.setLocation(850,400);
+        frame.setVisible(true);
 	}
 	
 	public DealerUpdate(CarManager cm, List<Integer> list, MyTableModel mtm) throws IOException {
 		this.t = mtm;
-	    	this.operatedList = list;
-	    	this.update = cm;
+	    this.operatedList = list;
+	    this.update = cm;
 		addButton();
-        	addTable(); 
-        	display();
-        	addListeners();
+        addTable(); 
+        display();
+        addListeners();
        
-    	}
+    }
 
 	public void addListeners() {
 		ButtonClick bc = new ButtonClick();
@@ -110,7 +118,6 @@ public class DealerUpdate extends JFrame {
 				try {
 					update(operatedCars);
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				frame.dispose();
@@ -123,6 +130,10 @@ public class DealerUpdate extends JFrame {
 	}
 	
 	class MyTable extends AbstractTableModel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 100L;
 		private String[] Items = {"ID","DealerID","Category", "Year", "Make","Model", "Trim", "Type", "Price"};
 		private List<Car> cars = null;
 		
@@ -141,7 +152,7 @@ public class DealerUpdate extends JFrame {
 		}
 		
 		public int getColumnCount() {
-        		 return Items.length;
+            return Items.length;
         }
 
         public int getRowCount() {
@@ -179,16 +190,18 @@ public class DealerUpdate extends JFrame {
         }
 
         public List<Car> getCars() {
-		return cars;
-	}
+			return cars;
+		}
 
 
-	public Class getColumnClass(int c) {
+		public Class getColumnClass(int c) {
+			if(getValueAt(0, c).getClass().equals(Category.class))
+				return getValueAt(0, c+2).getClass();
             return getValueAt(0, c).getClass();
         }
         
         public boolean isCellEditable(int row, int col) {
-            if (col > 1) {
+        	if (col > 1) {
                 return true;
             } else {
                 return false;
@@ -196,13 +209,49 @@ public class DealerUpdate extends JFrame {
         }
         
         public void setValueAt(Object value, int row, int col) {
-        	if(true){
-        		System.out.println("Setting value at " + row + "," + col + " to " + value);
-            	fireTableCellUpdated(row, col);
-            }
-        }
+        	System.out.println("Setting value at " + row + "," + col + " to " + value);
+        	Car c = getCars().get(row);
+        	System.out.println(value);
+        	switch(col){
+        	case 0:
+        		c.setID((String) value);
+        		break;
+        	case 1:
+        		c.setDealerID((String) value);
+        		break;
+        	case 2:
+        		Category cate = null;
+        		if(value.equals("NEW"))
+        			cate = Category.NEW;
+        		else if(value.equals("USED"))
+        			cate = Category.USED;
+        		else if(value.equals("CERTIFIED"))
+        			cate = Category.CERTIFIED;
+        		c.setCategory(cate);
+        		break;
+        	case 3:
+        		c.setYear((Integer)value);
+        		break;
+        	case 4:
+        		c.setMake((String) value);
+        		break;
+        	case 5:
+        		c.setModel((String) value);
+        		break;
+        	case 6:
+        		c.setTrim((String) value);
+        		break;
+        	case 7:
+        		c.setType((String) value);
+        		break;
+        	case 8:
+        		c.setPrice((Float)value);
+        		break;
+        	}
+           	fireTableCellUpdated(row, col);
+        }	
 		
-}
+	}
 	
 	
 	private void update(List<Car> updatedCarList) throws IOException {		
@@ -211,3 +260,4 @@ public class DealerUpdate extends JFrame {
 		}
 	}
 }
+
