@@ -279,7 +279,7 @@ public class CarManagerImpl implements CarManager {
 		HashSet<String> models = new HashSet<String>();
 		for(Car car : carList){
             if(car.getMake().equals(make))
-            	models.add(car.getMake());
+            	models.add(car.getModel());
 		}
 		return new ArrayList<String>(models);
 	}
@@ -290,7 +290,7 @@ public class CarManagerImpl implements CarManager {
 		for(Car car : carList){
             if(car.getMake().equals(make))
             	if(car.getModel().equals(model))
-            		trims.add(car.getMake());
+            		trims.add(car.getTrim());
 		}
 		return new ArrayList<String>(trims);
 	}
