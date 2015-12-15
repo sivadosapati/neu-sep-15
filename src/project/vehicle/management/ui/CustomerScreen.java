@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -86,6 +87,7 @@ public class CustomerScreen extends JFrame {
 				Toolkit.getDefaultToolkit().getScreenSize().height);
 		setVisible(true);
 		addListeners();
+		getRootPane().setDefaultButton(searchButton);
 
 	}
 
@@ -344,14 +346,16 @@ public class CustomerScreen extends JFrame {
 					model=carManager.setModel(sf.getMake());
 					model.add(0, "");
 					
-					for(String s:model){
-						comboBox_1.addItem(s);                    //执行了两次插入列表
-					}                                             //选择不同的brand会导致这些brand的model都插入到列表中
+					//for(String s:model){
+					DefaultComboBoxModel modelm = new DefaultComboBoxModel(model.toArray());
+						comboBox_1.setModel(modelm);                    
+					//}                                             
 					//initcombomodel=!initcombomodel;
-				}/*else{
+				}else{
 					System.out.println("here1");                   //brand置空清空model后再选brand无法生成model列表
-					comboBox_1.removeAllItems();		             
-				}*/				
+					comboBox_1.removeAllItems();
+					comboBox_2.removeAllItems();
+				}			
 				//comboBox_1 = new JComboBox(list.get(0).toArray());
 				//comboBox_1.setSelectedItem(null);
 			}else if(cb==comboBox_1){
@@ -360,9 +364,11 @@ public class CustomerScreen extends JFrame {
 				if(choice!=""){
 					trim=carManager.setTrim(sf.getModel(), sf.getMake());
 					trim.add(0, "");
-					for(String s:trim){
-						comboBox_2.addItem(s);
-					}
+					DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
+						comboBox_2.setModel(trimm);
+					
+				}else{
+					comboBox_2.removeAllItems();
 				}
 			}else if(cb==comboBox_2){
 				sf.setTrim(checknull(choice));

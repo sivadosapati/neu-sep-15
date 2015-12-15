@@ -23,29 +23,46 @@ import project.vehicle.management.data.SearchFilter;
 import project.vehicle.management.data.SortCriteria;
 
 /**
- * @author
- *
+ * @author: Zhang Yang, Liu Yang, Jia Jigang, Ma Changzheng
+ * 
  */
 public class CarManagerImpl implements CarManager {
 
-	private List<Car> carList;
 	private String dealerID;
 	private File file;
-
+	private List<Car> carList;
+	
+	public CarManagerImpl(String dealerID) throws IOException {
+        this.setDealerID(dealerID);
+        this.file = new File(dealerID);
+        this.carList = buildCarList();
+    }
+	
+   /**
+    * Get dealer ID of certain CarManagerImpl instance
+    * @param   none
+    * @return  the dealer id of certain CarManagerImpl instance
+    */
 	public String getDealerID() {
 		return dealerID;
 	}
-
+	
+   /**
+    * Set the dealerID for an CarManagerImpl
+    * @param  dealerID  an Dealer id of which is being applied to the CarManagerImpl
+    * @return           none
+    */
 	public void setDealerID(String dealerID) {
 		this.dealerID = dealerID;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see project.vehicle.management.data.access.CarManager#listCars()
-	 */
-
+   /**
+	* Read the corresponding file of the dealer, convert data into a list of cars
+	* @param      none
+	* @return     all the cars of certain dealer.
+    * @exception  IOException On input error
+	* @see        IOException
+	*/
 	private List<Car> buildCarList() throws IOException {
 		List<Car> result = new ArrayList<Car>();
 		FileInputStream fis = new FileInputStream(file);
@@ -71,9 +88,14 @@ public class CarManagerImpl implements CarManager {
 		template.parseFile(file);
 		return cars;
 	}
-
-	private Car lineToCar(String s) {
-		String[] l = s.split("~");
+	
+   /**
+    * Split each line in file with "~" to get car information and build a car.
+    * @param  line  each line in file, except the first line
+    * @return       the corresponding car of the line in the file
+    */
+	private Car lineToCar(String line) {
+		String[] l = line.split("~");
 		String id = l[0];
 		String dealerId = l[1];
 		Category category = Category.valueOf(l[2].toUpperCase());
@@ -83,29 +105,24 @@ public class CarManagerImpl implements CarManager {
 		String trim = l[6];
 		String type = l[7];
 		Float price = Float.parseFloat(l[8]);
-		return new Car(id, dealerId, category, year, make, model, trim, type,
-				price);
+		return new Car(id, dealerId, category, year, make, model, trim, type, price);
 	}
-
-	public CarManagerImpl(String dealerID) throws IOException {
-		this.setDealerID(dealerID);
-		String filePath = dealerID;
-		this.file = new File(filePath);
-		this.carList = buildCarList();
-	}
-
+	
+   /**
+    * Get all the cars of this dealer
+    * @param   None
+    * @return  all the cars of certain dealer, without searching and sorting
+    */
 	@Override
 	public List<Car> listCars() {
 		return carList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * project.vehicle.management.data.access.CarManager#search(project.vehicle
-	 * .management.data.SearchFilter)
-	 */
+   /**
+    * Get cars which match defined SearchFilter
+    * @param  sf  an defined SearchFilter which is being applied
+    * @return     all the cars meet the condition.
+    */
 	@Override
 	public List<Car> search(SearchFilter sf) {
 		List<Car> result = new ArrayList<Car>();
@@ -115,7 +132,12 @@ public class CarManagerImpl implements CarManager {
 		}
 		return result;
 	}
-
+	
+   /**
+    * Check if a car meets the condition of a SearchFilter
+    * @param  car  a car which is being check
+    * @return      true if the car meet condition, otherwise false
+    */
 	private boolean checkSearchCondition(Car car, SearchFilter sf) {
 		if (!checkCondition(sf.getMake(),car.getMake()))
 			return false;
@@ -133,6 +155,12 @@ public class CarManagerImpl implements CarManager {
 			return false;
 		return true;
 	}
+	
+   /**
+	* Check if the information of a car contains one or more keywords
+	* @param  car  a car which is being check
+	* @return      true if the car meet condition, otherwise false
+	*/
 	private boolean checkCondition(Car car,String keywords){
 		if(keywords==null||keywords.equals(""))
 			return true;
@@ -292,6 +320,6 @@ public class CarManagerImpl implements CarManager {
             	if(car.getModel().equals(model))
             		trims.add(car.getTrim());
 		}
-		return new ArrayList<String>(trims);
-	}
+        return new ArrayList<String>(trims);
+    }
 }
