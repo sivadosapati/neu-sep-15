@@ -44,8 +44,8 @@ public class DealerUpdate extends JFrame {
 		panel1.setLayout(lay);
 //		panel1.setOpaque(true);
 		JTable table = new JTable(t);///////////////////input table //////////////////////////////////
-       /* table.setPreferredScrollableViewportSize(new Dimension(500, 100));
-        table.setFillsViewportHeight(true);*/
+        table.setPreferredScrollableViewportSize(new Dimension(500, 100));
+        table.setFillsViewportHeight(true);
         JScrollPane scrollPane = new JScrollPane(table);
         panel1.add(scrollPane);
 	}
@@ -74,15 +74,16 @@ public class DealerUpdate extends JFrame {
         frame.setVisible(true);
 	}
 	
-	public DealerUpdate(CarManager cm, List<Integer> list, MyTableModel mtm ) throws IOException {//////////////////////(what in List<Integet>)//////////////////////////////////////////////
+	public DealerUpdate(CarManager cm, List<Integer> list, MyTableModel mtm) throws IOException {
         //DearlerMainScreen dms = new DearlerMainScreen("gmps-chaparral2");
-        addButton();
+		this.t = mtm;
+	    this.operatedList = list;
+	    this.update = cm;
+		addButton();
         addTable(); 
         display();
         addListeners();
-        this.t = mtm;
-        this.operatedList = list;
-        this.update = cm;
+       
         
     }
 	
@@ -123,88 +124,11 @@ public class DealerUpdate extends JFrame {
 	}
 	
 	
-	class MyTableModel extends AbstractTableModel {
-		private String[] Items = {"ID","DealerID","Category", "Year", "Make","Model", "Trim", "Type", "Price"};
-		private List<Integer> cars = operatedList;
-		
-		//copy data from dealer main
-		public List<Integer> copy(List<Integer> operatedList){
-			origin = new ArrayList<Integer>();
-			for(int i = 0; i < operatedList.size(); i++){
-				origin.add(operatedList.get(i));
-			}
-			return origin;
-		}
-		
-		/*public MyTableModel(){}
-		public MyTableModel(String[] items, List<Car> cars) {
-			super();
-			this.Items = items;
-			this.cars = operatedList;	
-		}*/
-		
-		public int getColumnCount() {
-            return Items.length;
-        }
-
-        public int getRowCount() {
-            return cars.size();
-        }
-
-        public String getColumnName(int col) {
-            return Items[col];
-        }
-
-        public Object getValueAt(int row, int col) {
-            Car oneCar = getCars().get(row);//////////////////////////////////////////////////////////
-        	switch(col){
-        	case 0:
-        		return oneCar.getID();
-        	case 1:
-        		return oneCar.getDealerID();
-        	case 2:
-        		return oneCar.getCategory();
-        	case 3:
-        		return oneCar.getYear();
-        	case 4:
-        		return oneCar.getMake();
-        	case 5:
-        		return oneCar.getModel();
-        	case 6:
-        		return oneCar.getTrim();
-        	case 7:
-        		return oneCar.getType();
-        	case 8:
-        		return oneCar.getPrice();
-        	default:
-        		return null;
-        	}
-        }
-
-        public Class getColumnClass(int c) {
-            return getValueAt(0, c).getClass();
-        }
-        
-        public boolean isCellEditable(int row, int col) {
-            if (col>1) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        
-        public void setValueAt(Object value, int row, int col) {
-        	if(true){
-        		System.out.println("Setting value at " + row + "," + col + " to " + value);
-            	fireTableCellUpdated(row, col);
-            }
-        }
-		
-	}
+	
 	
 	private void update(List<Integer> operatedList) throws IOException {
 		for (Integer index : operatedList) {
-			update.updateCar(t.cars.get(index));
+			;//update.updateCar(t.cars.get(index));
 		}
 	}
 }
