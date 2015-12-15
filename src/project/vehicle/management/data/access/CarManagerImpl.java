@@ -40,8 +40,8 @@ public class CarManagerImpl implements CarManager {
 	
 	/**
      * Get dealer ID of certain CarManagerImpl instance
-     * @param none
-     * @return dealerID of certain CarManagerImpl instance
+     * @param None
+     * @return dealerID Dealer id of certain CarManagerImpl instance
      */
 	public String getDealerID() {
 		return dealerID;
@@ -49,8 +49,8 @@ public class CarManagerImpl implements CarManager {
 	
 	/**
      * Set the dealerID for an CarManagerImpl
-     * @param dealerID of which will be applied to the CarManagerImpl
-     * @return none
+     * @param dealerID Dealer id of which will be applied to the CarManagerImpl
+     * @return None
      */
 	public void setDealerID(String dealerID) {
 		this.dealerID = dealerID;
@@ -58,8 +58,8 @@ public class CarManagerImpl implements CarManager {
 	
 	/**
 	 * Read the corresponding file of the dealer, convert data into a list of cars
-	 * @param none
-	 * @return List<Car> all the cars of certain dealer.
+	 * @param None
+	 * @return List<Car> All the cars of certain dealer.
 	 * @exception IOException On input error
 	 * @see IOException
 	 */
@@ -88,9 +88,14 @@ public class CarManagerImpl implements CarManager {
 		template.parseFile(file);
 		return cars;
 	}
-
-	private Car lineToCar(String s) {
-		String[] l = s.split("~");
+	
+	/**
+     * Split each line in file with "~" to get car information and build a car.
+     * @param line Each line in file, except the first line
+     * @return Car The corresponding car of the line in the file
+     */
+	private Car lineToCar(String line) {
+		String[] l = line.split("~");
 		String id = l[0];
 		String dealerId = l[1];
 		Category category = Category.valueOf(l[2].toUpperCase());
@@ -100,22 +105,24 @@ public class CarManagerImpl implements CarManager {
 		String trim = l[6];
 		String type = l[7];
 		Float price = Float.parseFloat(l[8]);
-		return new Car(id, dealerId, category, year, make, model, trim, type,
-				price);
+		return new Car(id, dealerId, category, year, make, model, trim, type, price);
 	}
-
+	
+	/**
+     * Get all the cars of this dealer
+     * @param None
+     * @return List<Car> All the cars of certain dealer, without searching and sorting
+     */
 	@Override
 	public List<Car> listCars() {
 		return carList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * project.vehicle.management.data.access.CarManager#search(project.vehicle
-	 * .management.data.SearchFilter)
-	 */
+	/**
+     * Get cars which match defined SearchFilter
+     * @param sf SearchFilter with all attributes defined
+     * @return List<Car> All the cars meet the condition.
+     */
 	@Override
 	public List<Car> search(SearchFilter sf) {
 		List<Car> result = new ArrayList<Car>();
