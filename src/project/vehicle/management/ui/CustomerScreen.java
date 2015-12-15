@@ -87,6 +87,7 @@ public class CustomerScreen extends JFrame {
 				Toolkit.getDefaultToolkit().getScreenSize().height);
 		setVisible(true);
 		addListeners();
+		getRootPane().setDefaultButton(searchButton);
 
 	}
 
