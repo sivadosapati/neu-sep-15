@@ -40,32 +40,29 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Get dealer ID of certain CarManagerImpl instance
-     * 
-     * @param none
-     * @return the dealer id of certain CarManagerImpl instance
+     * @param   none
+     * @return  the dealer id of certain CarManagerImpl instance
      */
     public String getDealerID() {
         return dealerID;
     }
 
-    /**
-     * Set the dealerID for an CarManagerImpl
-     * 
-     * @param dealerID an Dealer id of which is being applied to the CarManagerImpl
-     * @return none
-     */
+   /**
+    * Set the dealerID for an CarManagerImpl
+    * @param  dealerID  an Dealer id of which is being applied to the CarManagerImpl
+    * @return           none
+    */
     public void setDealerID(String dealerID) {
         this.dealerID = dealerID;
     }
 
-    /**
-     * Read the corresponding file of the dealer, convert data into a list of cars
-     * 
-     * @param none
-     * @return all the cars of certain dealer.
-     * @exception IOException On input error
-     * @see IOException
-     */
+   /**
+    * Read the corresponding file of the dealer, convert data into a list of cars
+    * @param      none
+    * @return     all the cars of certain dealer.
+    * @exception  IOException On input error
+    * @see        IOException
+    */
     private List<Car> buildCarList() throws IOException {
         List<Car> result = new ArrayList<Car>();
         FileInputStream fis = new FileInputStream(file);
@@ -92,12 +89,11 @@ public class CarManagerImpl implements CarManager {
         return cars;
     }
 
-    /**
-     * Split each line in file with "~" to get car information and build a car.
-     * 
-     * @param line each line in file, except the first line
-     * @return the corresponding car of the line in the file
-     */
+   /**
+    * Split each line in file with "~" to get car information and build a car.
+    * @param  line  each line in file, except the first line
+    * @return       the corresponding car of the line in the file
+    */
     private Car lineToCar(String line) {
         String[] l = line.split("~");
         String id = l[0];
@@ -112,12 +108,11 @@ public class CarManagerImpl implements CarManager {
         return new Car(id, dealerId, category, year, make, model, trim, type, price);
     }
 
-    /**
-     * Get all the cars of this dealer
-     * 
-     * @param None
-     * @return all the cars of certain dealer, without searching and sorting
-     */
+   /**
+    * Get all the cars of this dealer
+    * @param   none
+    * @return  all the cars of certain dealer, without searching and sorting
+    */
     @Override
     public List<Car> listCars() {
         return carList;
@@ -126,8 +121,8 @@ public class CarManagerImpl implements CarManager {
     /**
      * Get cars which match defined SearchFilter
      * 
-     * @param sf an defined SearchFilter which is being applied
-     * @return all the cars meet the condition.
+     * @param  sf  an defined SearchFilter which is being applied
+     * @return     all the cars meet the condition.
      */
     @Override
     public List<Car> search(SearchFilter sf) {
@@ -142,8 +137,8 @@ public class CarManagerImpl implements CarManager {
     /**
      * Check if a car meets the condition of a SearchFilter
      * 
-     * @param car a car which is being check
-     * @return true if the car meet condition, otherwise false
+     * @param  car  a car which is being check
+     * @return      true if the car meet condition, otherwise false
      */
     private boolean checkSearchCondition(Car car, SearchFilter sf) {
         if (!checkCondition(sf.getMake(), car.getMake()))
@@ -166,8 +161,8 @@ public class CarManagerImpl implements CarManager {
     /**
      * Check if the information of a car contains one or more keywords
      * 
-     * @param car a car which is being check
-     * @return true if the car meet condition, otherwise false
+     * @param  car  a car which is being check
+     * @return      true if the car meet condition, otherwise false
      */
     private boolean checkCondition(Car car, String keywords) {
         if (keywords == null || keywords.equals(""))
@@ -234,18 +229,25 @@ public class CarManagerImpl implements CarManager {
         return true;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see project.vehicle.management.data.access.CarManager#addCar(project.vehicle
-     * .management.data.Car)
-     */
+   /**
+    * Add a car to the car list and write to file
+    * @param   car    a car which is being added
+    * @return         none
+    * @exception      IOException On input error
+    * @see            Car
+    */
     @Override
     public void addCar(Car car) throws IOException {
         this.carList.add(car);
         addToFile(car.toString());
     }
-
+    
+   /**
+    * Write a string in the file
+    * @param   str   a string which is being written
+    * @return        none
+    * @exception     IOException On output error
+    */
     public void addToFile(String str) throws IOException {
         FileWriter fw = new FileWriter(file, true);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -255,11 +257,12 @@ public class CarManagerImpl implements CarManager {
         fw.close();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see project.vehicle.management.data.access.CarManager#deleteCar(java.lang .String)
-     */
+   /**
+    * Delete a car with certain vehicleId in the car list and delete the car data in file
+    * @param   vehicleId   a string whose car is being deleted
+    * @return              none
+    * @exception           IOException On output error
+    */
     @Override
     public void deleteCar(String vehicleId) throws IOException {
         coverFile();
@@ -271,6 +274,12 @@ public class CarManagerImpl implements CarManager {
         }
     }
 
+   /**
+    * Delete a car with certain vehicleId in the car list and delete the car data in file
+    * @param      none
+    * @return     none
+    * @exception  IOException On output error
+    */
     private void coverFile() throws IOException {
         FileWriter fw = new FileWriter(file);
         fw.write("id~webId~category~year~make~model~trim~type~price");
