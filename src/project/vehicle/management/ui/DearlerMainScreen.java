@@ -1,6 +1,7 @@
-package project.vehicle.management.ui ;
+package project.vehicle.management.ui;
 
 import java.awt.Container;
+import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -27,8 +28,6 @@ import project.vehicle.management.data.Dealer;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
 
-
-
 public class DearlerMainScreen extends JFrame {
 	private JButton addButton;
 	private JButton searchButton;
@@ -42,12 +41,12 @@ public class DearlerMainScreen extends JFrame {
 	private BufferedImage buttonIcon2 = null;
 	private BufferedImage buttonIcon3 = null;
 	private BufferedImage buttonIcon4 = null;
-	
+
 	private List<Integer> operateIndex = null;
 	private String[] items;
-	
+
 	private CarManager dealer;
-	
+
 	public DearlerMainScreen(String dealerID) throws IOException {
 		this.dealer = new CarManagerFactory().getCarManager(dealerID);
 		create();
@@ -55,20 +54,20 @@ public class DearlerMainScreen extends JFrame {
 		addListeners();
 		display();
 	}
-	
+
 	public DearlerMainScreen() {
 		create();
 		add();
 		addListeners();
 		display();
 	}
-	
-	
+
 	public void create() {
-		String[] firstline = {"selection","carId","dealerId","category","year","make","model","trim","type","price"};
+		String[] firstline = { "selection", "carId", "dealerId", "category", "year", "make", "model", "trim", "type",
+				"price" };
 		items = firstline;
 		operateIndex = new ArrayList<>();
-		
+
 		try {
 			buttonIcon = ImageIO.read(new File("pictures/search.png"));
 			buttonIcon2 = ImageIO.read(new File("pictures/add.png"));
@@ -76,37 +75,37 @@ public class DearlerMainScreen extends JFrame {
 			buttonIcon4 = ImageIO.read(new File("pictures/update.png"));
 		} catch (IOException e1) {
 			e1.printStackTrace();
-		} 
+		}
 		addButton = new JButton(new ImageIcon(buttonIcon2));
-		addButton.setMargin(new Insets(0,0,0,0));
+		addButton.setMargin(new Insets(0, 0, 0, 0));
 		searchButton = new JButton(new ImageIcon(buttonIcon));
 		searchButton.setMargin(new Insets(0, 0, 0, 0));
 		deleteButton = new JButton(new ImageIcon(buttonIcon3));
-		deleteButton.setMargin(new Insets(0,0,0,0));
+		deleteButton.setMargin(new Insets(0, 0, 0, 0));
 		updateButton = new JButton(new ImageIcon(buttonIcon4));
 		updateButton.setMargin(new Insets(0, 0, 0, 0));
 		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
-		
+
 		tableM = new MyTableModel(items, dealer.listCars());
 		resultTable = new JTable(tableM);
 		resultTable.setRowHeight(20);
 		resultScroll = new JScrollPane(resultTable);
-		
+
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 	}
 
 	public void add() {
 		Container con = getContentPane();
 		con.setLayout(new GridBagLayout());
-		
+
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		placeComponent(gbc, 0, 0, 0, 0, 4, gbc.gridheight, 0, 0);
 		con.add(head, gbc);
 		placeComponent(gbc, 1, 0, 0, 1, 1, gbc.gridheight, 0, 0);
-		gbc.insets = new Insets(40,10,20,10);
+		gbc.insets = new Insets(40, 10, 20, 10);
 		con.add(searchButton, gbc);
-		placeComponent(gbc, gbc.weightx, gbc.weighty, 1, 1, gbc.gridwidth, gbc.gridheight, 0, 0);		
+		placeComponent(gbc, gbc.weightx, gbc.weighty, 1, 1, gbc.gridwidth, gbc.gridheight, 0, 0);
 		con.add(addButton, gbc);
 		placeComponent(gbc, gbc.weightx, gbc.weighty, 2, 1, gbc.gridwidth, gbc.gridheight, 0, 0);
 		con.add(updateButton, gbc);
@@ -117,7 +116,8 @@ public class DearlerMainScreen extends JFrame {
 		con.add(resultScroll, gbc);
 	}
 
-	private void placeComponent(GridBagConstraints gbc, double weightx, double weighty, int gridx, int gridy, int gridwidth, int gridheight, int ipadx, int ipady) {
+	private void placeComponent(GridBagConstraints gbc, double weightx, double weighty, int gridx, int gridy,
+			int gridwidth, int gridheight, int ipadx, int ipady) {
 		gbc.weightx = weightx;
 		gbc.weighty = weighty;
 		gbc.gridx = gridx;
@@ -127,7 +127,7 @@ public class DearlerMainScreen extends JFrame {
 		gbc.ipadx = ipadx;
 		gbc.ipady = ipady;
 	}
-	
+
 	public void addListeners() {
 		BottonClicked buttonListener = new BottonClicked();
 		searchButton.addActionListener(buttonListener);
@@ -135,117 +135,124 @@ public class DearlerMainScreen extends JFrame {
 		updateButton.addActionListener(buttonListener);
 		deleteButton.addActionListener(buttonListener);
 	}
-	
+
 	class BottonClicked implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource() == searchButton){
-				for(int i = 0; i<operateIndex.size(); i++)
-            		System.out.println(tableM.getCars().get(operateIndex.get(i)).getID());
-			}
-			else if(e.getSource() == addButton)
-				;//new DeaerAddFunc(dealer);
-			else if(e.getSource() == updateButton){
+			if (e.getSource() == searchButton) {
+				for (int i = 0; i < operateIndex.size(); i++)
+					System.out.println(tableM.getCars().get(operateIndex.get(i)).getID());
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							new DealerSearchFunc(dealer, tableM);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			} else if (e.getSource() == addButton)
+				;// new DeaerAddFunc(dealer);
+			else if (e.getSource() == updateButton) {
 				;
-				/*for(int i = 0; i<operatedList.size(); i++){
-					for(int l = 0; l<items.length; l++)
-						System.out.print(results[operatedList.get(i)][l]);
-					System.out.println("");
-				}*/
-			}
-			else if(e.getSource() == deleteButton){
+				/*
+				 * for(int i = 0; i<operatedList.size(); i++){ for(int l = 0;
+				 * l<items.length; l++)
+				 * System.out.print(results[operatedList.get(i)][l]);
+				 * System.out.println(""); }
+				 */
+			} else if (e.getSource() == deleteButton) {
 				DealerDelFunc deleteScreen = new DealerDelFunc(dealer, operateIndex, tableM);
 			}
 		}
-		
+
 	}
-    
-	class MyTableModel extends AbstractTableModel {	
+
+	class MyTableModel extends AbstractTableModel {
 		private String[] Items = null;
 		private List<Car> cars = null;
 		private boolean[] boolBox = null;
-		
+
 		public MyTableModel(String[] items, List<Car> cars) {
 			super();
 			this.Items = items;
 			this.setCars(cars);
 			this.boolBox = new boolean[cars.size()];
-			
+
 		}
-		
-		public void deleteOneRow(int row){
+
+		public void deleteOneRow(int row) {
 			getCars().remove(row);
 			boolBox[row] = false;
 		}
 
 		public int getColumnCount() {
-            return Items.length;
-        }
+			return Items.length;
+		}
 
-        public int getRowCount() {
-            return getCars().size();
-        }
+		public int getRowCount() {
+			return getCars().size();
+		}
 
-        public String getColumnName(int col) {
-            return Items[col];
-        }
+		public String getColumnName(int col) {
+			return Items[col];
+		}
 
-        public Object getValueAt(int row, int col) {
-            Car oneCar = getCars().get(row);
-        	switch(col){
-        	case 0:
-        		return new Boolean(boolBox[row]);
-        	case 1:
-        		return oneCar.getID();
-        	case 2:
-        		return oneCar.getDealerID();
-        	case 3:
-        		return oneCar.getCategory();
-        	case 4:
-        		return oneCar.getYear();
-        	case 5:
-        		return oneCar.getMake();
-        	case 6:
-        		return oneCar.getModel();
-        	case 7:
-        		return oneCar.getTrim();
-        	case 8:
-        		return oneCar.getType();
-        	case 9:
-        		return oneCar.getPrice();
-        	default:
-        		return null;
-        	}
-        }
+		public Object getValueAt(int row, int col) {
+			Car oneCar = getCars().get(row);
+			switch (col) {
+			case 0:
+				return new Boolean(boolBox[row]);
+			case 1:
+				return oneCar.getID();
+			case 2:
+				return oneCar.getDealerID();
+			case 3:
+				return oneCar.getCategory();
+			case 4:
+				return oneCar.getYear();
+			case 5:
+				return oneCar.getMake();
+			case 6:
+				return oneCar.getModel();
+			case 7:
+				return oneCar.getTrim();
+			case 8:
+				return oneCar.getType();
+			case 9:
+				return oneCar.getPrice();
+			default:
+				return null;
+			}
+		}
 
-        public Class getColumnClass(int c) {
-            return getValueAt(0, c).getClass();
-        }
-        
-        public boolean isCellEditable(int row, int col) {
-            //Note that the data/cell address is constant,
-            //no matter where the cell appears onscreen.
-            if (col>0) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-        
-        public void setValueAt(Object value, int row, int col) {
-        	if(col == 0){
-        		boolBox[row] = (boolean) value;
-            	fireTableCellUpdated(row, col);
-            	System.out.println(value);
-            	if(boolBox[row] == true){
-            		operateIndex.add(row);
-            	}
-            	else{
-            		operateIndex.remove((Integer)row);
-            	}
-            }
-        }
+		public Class getColumnClass(int c) {
+			return getValueAt(0, c).getClass();
+		}
+
+		public boolean isCellEditable(int row, int col) {
+			// Note that the data/cell address is constant,
+			// no matter where the cell appears onscreen.
+			if (col > 0) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+
+		public void setValueAt(Object value, int row, int col) {
+			if (col == 0) {
+				boolBox[row] = (boolean) value;
+				fireTableCellUpdated(row, col);
+				System.out.println(value);
+				if (boolBox[row] == true) {
+					operateIndex.add(row);
+				} else {
+					operateIndex.remove((Integer) row);
+				}
+			}
+		}
 
 		public List<Car> getCars() {
 			return cars;
@@ -254,20 +261,20 @@ public class DearlerMainScreen extends JFrame {
 		public void setCars(List<Car> cars) {
 			this.cars = cars;
 		}
-		
+
 		public void deleteTable(List<Integer> ret) {
-			for(int i = 0; i<ret.size(); i++)
+			for (int i = 0; i < ret.size(); i++)
 				tableM.deleteOneRow(ret.get(i));
-			tableM.fireTableRowsDeleted(0, tableM.getRowCount()-1);
+			tableM.fireTableRowsDeleted(0, tableM.getRowCount() - 1);
 		}
 
 	}
-	
+
 	public void display() {
 		setSize(1200, 730);
 		setVisible(true);
 	}
-	
+
 	public static void main(String[] args) {
 		try {
 			new DearlerMainScreen("gmps-chaparral2");
