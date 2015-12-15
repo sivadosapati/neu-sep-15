@@ -43,7 +43,7 @@ public class DealerUpdate extends JFrame {
 		GridLayout lay = new GridLayout();
 		panel1.setLayout(lay);
 //		panel1.setOpaque(true);
-		JTable table = new JTable(t);///////////////////input table //////////////////////////////////
+		JTable table = new JTable(t);/
         table.setPreferredScrollableViewportSize(new Dimension(500, 100));
         table.setFillsViewportHeight(true);
         JScrollPane scrollPane = new JScrollPane(table);
