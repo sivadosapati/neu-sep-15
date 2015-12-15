@@ -25,6 +25,7 @@ import javax.swing.table.AbstractTableModel;
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
+import project.vehicle.management.data.access.CarManagerImpl;
 
 public class DearlerMainScreen extends JFrame {
 	private JButton addButton;
@@ -151,7 +152,7 @@ public class DearlerMainScreen extends JFrame {
 					}
 				});
 			} else if (e.getSource() == addButton)
-				 ;//new DeaerAddFunc(dealer);
+				 new DealerAddFunc((CarManagerImpl) dealer, tableM);
 			else if (e.getSource() == updateButton) {
 				try {
 					new DealerUpdate(dealer, operateIndex, tableM);
@@ -180,6 +181,8 @@ public class DearlerMainScreen extends JFrame {
 			this.boolBox = new ArrayList<>(cars.size());
 			for(int i = 0; i<boolBox.size(); i++)	
 				boolBox.set(i, false);
+			System.out.println(boolBox.size());
+			System.out.println(cars.size());
 		}
 
 		public int getColumnCount() {
