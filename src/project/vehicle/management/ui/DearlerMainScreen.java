@@ -150,7 +150,7 @@ public class DearlerMainScreen extends JFrame {
 							e.printStackTrace();
 						}
 					}
-				});
+				}); 
 			} else if (e.getSource() == addButton)
 				 new DealerAddFunc((CarManagerImpl) dealer, tableM);
 			else if (e.getSource() == updateButton) {
