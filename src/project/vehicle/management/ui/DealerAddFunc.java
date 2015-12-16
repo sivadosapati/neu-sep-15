@@ -81,7 +81,7 @@ public class DealerAddFunc extends JFrame {
 			add(g, c, ID, 0, 2, 1, 1);
 			
 			// Input ID
-			textID = new JTextField(10);
+			textID = new JTextField(20);
 			add(g, c, textID, 1, 2, 2, 1);
 
 			// jCategory
@@ -120,7 +120,7 @@ public class DealerAddFunc extends JFrame {
 			add(g, c, Model, 0, 7, 1, 1);
 			
 			// Input Make
-			textMake = new JTextField(10);
+			textMake = new JTextField(20);
 			add(g, c, textMake, 1, 7, 2, 1);
 			
 			// Model
@@ -128,7 +128,7 @@ public class DealerAddFunc extends JFrame {
 			add(g, c, Model, 0, 8, 1, 1);
 			
 			// Input Model
-			textModel = new JTextField(10);
+			textModel = new JTextField(20);
 			add(g, c, textModel, 1, 8, 2, 1);
 			
 			// Trim
@@ -168,7 +168,7 @@ public class DealerAddFunc extends JFrame {
 			add(g, c, Price, 0, 13, 1, 1);
 			
 			// Input Price
-			textPrice = new JTextField(10);
+			textPrice = new JTextField(20);
 			add(g, c, textPrice, 1, 13, 2, 1);
 
 			// Submit button
