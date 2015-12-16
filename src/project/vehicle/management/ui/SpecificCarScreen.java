@@ -2,6 +2,8 @@ package project.vehicle.management.ui;
 
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -32,7 +34,8 @@ public class SpecificCarScreen extends JFrame {
 	private JButton search;
 	private JLabel carPrice,category,type,make,model,year,trim;
 	private JPanel contentPane;
-	private JLabel lblSnapshot,picture,picture1,info;
+	private JLabel lblSnapshot,picture,picture1,picture2,picture3,info,dealerid,country;
+	private LinkLabel web;
 	private Car car;
 	private String[] dealerInfo;
 
@@ -42,6 +45,7 @@ public class SpecificCarScreen extends JFrame {
 		dealerInfo = car.getDealerInfo();
 		setTitle("Car Detail");
 		create();
+		setFonts();
 		add();
 		addListeners();
 		display();
@@ -49,6 +53,12 @@ public class SpecificCarScreen extends JFrame {
 	}
 	
 	private void create() {
+		search = new JButton("Back to Search");
+		lblSnapshot = new JLabel("> Snapshot");
+		
+
+		picture = new JLabel(new ImageIcon("pictures/carDetail.png"));
+		
 		carPrice = new JLabel("Car price: "+"$"+car.getPrice());
 		category= new JLabel("Category: "+car.getCategory());
 		type= new JLabel("Body style: "+car.getType());
@@ -56,7 +66,32 @@ public class SpecificCarScreen extends JFrame {
 		model= new JLabel("Model: "+car.getModel());
 		year= new JLabel("Year: "+car.getYear());
 		trim= new JLabel("Trim: "+car.getTrim());
+
+		info = new JLabel("Dealer Infomation:");
+		dealerid = new JLabel("Dealer: "+dealerInfo[0]);
+		country = new JLabel("Country: "+dealerInfo[1]);
+		web = new LinkLabel(dealerInfo[2],dealerInfo[2]);
 		
+
+		picture1 = new JLabel(new ImageIcon("pictures/cardetail1.jpg"));
+		picture2 = new JLabel(new ImageIcon("pictures/cardetail2.png"));
+		picture3 = new JLabel(new ImageIcon("pictures/cardetail3.png"));
+	}
+	
+	private void setFonts() {
+		Font font = new Font("Arial", Font.BOLD, 24);
+		year.setFont(font);
+		carPrice.setFont(font);
+		make.setFont(font);
+		Font font1 = new Font("Arial", Font.BOLD, 18);
+		trim.setFont(font1); 
+		model.setFont(font1);
+		type.setFont(font1);
+		category.setFont(font1);
+		info.setFont(font1);
+		dealerid.setFont(font1);
+		country.setFont(font1);
+		web.setFont(font1);
 	}
 	
 	private void add(){
@@ -72,20 +107,14 @@ public class SpecificCarScreen extends JFrame {
 		int h=Toolkit.getDefaultToolkit().getScreenSize().height;
 		setBounds(w, h,w, h);
 
-		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-	
-		
-		search = new JButton("Back to Search");
 		search.setBounds(10, 9, 140, 35);
 		contentPane.add(search);
 		
-
-		lblSnapshot = new JLabel("> Snapshot");
 		lblSnapshot.setBounds(160, 12, 111, 24);
 		contentPane.add(lblSnapshot);
 	}
@@ -95,7 +124,6 @@ public class SpecificCarScreen extends JFrame {
 	 */
 	private void addPhotoPanel() {
 		// set photo
-		picture = new JLabel(new ImageIcon("pictures/carDetail.png"));
 		JPanel panelpicture = new JPanel();
 		panelpicture.setBounds(16, 91, 640, 320);
 		panelpicture.add(picture);
@@ -144,19 +172,15 @@ public class SpecificCarScreen extends JFrame {
 	private void setDealerInfo(JTabbedPane tabbedPane) {
 		JPanel contact = new JPanel();
 		tabbedPane.addTab("Dealers ", null, contact, null);
-		GridLayout gl1 = new GridLayout(2,3);
-		contact.setLayout(gl1);
-		info = new JLabel("Dealer Infomation:");
+		GridLayout gl = new GridLayout(2,3);
+		contact.setLayout(gl);
 		contact.add(info);
 		JLabel space = new JLabel("");
 		contact.add(space);
 		JLabel space1 = new JLabel("");
 		contact.add(space1);
-		JLabel dealerid = new JLabel("Dealer: "+dealerInfo[0]);
 		contact.add(dealerid);
-		JLabel country = new JLabel("Country: "+dealerInfo[1]);
 		contact.add(country);
-		LinkLabel web = new LinkLabel(dealerInfo[2],dealerInfo[2]);
 		contact.add(web);
 		
 	}
@@ -167,11 +191,14 @@ public class SpecificCarScreen extends JFrame {
 		 * hard code
 		 */
 		JPanel photo = new JPanel();
-		//more photos
-		picture1 = new JLabel(new ImageIcon("pictures/detail.jpg"));
-		photo.add(picture1);
 		JScrollPane scrollphoto = new JScrollPane(photo);
 		tabbedPane.addTab("More Photos", null, scrollphoto, null);
+		FlowLayout fl = new FlowLayout();
+		photo.setLayout(fl);
+		//more photos
+		photo.add(picture1);
+		photo.add(picture2);
+		photo.add(picture3);
 		/*
 		 * hard code
 		 */
@@ -201,6 +228,8 @@ public class SpecificCarScreen extends JFrame {
 		
 	}
 }
+
+
 class LinkLabel extends JLabel {
 	/**
 	 * 
