@@ -330,15 +330,15 @@ public class CustomerScreen extends JFrame {
 			}else if(cb==comboBox_1){
 				
 				sf.setModel(checknull(choice));
-				if(choice!=""){
-					trim=carManager.setTrim(sf.getModel(), sf.getMake());
-					trim.add(0, "");
-					DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
-					comboBox_2.setModel(trimm);
-					
-				}else{
-					comboBox_2.removeAllItems();
+				if(choice==""){
+					sf.setModel(null);
 				}
+				sf.setTrim(null);
+				trim=carManager.setTrim(sf.getModel(), sf.getMake());
+				trim.add(0, "");
+				DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
+				comboBox_2.setModel(trimm);
+					
 			}else if(cb==comboBox_2){
 				sf.setTrim(checknull(choice));
 			}else if(cb==comboBox_3){
