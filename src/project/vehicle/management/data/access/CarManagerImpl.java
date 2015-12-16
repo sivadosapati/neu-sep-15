@@ -120,7 +120,6 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Get cars which match defined SearchFilter
-     * 
      * @param  sf  an defined SearchFilter which is being applied
      * @return     all the cars meet the condition.
      */
