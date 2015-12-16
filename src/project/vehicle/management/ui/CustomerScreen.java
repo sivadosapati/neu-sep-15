@@ -328,7 +328,6 @@ public class CustomerScreen extends JFrame {
 				comboBox_2.setModel(trimm);
 				
 			}else if(cb==comboBox_1){
-				
 				sf.setModel(checknull(choice));
 				if(choice==""){
 					sf.setModel(null);
@@ -338,7 +337,6 @@ public class CustomerScreen extends JFrame {
 				trim.add(0, "");
 				DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
 				comboBox_2.setModel(trimm);
-					
 			}else if(cb==comboBox_2){
 				sf.setTrim(checknull(choice));
 			}else if(cb==comboBox_3){
