@@ -111,6 +111,7 @@ public class DealerUpdate extends JFrame {
 			if (e.getSource() == submitButton) {
 				try {
 					update(operatedCars);
+					t.updateTable(operatedList, operatedCars);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

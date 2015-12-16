@@ -1,8 +1,8 @@
 id~webId~category~year~make~model~trim~type~price
-2461726803~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Double Cab Standard Box 4-Wheel Drive SLE~TRUCK~44520.0
+2461726803~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Double Cab Standard Box 4-Wheel Drive SLE~CAR~44520.0
 2535888113~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Double Cab Standard Box 4-Wheel Drive SLE~TRUCK~45505.0
 2461726843~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Crew Cab Short Box 4-Wheel Drive SLE~TRUCK~45615.0
-2619562943~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Double Cab Standard Box 4-Wheel Drive SLE~TRUCK~45615.0
+2619562943~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Double Cab Standard Box 4-Wheel Drive SLE~CAR~45615.0
 2626040323~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Double Cab Standard Box 4-Wheel Drive SLE~TRUCK~45615.0
 2573354083~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Double Cab Standard Box 4-Wheel Drive SLT~TRUCK~46005.0
 2475439053~gmps-chaparral~NEW~2015~GMC~Sierra 1500~Crew Cab Standard Box 4-Wheel Drive SLE~TRUCK~46145.0
@@ -144,9 +144,9 @@ id~webId~category~year~make~model~trim~type~price
 2644300163~gmps-chaparral~USED~2014~Toyota~RAV4~AWD 4dr Limited (Natl)~SUV~26988.0
 2661306573~gmps-chaparral~USED~2015~Toyota~RAV4~AWD 4dr XLE (Natl)~SUV~0.0
 2628871713~gmps-chaparral~USED~2009~Volkswagen~Jetta Sedan~4dr Auto SE PZEV Sedan~CAR~9988.0
-234132~gmps-chaparral2~CERTIFIED~2002~asdfaf~fwetet~~CAR~111111.0
-234132~gmps-chaparral2~CERTIFIED~2002~asdfaf~fwetet~~CAR~111111.0
-12341324~gmps-chaparral2~NEW~2002~rqwrqw~wer~asdfadas~CAR~98798.0
+234132~gmps-chaparral2~CERTIFIED~2002~asdfaf~fwetet~qqqqqqqq~CAR~111111.0
+234132~gmps-chaparral2~CERTIFIED~2002~asdfaf~fwetet~qqqqqqqq~CAR~111111.0
+12341324~gmps-chaparral2~NEW~2002~rqwrqw~wer~tttyuuioo~CAR~98798.0
 132413241~gmps-chaparral2~NEW~2002~ertwetw~ertet~qwrqew~SUV~345355.0
-23444~gmps-chaparral2~USED~2001~tretrt~hjggggyu~iuyiyiyy~SUV~876.0
+23444~gmps-chaparral2~USED~2001~tretrt~hjggggyu~iuyiyiyy~SUV~1111.0
 546353563~gmps-chaparral2~USED~2002~jhjkjh~lkljllkll;~tutytr~SUV~65443.0

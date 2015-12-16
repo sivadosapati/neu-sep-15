@@ -321,8 +321,7 @@ public class DearlerMainScreen extends JFrame {
 		public void updateTable(List<Integer> ret, List<Car> updatedCars) {
 			updatePermition = true;
 			for (int i = 0; i < ret.size(); i++)
-				this.setValueAt(updatedCars.get(ret.get(i)), ret.get(i),1);
-			this.fireTableDataChanged();
+				this.setValueAt(updatedCars.get(i), ret.get(i),1);
 			resultTable.updateUI();
 			updatePermition = false;
 		}
