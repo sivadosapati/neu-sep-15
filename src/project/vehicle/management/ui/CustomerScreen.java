@@ -74,7 +74,6 @@ public class CustomerScreen extends JFrame {
 			cars = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()).search(sf);
 			initTablePane(cars);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} //dealerID
 		
@@ -132,17 +131,7 @@ public class CustomerScreen extends JFrame {
 		public void actionPerformed(ActionEvent ae) {
 			if (ae.getSource() == searchButton){
 				sf.setKeywords(searchTextField.getText());
-				CarManagerImpl test;
-				try {
-					test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID()); //dealerID
-					List<Car> carAfterSearch=test.search(sf);
-					table.setModel(new CarTableModel(carAfterSearch));
-					table.updateUI();
-					//System.out.println(carAfterSearch);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				refreshTable();
 			}
 		}
 	}
@@ -164,22 +153,7 @@ public class CustomerScreen extends JFrame {
 			sc.setSequence(highToLow);
 			//System.out.println(sortKeyword);
 			//System.out.println(highToLow);
-			
-			try {
-				String dealerIDS= ((CarManagerImpl) carManager).getDealerID();
-				CarManagerImpl testAfterSearchSort = new CarManagerImpl(dealerIDS);
-				List<Car> carAfterSearchSort = carManager.sort(sf, sc);
-				table.setModel(new CarTableModel(carAfterSearchSort));
-				table.updateUI();
-				//System.out.println(carAfterSearchSort);
-				//System.out.println(sf.getKeywords() + sf.getMake() + sf.getModel() + sf.getTrim() + sf.getCategory()[0]);
-				//System.out.println(sc.getAttribute() + sc.getSequence());
-				//System.out.println(dealerIDS);
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			refreshTable();
 		}
 	} 
 	
@@ -289,7 +263,6 @@ public class CustomerScreen extends JFrame {
 
 	}
     
-    
     public String checknull(String s){
     	if(s==""){
     		
@@ -312,16 +285,7 @@ public class CustomerScreen extends JFrame {
 				category[2]=(!category[2]);
 			}
 			sf.setCategory(category);
-			CarManagerImpl test;
-			try {
-				test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID());
-				List<Car> carAfterSearch=test.search(sf);
-				table.setModel(new CarTableModel(carAfterSearch));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} //dealerID
-			table.updateUI();
+			refreshTable();
 		}
 
 	}
@@ -398,20 +362,15 @@ public class CustomerScreen extends JFrame {
 				}
 				sf.setRange(p);
 			}
-			CarManagerImpl test;
-			try {
-				test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID());
-				List<Car> carAfterSearch=test.search(sf);
-				table.setModel(new CarTableModel(carAfterSearch));
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} //dealerID
-			table.updateUI();
+			refreshTable();
 		}
 	}
 	
 	class CarTableModel extends AbstractTableModel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 6660519266094091930L;
 		private List<Car> cars;
 		private List<Object[]> carList;
 		private String[] columnNames = {"Category", "Year", "Brand", 
@@ -471,7 +430,6 @@ public class CustomerScreen extends JFrame {
 
 		@Override
 		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
 			return false;
 		}
 
@@ -483,7 +441,6 @@ public class CustomerScreen extends JFrame {
 		@Override
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 			fireTableCellUpdated(rowIndex, columnIndex);
-
 		}
 
 		@Override
@@ -501,6 +458,8 @@ public class CustomerScreen extends JFrame {
 
 	private void initTablePane(List<Car> cars) {
 		table = new JTable(new CarTableModel(cars));
+		
+		//Double Click to enter Detail Screen
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				List<Car> current_cars = ((CarTableModel) table.getModel()).getCars();
@@ -516,6 +475,19 @@ public class CustomerScreen extends JFrame {
 		});
 		JScrollPane scrollPane = new JScrollPane(table);
 		getContentPane().add("Center", scrollPane);
+	}
+
+	private void refreshTable() {
+		CarManagerImpl test;
+		try {
+			test = new CarManagerImpl(((CarManagerImpl) carManager).getDealerID());
+			List<Car> carAfterSearch=test.search(sf);
+			table.setModel(new CarTableModel(carAfterSearch));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} //dealerID
+		table.updateUI();
 	}
 
 	public static void main(String[] args) throws Exception {
