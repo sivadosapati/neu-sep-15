@@ -353,6 +353,11 @@ public class DealerSearchFunc {
 				DefaultComboBoxModel model = new DefaultComboBoxModel(modelList.toArray());
 				comboBox_model.setModel(model);
 
+				trimList = carManager.setTrim(sf.getModel(), sf.getMake());
+				trimList.add(0, "");
+				DefaultComboBoxModel trim = new DefaultComboBoxModel(trimList.toArray());
+				comboBox_trim.setModel(trim);
+
 			} else if (cb == comboBox_model) {
 				sf.setModel(choice);
 				trimList = carManager.setTrim(sf.getModel(), sf.getMake());

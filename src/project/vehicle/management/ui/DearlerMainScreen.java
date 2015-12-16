@@ -121,7 +121,7 @@ public class DearlerMainScreen extends JFrame {
 	}
 
 	private void placeComponent(GridBagConstraints gbc, double weightx, double weighty, int gridx, int gridy,
-			int gridwidth, int gridheight, int ipadx, int ipady) {
+								int gridwidth, int gridheight, int ipadx, int ipady) {
 		gbc.weightx = weightx;
 		gbc.weighty = weighty;
 		gbc.gridx = gridx;
