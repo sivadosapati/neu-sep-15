@@ -16,6 +16,7 @@ import project.vehicle.management.ui.DearlerMainScreen.MyTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 public class DealerAddFunc extends JFrame {
@@ -37,8 +38,7 @@ public class DealerAddFunc extends JFrame {
 
 	DealerAddFunc(CarManagerImpl dealerid, MyTableModel mtm) {
 		setTitle("Add Function");
-		setSize(590, 600);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(590, 470);
 		setLayout(g);
 		// use functions
 		addComponent();
@@ -231,6 +231,12 @@ public class DealerAddFunc extends JFrame {
 		g.setConstraints(jc, c);
 		add(jc);
 	}
+	
+	public void windowClosing(WindowEvent e) {
+		this.dispose();
+
+	}
+
 
 	public static void main(String args[]) {
 
