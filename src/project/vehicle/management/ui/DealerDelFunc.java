@@ -54,8 +54,8 @@ public class DealerDelFunc extends JFrame {
 	}
 
 	private void create() {
-		yes = new JButton("yes");
-		no = new JButton("no");
+		yes = new JButton("Yes");
+		no = new JButton("No");
 		confirm = new JLabel("Delete selected rows ?");
 		label = new JPanel();
 		temp = new JPanel();

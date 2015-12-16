@@ -326,9 +326,6 @@ public class DealerSearchFunc {
 
 				System.out.println(sf.getKeywords());
 				tableM.searchCars(carManager.search(sf));
-				System.out.println(sf.getMake());
-				System.out.println(sf.getModel());
-				System.out.println(sf.getTrim());
 				frame.dispose();
 			}
 
@@ -355,6 +352,11 @@ public class DealerSearchFunc {
 				modelList.add(0, "");
 				DefaultComboBoxModel model = new DefaultComboBoxModel(modelList.toArray());
 				comboBox_model.setModel(model);
+
+				trimList = carManager.setTrim(sf.getModel(), sf.getMake());
+				trimList.add(0, "");
+				DefaultComboBoxModel trim = new DefaultComboBoxModel(trimList.toArray());
+				comboBox_trim.setModel(trim);
 
 			} else if (cb == comboBox_model) {
 				sf.setModel(choice);

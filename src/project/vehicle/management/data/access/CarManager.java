@@ -16,7 +16,7 @@ public interface CarManager {
 
 	void updateCar(Car car) throws IOException;
 
-	List<Car> sort(SearchFilter sf, SortCriteria sc);
+	List<Car> sort(SearchFilter sf, SortCriteria sc) throws IOException;
 	
 	List<String> setMake();
 	
