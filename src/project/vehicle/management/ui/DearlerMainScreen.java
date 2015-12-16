@@ -280,7 +280,7 @@ public class DearlerMainScreen extends JFrame {
 				}
 			}
 			else
-				if(updatePermition == true){
+				if(updatePermition){
 					Car val = ((Car) value);
 					cars.get(row).setCategory(val.getCategory());
 					cars.get(row).setMake(val.getMake());
@@ -289,7 +289,7 @@ public class DearlerMainScreen extends JFrame {
 					cars.get(row).setType(val.getType());
 					cars.get(row).setYear(val.getYear());
 					cars.get(row).setPrice(val.getPrice());
-					this.fireTableRowsUpdated(row-1, row+1);
+					this.fireTableRowsUpdated(0, cars.size()-1);
 				}
 		}
 
@@ -306,24 +306,14 @@ public class DearlerMainScreen extends JFrame {
 			this.fireTableRowsUpdated(0, tableM.getRowCount()-1);
 			resultTable.updateUI();
 		}
-
-		public void deleteOneRow(int row) {
-			cars.remove(row);
-			boolBox.set(row, false);
-		}
 		
 		public void deleteTable(List<Integer> ret) {
-			for (int i = 0; i < ret.size(); i++)
-				this.deleteOneRow(ret.get(i));
 			this.fireTableRowsDeleted(0, this.getRowCount() - 1);
 			resultTable.updateUI();
 		}
 		
 		public void addTable(Car addedCar) {
-			cars.add(addedCar);
-			boolBox.add(false);
-			System.out.println(cars.size());
-			System.out.println(boolBox.size());
+			boolBox.add(new Boolean(false));
 			this.fireTableRowsInserted(this.getRowCount()-3, this.getRowCount()-1);
 			resultTable.updateUI();
 		}
@@ -332,8 +322,9 @@ public class DearlerMainScreen extends JFrame {
 			updatePermition = true;
 			for (int i = 0; i < ret.size(); i++)
 				this.setValueAt(updatedCars.get(ret.get(i)), ret.get(i),1);
-			updatePermition = false;
+			this.fireTableDataChanged();
 			resultTable.updateUI();
+			updatePermition = false;
 		}
 		
 	}
