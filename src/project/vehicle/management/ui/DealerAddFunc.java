@@ -203,7 +203,7 @@ public class DealerAddFunc extends JFrame {
 		Type = new JLabel("Type:");
 		add(g, c, Type, 0, 10, 1, 1);
 		// Choose from the types
-		Type1 = new JRadioButton("CAR");
+		Type1 = new JRadioButton("CAR"); 
 		add(g, c, Type1, 1, 10, 1, 1);
 		Type2 = new JRadioButton("TRUCK");
 		add(g, c, Type2, 2, 10, 1, 1);
