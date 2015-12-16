@@ -1,5 +1,6 @@
 package project.vehicle.management.ui;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dialog;
 import java.awt.GridBagConstraints;
@@ -81,6 +82,7 @@ public class DearlerMainScreen extends JFrame {
 		}
 		addButton = new JButton(new ImageIcon(buttonIcon2));
 		addButton.setMargin(new Insets(0, 0, 0, 0));
+		addButton.setBackground(new Color(110, 188, 88));
 		searchButton = new JButton(new ImageIcon(buttonIcon));
 		searchButton.setMargin(new Insets(0, 0, 0, 0));
 		deleteButton = new JButton(new ImageIcon(buttonIcon3));
@@ -320,6 +322,8 @@ public class DearlerMainScreen extends JFrame {
 		public void addTable(Car addedCar) {
 			cars.add(addedCar);
 			boolBox.add(false);
+			System.out.println(cars.size());
+			System.out.println(boolBox.size());
 			this.fireTableRowsInserted(this.getRowCount()-3, this.getRowCount()-1);
 			resultTable.updateUI();
 		}

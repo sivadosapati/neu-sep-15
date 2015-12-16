@@ -94,7 +94,16 @@ public class DealerAddFunc extends JFrame {
 				String t4 = Type4.getText();
 				String t5 = Type5.getText();
 				String p = textPrice.getText();
-				float pf = Float.parseFloat(p);
+				float pf;
+				if(p.isEmpty()){
+					JOptionPane.showMessageDialog(new JButton(),
+						    "Some information of this car is empty, you have to fill in all of them !",
+						    "Can't add this car",
+						    JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				else
+					pf = Float.parseFloat(p);
 
 				String type;
 				if (t1 != null) {
@@ -111,7 +120,16 @@ public class DealerAddFunc extends JFrame {
 
 				Car car = new Car(id, did, category, y, m, mo, t, type, pf);
 				try {
-					dealer.addCar(car);
+					if(carHasEmpty(car))
+						JOptionPane.showMessageDialog(new JButton(),
+							    "Some information of this car is empty, you have to fill in all of them !",
+							    "Can't add this car",
+							    JOptionPane.ERROR_MESSAGE);
+					else{
+						dealer.addCar(car);
+						mtm.addTable(car);
+						dispose();
+					}
 					;// mtm.addCar();
 				} catch (IOException e1) {
 
@@ -231,6 +249,15 @@ public class DealerAddFunc extends JFrame {
 		g.setConstraints(jc, c);
 		add(jc);
 	}
+
+	public boolean carHasEmpty(Car car) {
+		if(car.getID()==null||car.getCategory()==null||car.getMake()==null||car.getModel()==null||
+				car.getTrim()==null||car.getType()==null||car.getYear()==null||car.getPrice()==null)
+			return true;
+		else
+			return false;
+	}
+
 	
 	public void windowClosing(WindowEvent e) {
 		this.dispose();
