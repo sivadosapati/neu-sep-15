@@ -2,7 +2,6 @@ package project.vehicle.management.ui;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -20,7 +19,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -82,7 +80,6 @@ public class DearlerMainScreen extends JFrame {
 		}
 		addButton = new JButton(new ImageIcon(buttonIcon2));
 		addButton.setMargin(new Insets(0, 0, 0, 0));
-		addButton.setBackground(new Color(110, 188, 88));
 		searchButton = new JButton(new ImageIcon(buttonIcon));
 		searchButton.setMargin(new Insets(0, 0, 0, 0));
 		deleteButton = new JButton(new ImageIcon(buttonIcon3));
