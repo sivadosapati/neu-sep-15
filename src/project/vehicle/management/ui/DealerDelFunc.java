@@ -92,15 +92,10 @@ public class DealerDelFunc extends JFrame {
 	}
 
 	private void delete(List<Integer> ret) throws IOException {
-
-		for (Integer index : ret)
-			dealer.deleteCar(tableM.getCars().get(index).getID());
-
+		for (int i = 0; i<ret.size(); i++){
+			dealer.deleteCar(tableM.getCars().get(ret.get(i)).getID());
+		}
 		tableM.deleteTable(ret);
-	}
-
-	public static void main(String[] args) {
-
 	}
 
 }

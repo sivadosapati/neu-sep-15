@@ -4,8 +4,6 @@ import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +27,19 @@ import project.vehicle.management.data.access.CarManager;
 import project.vehicle.management.data.access.CarManagerFactory;
 import project.vehicle.management.data.access.CarManagerImpl;
 
+
+/**
+ * The class of dealer main screen, containing four buttons and a table.
+ * This class could show the dealer's car list in the table and
+ * search, add, update, and delete cars for dealers.
+ * 
+ * @author Anderson (Jian Hou)
+ * @version 11.2
+ * 
+ * @see JFrame
+ * */
 public class DearlerMainScreen extends JFrame {
+	/** The components of dealer main screen. */
 	private JButton addButton;
 	private JButton searchButton;
 	private JButton updateButton;
@@ -43,11 +53,22 @@ public class DearlerMainScreen extends JFrame {
 	private BufferedImage buttonIcon3 = null;
 	private BufferedImage buttonIcon4 = null;
 
+	/** The data structure of dealer operation */
 	private List<Integer> operateIndex = null;
 	private String[] items;
-
 	private CarManager dealer;
 
+	/** 
+	 * The constructor of class dealer main screen.
+	 * 
+	 * @see project.vehicle.management.data.Dealer
+	 * @see CarManagerFactory
+	 * @see CarManager
+	 * 
+	 * @param dealerID the id of dealer who performing the operation
+	 * @exception IOException throw when file of dealer is not opened successfully
+	 * 
+	 *  */
 	public DearlerMainScreen(String dealerID) throws IOException {
 		this.dealer = new CarManagerFactory().getCarManager(dealerID);
 		create();
@@ -56,6 +77,9 @@ public class DearlerMainScreen extends JFrame {
 		display();
 	}
 
+	/** 
+	 * The constructor of class dealer main screen.
+	 *  */
 	public DearlerMainScreen() {
 		create();
 		add();
@@ -63,9 +87,18 @@ public class DearlerMainScreen extends JFrame {
 		display();
 	}
 
-	public void create() {
-		String[] firstline = { "selection", "carId", "dealerId", "category", "year", "make", "model", "trim", "type",
-				"price" };
+	/** 
+	 * Creating the components of dealer screen and pictures of page head and buttons
+	 * 
+	 * @see ArrayList
+	 * @see ImageIO#read(File)
+	 * @see JButton
+	 * @see JTable
+	 * @see JScrollPane
+	 *  */
+	private void create() {
+		String[] firstline = { "selection", "carId", "dealerId", "category", "year",
+								"make", "model", "trim", "type", "price" };
 		items = firstline;
 		operateIndex = new ArrayList<>();
 
@@ -77,6 +110,7 @@ public class DearlerMainScreen extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
 		addButton = new JButton(new ImageIcon(buttonIcon2));
 		addButton.setMargin(new Insets(0, 0, 0, 0));
 		searchButton = new JButton(new ImageIcon(buttonIcon));
@@ -95,18 +129,22 @@ public class DearlerMainScreen extends JFrame {
 
 		tableM = new MyTableModel(items, dealer.listCars());
 		resultTable = new JTable(tableM);
-		resultTable.setRowHeight(20);
 		setColumn();
 		resultScroll = new JScrollPane(resultTable);
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 	}
 
-	public void add() {
+	/** 
+	 * Adding the components to the dealer screen 
+	 * 
+	 * @see Container#add(java.awt.Component, Object)
+	 * @see GridBagConstraints
+	 *  */
+	private void add() {
 		Container con = getContentPane();
 		con.setLayout(new GridBagLayout());
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
 		placeComponent(gbc, 0, 0, 0, 0, 4, gbc.gridheight, 0, 0);
 		con.add(head, gbc);
 		placeComponent(gbc, 1, 0, 0, 1, 1, gbc.gridheight, 0, 0);
@@ -123,8 +161,14 @@ public class DearlerMainScreen extends JFrame {
 		con.add(resultScroll, gbc);
 	}
 
+	/** 
+	 * Placing the components on the screen
+	 * 
+	 * @see GridBagConstraints
+	 *  */
 	private void placeComponent(GridBagConstraints gbc, double weightx, double weighty, int gridx, int gridy,
-			int gridwidth, int gridheight, int ipadx, int ipady) {
+								int gridwidth, int gridheight, int ipadx, int ipady) {
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = weightx;
 		gbc.weighty = weighty;
 		gbc.gridx = gridx;
@@ -135,7 +179,14 @@ public class DearlerMainScreen extends JFrame {
 		gbc.ipady = ipady;
 	}
 
+	/** 
+	 * Setting the table columns and rows
+	 * 
+	 * @see JTable#getColumnModel()
+	 * @see DefaultTableCellRenderer#setHorizontalAlignment(int)
+	 *  */
 	private void setColumn() {
+		resultTable.setRowHeight(20);
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.RIGHT);
 		resultTable.setDefaultRenderer(Object.class, dtcr);
@@ -153,51 +204,63 @@ public class DearlerMainScreen extends JFrame {
 		resultTable.getColumnModel().getColumn(8).setMaxWidth(70);
 		resultTable.getColumnModel().getColumn(9).setMaxWidth(70);
 	}
-
-	public void addListeners() {
-		BottonClicked buttonListener = new BottonClicked();
-		searchButton.addActionListener(buttonListener);
-		addButton.addActionListener(buttonListener);
-		updateButton.addActionListener(buttonListener);
-		deleteButton.addActionListener(buttonListener);
-	}
-
-	class BottonClicked implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == searchButton) {
-				new DealerSearchFunc(dealer, tableM);
-			} else if (e.getSource() == addButton)
-				new DealerAddFunc((CarManagerImpl) dealer, tableM);
-			else if (e.getSource() == updateButton) {
-				try {
-					if (operateIndex.isEmpty())
-						JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
-								"Can't update!", JOptionPane.ERROR_MESSAGE);
-					else
-						new DealerUpdate(dealer, operateIndex, tableM);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			} else if (e.getSource() == deleteButton) {
-				if (operateIndex.isEmpty())
+	
+	/** 
+	 * Adding the button actionListeners
+	 * 
+	 * @see JButton#addActionListener(java.awt.event.ActionListener)
+	 * @see JOptionPane#showMessageDialog(java.awt.Component, Object, String, int)
+	 * @see DealerSearchFunc
+	 * @see DealerAddFunc
+	 * @see DealerUpdateFunc
+	 * @see DealerDelFunc
+	 *  */
+	private void addListeners() {
+		searchButton.addActionListener(e->{
+			new DealerSearchFunc(dealer, tableM);});//Open the dealer search screen
+		addButton.addActionListener(e -> {
+			new DealerAddFunc((CarManagerImpl) dealer, tableM);});//Open the dealer addition screen
+		updateButton.addActionListener(e -> {
+			try {
+				if (operateIndex.isEmpty())//Popping a message when the dealer didn't select any car
 					JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
-							"Can't delete", JOptionPane.ERROR_MESSAGE);
+							"Can't update!", JOptionPane.ERROR_MESSAGE);
 				else
-					new DealerDelFunc(dealer, operateIndex, tableM);
-			}
-		}
-
+					new DealerUpdate(dealer, operateIndex, tableM);//Open the dealer update screen
+				} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+			});
+		
+		deleteButton.addActionListener(e -> {
+			if (operateIndex.isEmpty())//Popping a message when the dealer didn't select any car
+				JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
+						"Can't delete", JOptionPane.ERROR_MESSAGE);
+			else
+				new DealerDelFunc(dealer, operateIndex, tableM);//Open the dealer deletion screen
+			});
 	}
 
+	/**
+	 * The class of table model which will show the list of cars of each dealer,
+	 * and refresh the table when a dealer adds, updates, searches or deletes cars.
+	 * 
+	 * @see AbstractTableModel
+	 * */
 	class MyTableModel extends AbstractTableModel {
 		private String[] Items = null;
 		private List<Car> cars = null;
 		private List<Boolean> boolBox = null;
 		private boolean updatePermition;
 
+		/** 
+		 * The constructor of class MyTableModel.
+		 * 
+		 * @see Car
+		 * 
+		 * @param items the items of table
+		 * @param cars the list of cars would show in the table
+		 *  */
 		public MyTableModel(String[] items, List<Car> cars) {
 			super();
 			this.updatePermition = false;
@@ -208,23 +271,48 @@ public class DearlerMainScreen extends JFrame {
 				boolBox.add(new Boolean(false));
 		}
 
+		/** 
+		 * Get the number of columns
+		 * 
+		 * @return the length of items String array
+		 *  */
 		public int getColumnCount() {
 			return Items.length;
 		}
 
+		/** 
+		 * Get the number of rows
+		 * 
+		 * @return the size of list of cars
+		 * @see #getCars()
+		 *  */
 		public int getRowCount() {
 			return getCars().size();
 		}
 
+		/** 
+		 * Get the name of columns
+		 * 
+		 * @param the number of column
+		 * @return the String of item in this position
+		 *  */
 		public String getColumnName(int col) {
 			return Items[col];
 		}
 
+		/** 
+		 * Get the value of this position (row, col)
+		 * 
+		 * @param row the row number of table
+		 * @param col the column number of table
+		 * @return the value of this position(row, col)
+		 * @see Car
+		 *  */
 		public Object getValueAt(int row, int col) {
 			Car oneCar = getCars().get(row);
 			switch (col) {
 			case 0:
-				return boolBox.get(row);
+				return this.boolBox.get(row);
 			case 1:
 				return oneCar.getID();
 			case 2:
@@ -248,13 +336,26 @@ public class DearlerMainScreen extends JFrame {
 			}
 		}
 
+		/** 
+		 * Get the class of one column
+		 * 
+		 * @param the column number of table
+		 * @return the class of this column
+		 * @see #getValueAt(int, int)
+		 * @see #getClass()
+		 *  */
 		public Class getColumnClass(int c) {
 			return getValueAt(0, c).getClass();
 		}
 
+		/** 
+		 * Judging if this cell is editable.
+		 * 
+		 * @param row the row number of table
+		 * @param col the column number of table
+		 * @return true if this cell is editable, false if this cell is not editable
+		 *  */
 		public boolean isCellEditable(int row, int col) {
-			// Note that the data/cell address is constant,
-			// no matter where the cell appears onscreen.
 			if (col > 0) {
 				if (updatePermition == false)
 					return false;
@@ -265,54 +366,121 @@ public class DearlerMainScreen extends JFrame {
 			}
 		}
 
+		/** 
+		 * Set the value of this position
+		 * 
+		 * @param row the row number of table
+		 * @param col the column number of table
+		 * @param value the value will fill into the cell
+		 * @see #fireTableRowsUpdated(int, int)
+		 * @see #fireTableCellUpdated(int, int)
+		 * @see Car
+		 *  */
 		public void setValueAt(Object value, int row, int col) {
 			if (col == 0) {
 				boolBox.set(row, (Boolean) value);
 				fireTableCellUpdated(row, col);
-				// System.out.println(value);
 				if (boolBox.get(row).equals(true)) {
 					operateIndex.add(row);
 				} else {
 					operateIndex.remove((Integer) row);
 				}
 			} else if (updatePermition) {
-				Car val = ((Car) value);
-				cars.get(row).setCategory(val.getCategory());
-				cars.get(row).setMake(val.getMake());
-				cars.get(row).setModel(val.getModel());
-				cars.get(row).setTrim(val.getTrim());
-				cars.get(row).setType(val.getType());
-				cars.get(row).setYear(val.getYear());
-				cars.get(row).setPrice(val.getPrice());
+				if(value == null){//if value is null delete this row
+					boolBox.remove(row);
+					cars.remove(row);
+				}
+				else{
+					Car val = ((Car) value);
+					cars.get(row).setCategory(val.getCategory());
+					cars.get(row).setMake(val.getMake());
+					cars.get(row).setModel(val.getModel());
+					cars.get(row).setTrim(val.getTrim());
+					cars.get(row).setType(val.getType());
+					cars.get(row).setYear(val.getYear());
+					cars.get(row).setPrice(val.getPrice());
+					boolBox.set(row, new Boolean(false));
+				}
 				this.fireTableRowsUpdated(0, cars.size() - 1);
 			}
 		}
 
+		/** 
+		 * Get the list of cars of this table
+		 * 
+		 * @return the list of cars of this table
+		 *  */
 		public List<Car> getCars() {
 			return cars;
 		}
 
+		/** 
+		 * Set the list of cars of table
+		 * 
+		 * @param cars the list of cars will show in the table
+		 *  */
 		public void setCars(List<Car> cars) {
 			this.cars = cars;
 		}
 
+		/** 
+		 * Refresh the table after dealer finish the search operation
+		 * 
+		 * @param cars the list of cars getting from the Search function
+		 * @see JTable#updateUI()
+		 *  */
 		public void searchCars(List<Car> cars) {
 			this.cars = cars;
-			this.fireTableRowsUpdated(0, tableM.getRowCount() - 1);
+			if(cars.size()<boolBox.size())
+				for(int i = boolBox.size()-1; i>=cars.size(); i--)
+					this.boolBox.remove(i);
+			else
+				for(int i = boolBox.size()-1; i<cars.size()-1; i++)
+					this.boolBox.add(new Boolean(false));
+			operateIndex.clear();
 			resultTable.updateUI();
 		}
 
+		/** 
+		 * Refresh the table after dealer finish the delete operation
+		 * 
+		 * @param ret the list of indexes of rows at which car has been deleted
+		 * @see JTable#updateUI()
+		 * @see #fireTableRowsDeleted(int, int)
+		 * @see #setValueAt(Object, int, int)
+		 *  */
 		public void deleteTable(List<Integer> ret) {
-			this.fireTableRowsDeleted(0, this.getRowCount() - 1);
+			updatePermition = true;
+			for(int i = 0; i<ret.size(); i++){
+				this.setValueAt(null, ret.get(i), 1);
+			}
+			this.fireTableRowsDeleted(0, tableM.getRowCount() - 1);
 			resultTable.updateUI();
+			updatePermition = false;
 		}
 
+		/** 
+		 * Refresh the table after dealer finish the addition operation
+		 * 
+		 * @param addedCar the car has been added into the car list of this dealer
+		 * @see #fireTableRowsInserted(int, int)
+		 * @see JTable#updateUI()
+		 *  */
 		public void addTable(Car addedCar) {
 			boolBox.add(new Boolean(false));
 			this.fireTableRowsInserted(this.getRowCount() - 3, this.getRowCount() - 1);
 			resultTable.updateUI();
 		}
 
+		/** 
+		 * Refresh the table after dealer finish the update operation
+		 * 
+		 * @param updatedCars the list of cars which has been modified
+		 * @param ret the list of indexes of rows at which car has been modified
+		 * @see #fireTableRowsUpdated(int, int)
+		 * @see JTable#updateUI()
+		 * @see #setValueAt(Object, int, int)
+		 *  */
 		public void updateTable(List<Integer> ret, List<Car> updatedCars) {
 			updatePermition = true;
 			for (int i = 0; i < ret.size(); i++)
@@ -323,6 +491,13 @@ public class DearlerMainScreen extends JFrame {
 
 	}
 
+	/** 
+	 * Display the dealer main screen
+	 * 
+	 * @see #fireTableRowsUpdated(int, int)
+	 * @see java.awt.Window#setSize(int width, int height)
+	 * @see java.awt.Window#setVisible(boolean)
+	 *  */
 	public void display() {
 		setSize(1200, 730);
 		setVisible(true);
