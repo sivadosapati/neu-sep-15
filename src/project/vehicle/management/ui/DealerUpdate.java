@@ -77,7 +77,7 @@ public class DealerUpdate extends JFrame {
 
 	public void display() {
 		JLabel pic = new JLabel(new ImageIcon("pictures/DealerScreen2.jpg"));
-		frame = new JFrame("UPDATE");
+		frame = new JFrame("Update");
 		BorderLayout out = new BorderLayout();
 		frame.setLayout(out);
 		frame.getContentPane().add(pic, "North");
