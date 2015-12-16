@@ -167,7 +167,7 @@ public class CarManagerImpl implements CarManager {
     /**
      * Check if the boolean array meets the condition of the defined category of a car
      * 
-     * @param cc an boolean array which is being check
+     * @param cc an boolean array which is being checked
      * @param category a defined category
      * @return true if the boolean array meet condition, otherwise false
      */
@@ -320,7 +320,7 @@ public class CarManagerImpl implements CarManager {
     /**
      * Sort the car list data inside search result
      * 
-     * @param sc a defined SortCriteria
+     * @param sc a defined SortCriteria which is being applied
      * @return none
      */
     public void sortFilterCar(SortCriteria sc) {
@@ -336,7 +336,7 @@ public class CarManagerImpl implements CarManager {
     /**
      * Get the car data which need to be sorted
      * 
-     * @param sf a defined SearchFilter
+     * @param sf a defined SearchFilter which is being applied
      * @return none
      */
     public void searchFilterCar(SearchFilter sf) throws IOException {
