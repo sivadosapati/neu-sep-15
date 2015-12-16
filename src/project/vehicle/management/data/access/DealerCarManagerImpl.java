@@ -20,6 +20,7 @@ public class DealerCarManagerImpl implements DealerCarManager {
     * 
     * @param none
     * @return the dealer id array
+    * @exception IO exception expected
     */
     public String[] getDealerIds() {
         List<String> dealerIds = new ArrayList<String>();
