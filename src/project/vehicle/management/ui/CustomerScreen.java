@@ -237,7 +237,7 @@ public class CustomerScreen extends JFrame {
 		JLabel lblYear = new JLabel("Year");
 		yearComboPanel.add(lblYear);
 
-		String yearStr[] = { "<2000", "2000-2005", "2006-2010", "2011-2015" };
+		String yearStr[] = { "", "<2000", "2000-2005", "2006-2010", "2011-2015" };
 		comboBox_3 = new JComboBox(yearStr);
 		comboBox_3.setSelectedItem(null);
 		yearComboPanel.add(comboBox_3);
@@ -248,7 +248,7 @@ public class CustomerScreen extends JFrame {
 		JLabel lblPR = new JLabel("Price");
 		prComboPanel.add(lblPR);
 
-		String priceStr[] = { "<10000", "10000-15000", "15000-20000", "20000-25000", "25000-30000", "30000-50000",
+		String priceStr[] = { "", "<10000", "10000-15000", "15000-20000", "20000-25000", "25000-30000", "30000-50000",
 				">50000" };
 		comboBox_4 = new JComboBox(priceStr);
 		comboBox_4.setSelectedItem(null);
@@ -334,7 +334,9 @@ public class CustomerScreen extends JFrame {
 			} else if (cb == comboBox_2) {
 				sf.setTrim(checknull(choice));
 			} else if (cb == comboBox_3) {
-				if (choice == "<2000") {
+				if (choice == "") {
+					r = null;
+				} else if (choice == "<2000") {
 					r = new Range(0, 2000);
 				} else if (choice == "2000-2005") {
 					r = new Range(2000, 2005);
@@ -345,7 +347,9 @@ public class CustomerScreen extends JFrame {
 				}
 				sf.setYear(r);
 			} else {
-				if (choice == "<10000") {
+				if (choice == "") {
+					p = null;
+				} else if (choice == "<10000") {
 					p = new Range(0, 10000);
 				} else if (choice == "10000-15000") {
 					p = new Range(10000, 15000);
