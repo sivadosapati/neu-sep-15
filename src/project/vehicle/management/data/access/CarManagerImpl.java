@@ -63,7 +63,8 @@ public class CarManagerImpl implements CarManager {
     * @exception  IOException On input error
     * @see        IOException
     */
-    private List<Car> buildCarList() throws IOException {
+    
+  /*  private List<Car> buildCarList() throws IOException {
         List<Car> result = new ArrayList<Car>();
         FileInputStream fis = new FileInputStream(file);
         InputStreamReader isr = new InputStreamReader(fis);
@@ -76,8 +77,8 @@ public class CarManagerImpl implements CarManager {
         br.close();
         return result;
     }
-
-    private List<Car> buildCarListOld() throws IOException {
+ */
+    private List<Car> buildCarList() throws IOException {
         final List<Car> cars = new ArrayList<Car>();
         FileReadingTemplate template = new FileReadingTemplate() {
             @Override
@@ -85,6 +86,7 @@ public class CarManagerImpl implements CarManager {
                 cars.add(lineToCar(line));
             }
         };
+        template.setSkipFirstLine(true);
         template.parseFile(file);
         return cars;
     }
@@ -335,7 +337,7 @@ public class CarManagerImpl implements CarManager {
 	//get the car data which need to sort
 	public void searchFilterCar(SearchFilter sf) throws IOException {
 		if(carList == null) {
-			carList = buildCarListOld();
+			carList = buildCarList();
 		}
 		carList = search(sf);
 	}
