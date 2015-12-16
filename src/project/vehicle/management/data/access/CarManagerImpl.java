@@ -135,8 +135,8 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Check if a car meets the condition of a SearchFilter
-     * 
      * @param  car  a car which is being check
+     * @param  sf   a defined search filter
      * @return      true if the car meet condition, otherwise false
      */
     private boolean checkSearchCondition(Car car, SearchFilter sf) {
@@ -159,9 +159,9 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Check if the information of a car contains one or more keywords
-     * 
-     * @param  car  a car which is being check
-     * @return      true if the car meet condition, otherwise false
+     * @param  car       a car which is being check 
+     * @param  keywords  the keyword string from UI
+     * @return           true if the car meet condition, otherwise false
      */
     private boolean checkCondition(Car car, String keywords) {
         if (keywords == null || keywords.equals(""))
