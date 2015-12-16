@@ -45,7 +45,6 @@ public class DearlerMainScreen extends JFrame {
 
 	private List<Integer> operateIndex = null;
 	private String[] items;
-
 	private CarManager dealer;
 
 	public DearlerMainScreen(String dealerID) throws IOException {
@@ -77,6 +76,7 @@ public class DearlerMainScreen extends JFrame {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		
 		addButton = new JButton(new ImageIcon(buttonIcon2));
 		addButton.setMargin(new Insets(0, 0, 0, 0));
 		searchButton = new JButton(new ImageIcon(buttonIcon));
@@ -95,7 +95,6 @@ public class DearlerMainScreen extends JFrame {
 
 		tableM = new MyTableModel(items, dealer.listCars());
 		resultTable = new JTable(tableM);
-		resultTable.setRowHeight(20);
 		setColumn();
 		resultScroll = new JScrollPane(resultTable);
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
@@ -106,7 +105,6 @@ public class DearlerMainScreen extends JFrame {
 		con.setLayout(new GridBagLayout());
 
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.fill = GridBagConstraints.BOTH;
 		placeComponent(gbc, 0, 0, 0, 0, 4, gbc.gridheight, 0, 0);
 		con.add(head, gbc);
 		placeComponent(gbc, 1, 0, 0, 1, 1, gbc.gridheight, 0, 0);
@@ -124,7 +122,8 @@ public class DearlerMainScreen extends JFrame {
 	}
 
 	private void placeComponent(GridBagConstraints gbc, double weightx, double weighty, int gridx, int gridy,
-			int gridwidth, int gridheight, int ipadx, int ipady) {
+								int gridwidth, int gridheight, int ipadx, int ipady) {
+		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = weightx;
 		gbc.weighty = weighty;
 		gbc.gridx = gridx;
@@ -136,6 +135,7 @@ public class DearlerMainScreen extends JFrame {
 	}
 
 	private void setColumn() {
+		resultTable.setRowHeight(20);
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.RIGHT);
 		resultTable.setDefaultRenderer(Object.class, dtcr);
@@ -155,42 +155,58 @@ public class DearlerMainScreen extends JFrame {
 	}
 
 	public void addListeners() {
-		BottonClicked buttonListener = new BottonClicked();
-		searchButton.addActionListener(buttonListener);
-		addButton.addActionListener(buttonListener);
-		updateButton.addActionListener(buttonListener);
-		deleteButton.addActionListener(buttonListener);
-	}
-
-	class BottonClicked implements ActionListener {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == searchButton) {
-				new DealerSearchFunc(dealer, tableM);
-			} else if (e.getSource() == addButton)
-				new DealerAddFunc((CarManagerImpl) dealer, tableM);
-			else if (e.getSource() == updateButton) {
-				try {
-					if (operateIndex.isEmpty())
-						JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
-								"Can't update!", JOptionPane.ERROR_MESSAGE);
-					else
-						new DealerUpdate(dealer, operateIndex, tableM);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			} else if (e.getSource() == deleteButton) {
+//		BottonClicked buttonListener = new BottonClicked();
+		searchButton.addActionListener(e->{new DealerSearchFunc(dealer, tableM);});
+		addButton.addActionListener(e -> {new DealerAddFunc((CarManagerImpl) dealer, tableM);});
+		updateButton.addActionListener(e -> {
+			try {
 				if (operateIndex.isEmpty())
 					JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
-							"Can't delete", JOptionPane.ERROR_MESSAGE);
+							"Can't update!", JOptionPane.ERROR_MESSAGE);
 				else
-					new DealerDelFunc(dealer, operateIndex, tableM);
-			}
-		}
-
+					new DealerUpdate(dealer, operateIndex, tableM);
+				} catch (IOException e1) {
+				e1.printStackTrace();
+				}
+			});
+		
+		deleteButton.addActionListener(e -> {
+			if (operateIndex.isEmpty())
+				JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
+						"Can't delete", JOptionPane.ERROR_MESSAGE);
+			else
+				new DealerDelFunc(dealer, operateIndex, tableM);
+			});
 	}
+
+//	class BottonClicked implements ActionListener {
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			if (e.getSource() == searchButton) {
+//				new DealerSearchFunc(dealer, tableM);
+//			} else if (e.getSource() == addButton)
+//				new DealerAddFunc((CarManagerImpl) dealer, tableM);
+//			else if (e.getSource() == updateButton) {
+//				try {
+//					if (operateIndex.isEmpty())
+//						JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
+//								"Can't update!", JOptionPane.ERROR_MESSAGE);
+//					else
+//						new DealerUpdate(dealer, operateIndex, tableM);
+//				} catch (IOException e1) {
+//					e1.printStackTrace();
+//				}
+//			} else if (e.getSource() == deleteButton) {
+//				if (operateIndex.isEmpty())
+//					JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
+//							"Can't delete", JOptionPane.ERROR_MESSAGE);
+//				else
+//					new DealerDelFunc(dealer, operateIndex, tableM);
+//			}
+//		}
+//
+//	}
 
 	class MyTableModel extends AbstractTableModel {
 		private String[] Items = null;
@@ -224,7 +240,7 @@ public class DearlerMainScreen extends JFrame {
 			Car oneCar = getCars().get(row);
 			switch (col) {
 			case 0:
-				return boolBox.get(row);
+				return this.boolBox.get(row);
 			case 1:
 				return oneCar.getID();
 			case 2:
@@ -276,14 +292,21 @@ public class DearlerMainScreen extends JFrame {
 					operateIndex.remove((Integer) row);
 				}
 			} else if (updatePermition) {
-				Car val = ((Car) value);
-				cars.get(row).setCategory(val.getCategory());
-				cars.get(row).setMake(val.getMake());
-				cars.get(row).setModel(val.getModel());
-				cars.get(row).setTrim(val.getTrim());
-				cars.get(row).setType(val.getType());
-				cars.get(row).setYear(val.getYear());
-				cars.get(row).setPrice(val.getPrice());
+				if(value == null){
+					boolBox.remove(row);
+					cars.remove(row);
+				}
+				else{
+					Car val = ((Car) value);
+					cars.get(row).setCategory(val.getCategory());
+					cars.get(row).setMake(val.getMake());
+					cars.get(row).setModel(val.getModel());
+					cars.get(row).setTrim(val.getTrim());
+					cars.get(row).setType(val.getType());
+					cars.get(row).setYear(val.getYear());
+					cars.get(row).setPrice(val.getPrice());
+					boolBox.set(row, new Boolean(false));
+				}
 				this.fireTableRowsUpdated(0, cars.size() - 1);
 			}
 		}
@@ -298,13 +321,24 @@ public class DearlerMainScreen extends JFrame {
 
 		public void searchCars(List<Car> cars) {
 			this.cars = cars;
-			this.fireTableRowsUpdated(0, tableM.getRowCount() - 1);
+			if(cars.size()<boolBox.size())
+				for(int i = boolBox.size()-1; i>=cars.size(); i--)
+					this.boolBox.remove(i);
+			else
+				for(int i = boolBox.size()-1; i<cars.size()-1; i++)
+					this.boolBox.add(new Boolean(false));
+			operateIndex.clear();
 			resultTable.updateUI();
 		}
 
 		public void deleteTable(List<Integer> ret) {
-			this.fireTableRowsDeleted(0, this.getRowCount() - 1);
+			updatePermition = true;
+			for(int i = 0; i<ret.size(); i++){
+				this.setValueAt(null, ret.get(i), 1);
+			}
+			this.fireTableRowsDeleted(0, tableM.getRowCount() - 1);
 			resultTable.updateUI();
+			updatePermition = false;
 		}
 
 		public void addTable(Car addedCar) {
