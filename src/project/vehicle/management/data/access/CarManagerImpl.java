@@ -311,7 +311,6 @@ public class CarManagerImpl implements CarManager {
      */
     @Override
     public List<Car> sort(SearchFilter sf, SortCriteria sc) throws IOException {
-        // search satisfied data
         // carList.clear();
         searchFilterCar(sf);
         sortFilterCar(sc);
