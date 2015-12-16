@@ -289,6 +289,7 @@ public class CustomerScreen extends JFrame {
 
 	}
     
+    
     public String checknull(String s){
     	if(s==""){
     		
@@ -331,33 +332,29 @@ public class CustomerScreen extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			JComboBox cb=(JComboBox)e.getSource();
 			String choice = cb.getSelectedItem().toString();
-			System.out.println(choice);
+			//System.out.println(choice);
 			Range r,p;
 			
 			
 			List<String> model,trim;
 			if(cb==comboBox){
-				//if(!initcombomodel){
-				//	comboBox_1.removeAllItems();
-				//}
 				sf.setMake(checknull(choice));
-				if(choice!=""){
-					//System.out.println("here1");			       
-					model=carManager.setModel(sf.getMake());
-					model.add(0, "");
-					
-					//for(String s:model){
-					DefaultComboBoxModel modelm = new DefaultComboBoxModel(model.toArray());
-						comboBox_1.setModel(modelm);                    
-					//}                                             
-					//initcombomodel=!initcombomodel;
-				}else{
-					System.out.println("here1");                   //brand置空清空model后再选brand无法生成model列表
-					comboBox_1.removeAllItems();
-					comboBox_2.removeAllItems();
-				}			
-				//comboBox_1 = new JComboBox(list.get(0).toArray());
-				//comboBox_1.setSelectedItem(null);
+				if(choice==""){
+					//System.out.println("here1");                   
+					sf.setMake(null);		
+				}
+				sf.setModel(null);
+				sf.setTrim(null);
+				model=carManager.setModel(sf.getMake());
+				model.add(0, "");
+				DefaultComboBoxModel modelm = new DefaultComboBoxModel(model.toArray());
+				comboBox_1.setModel(modelm);  
+				
+				trim=carManager.setTrim(sf.getModel(), sf.getMake());
+				trim.add(0, "");
+				DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
+				comboBox_2.setModel(trimm);
+				
 			}else if(cb==comboBox_1){
 				
 				sf.setModel(checknull(choice));
@@ -365,7 +362,7 @@ public class CustomerScreen extends JFrame {
 					trim=carManager.setTrim(sf.getModel(), sf.getMake());
 					trim.add(0, "");
 					DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
-						comboBox_2.setModel(trimm);
+					comboBox_2.setModel(trimm);
 					
 				}else{
 					comboBox_2.removeAllItems();
