@@ -4,7 +4,7 @@ import java.io.IOException;
 
 public class CarManagerFactory {
     /**
-     * Split each line in file with "~" to get car information and build a car.
+     * Get CarManager of corresponding dealerID
      * 
      * @param   dealerId  a dealer ID of the certain CarManagerImpl instance
      * @return            corresponding CarManagerImpl

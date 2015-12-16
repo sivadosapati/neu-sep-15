@@ -18,10 +18,8 @@ public class DealerCarManagerImpl implements DealerCarManager {
 		file = new File("dealers");
 	}
 
-	@SuppressWarnings("finally")
 	public String[] getDealerIds() {
 		List<String> dealerIds = new ArrayList<String>();
-
 		try {
 			FileInputStream fis;
 			fis = new FileInputStream(file);
@@ -38,9 +36,8 @@ public class DealerCarManagerImpl implements DealerCarManager {
 			JOptionPane.showMessageDialog(new MainScreen(""), e.getMessage()+"\nPlease contact administrator to fix it!");
 			System.exit(1);
 			e.printStackTrace();
-		} finally {
-			return dealerIds.toArray(new String[dealerIds.size()]);
 		}
+		return dealerIds.toArray(new String[dealerIds.size()]);
 	}
 
 	public String[] getDealerIdsOld() {
@@ -56,7 +53,7 @@ public class DealerCarManagerImpl implements DealerCarManager {
 			}
 
 		};
-		template.setSkipFirstLine(true);
+		template.setSkipFirstLine(false);
 		try {
 			template.parseFile(file);
 		} catch (Exception e) {
