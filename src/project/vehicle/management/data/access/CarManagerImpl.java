@@ -1,15 +1,9 @@
-/**
- * 
- */
 package project.vehicle.management.data.access;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,44 +34,32 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Get dealer ID of certain CarManagerImpl instance
-     * @param   none
-     * @return  the dealer id of certain CarManagerImpl instance
+     * 
+     * @param none
+     * @return the dealer id of certain CarManagerImpl instance
      */
     public String getDealerID() {
         return dealerID;
     }
 
-   /**
-    * Set the dealerID for an CarManagerImpl
-    * @param  dealerID  an Dealer id of which is being applied to the CarManagerImpl
-    * @return           none
-    */
+    /**
+     * Set the dealerID for an CarManagerImpl
+     * 
+     * @param dealerID an Dealer id of which is being applied to the CarManagerImpl
+     * @return none
+     */
     public void setDealerID(String dealerID) {
         this.dealerID = dealerID;
     }
 
-   /**
-    * Read the corresponding file of the dealer, convert data into a list of cars
-    * @param      none
-    * @return     all the cars of certain dealer.
-    * @exception  IOException On input error
-    * @see        IOException
-    */
-    
-  /*  private List<Car> buildCarList() throws IOException {
-        List<Car> result = new ArrayList<Car>();
-        FileInputStream fis = new FileInputStream(file);
-        InputStreamReader isr = new InputStreamReader(fis);
-        BufferedReader br = new BufferedReader(isr);
-        String thisLine = null;
-        br.readLine(); // exclude the first line
-        while ((thisLine = br.readLine()) != null) {
-            result.add(lineToCar(thisLine));
-        }
-        br.close();
-        return result;
-    }
- */
+    /**
+     * Read the corresponding file of the dealer, convert data into a list of cars
+     * 
+     * @param none
+     * @return all the cars of certain dealer.
+     * @exception IOException On input error
+     * @see IOException
+     */
     private List<Car> buildCarList() throws IOException {
         final List<Car> cars = new ArrayList<Car>();
         FileReadingTemplate template = new FileReadingTemplate() {
@@ -91,11 +73,12 @@ public class CarManagerImpl implements CarManager {
         return cars;
     }
 
-   /**
-    * Split each line in file with "~" to get car information and build a car.
-    * @param  line  each line in file, except the first line
-    * @return       the corresponding car of the line in the file
-    */
+    /**
+     * Split each line in file with "~" to get car information and build a car.
+     * 
+     * @param line each line in file, except the first line
+     * @return the corresponding car of the line in the file
+     */
     private Car lineToCar(String line) {
         String[] l = line.split("~");
         String id = l[0];
@@ -110,11 +93,12 @@ public class CarManagerImpl implements CarManager {
         return new Car(id, dealerId, category, year, make, model, trim, type, price);
     }
 
-   /**
-    * Get all the cars of this dealer
-    * @param   none
-    * @return  all the cars of certain dealer, without searching and sorting
-    */
+    /**
+     * Get all the cars of this dealer
+     * 
+     * @param none
+     * @return all the cars of certain dealer, without searching and sorting
+     */
     @Override
     public List<Car> listCars() {
         return carList;
@@ -122,8 +106,9 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Get cars which match defined SearchFilter
-     * @param  sf  an defined SearchFilter which is being applied
-     * @return     all the cars meet the condition.
+     * 
+     * @param sf an defined SearchFilter which is being applied
+     * @return all the cars meet the condition.
      */
     @Override
     public List<Car> search(SearchFilter sf) {
@@ -137,9 +122,10 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Check if a car meets the condition of a SearchFilter
-     * @param  car  a car which is being check
-     * @param  sf   a defined search filter
-     * @return      true if the car meet condition, otherwise false
+     * 
+     * @param car a car which is being check
+     * @param sf a defined search filter
+     * @return true if the car meet condition, otherwise false
      */
     private boolean checkSearchCondition(Car car, SearchFilter sf) {
         if (!checkCondition(sf.getMake(), car.getMake()))
@@ -161,9 +147,10 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Check if the information of a car contains one or more keywords
-     * @param  car       a car which is being check 
-     * @param  keywords  the keyword string from UI
-     * @return           true if the car meet condition, otherwise false
+     * 
+     * @param car a car which is being check
+     * @param keywords the keyword string from UI
+     * @return true if the car meet condition, otherwise false
      */
     private boolean checkCondition(Car car, String keywords) {
         if (keywords == null || keywords.equals(""))
@@ -179,9 +166,10 @@ public class CarManagerImpl implements CarManager {
 
     /**
      * Check if the boolean array meets the condition of the defined category of a car
-     * @param  cc        an boolean array which is being check
-     * @param  category  a defined category
-     * @return           true if the boolean array meet condition, otherwise false
+     * 
+     * @param cc an boolean array which is being check
+     * @param category a defined category
+     * @return true if the boolean array meet condition, otherwise false
      */
     private boolean checkCondition(boolean[] cc, Category category) {
         if ((!cc[0]) && (!cc[1]) && (!cc[2]))
@@ -197,27 +185,29 @@ public class CarManagerImpl implements CarManager {
                 return true;
         return false;
     }
-    
-   /**
-    * Check if one string equals another
-    * @param  str1  a string
-    * @param  str2  another string
-    * @return       true if two strings the same, otherwise false
-    */
+
+    /**
+     * Check if one string equals another
+     * 
+     * @param str1 a string
+     * @param str2 another string
+     * @return true if two strings the same, otherwise false
+     */
     private boolean checkCondition(String str1, String str2) {
         if (str1 != null)
             if (!str1.equals(str2))
                 return false;
         return true;
     }
-    
-   /**
-    * Check if a price is in a certain price range
-    * @param  range  a price range
-    * @param  price  a float number
-    * @return        true if price is in a the range, otherwise false
-    * @see           Range
-    */
+
+    /**
+     * Check if a price is in a certain price range
+     * 
+     * @param range a price range
+     * @param price a float number
+     * @return true if price is in a the range, otherwise false
+     * @see Range
+     */
     private boolean checkCondition(Range range, Float price) {
         if (range != null) {
             if (range.getMax() != null)
@@ -230,24 +220,26 @@ public class CarManagerImpl implements CarManager {
         return true;
     }
 
-   /**
-    * Add a car to the car list and write to file
-    * @param   car    a car which is being added
-    * @return         none
-    * @exception      IOException On input error
-    */
+    /**
+     * Add a car to the car list and write to file
+     * 
+     * @param car a car which is being added
+     * @return none
+     * @exception IOException On input error
+     */
     @Override
     public void addCar(Car car) throws IOException {
         this.carList.add(car);
         addToFile(car.toString());
     }
-    
-   /**
-    * Write a string in the file
-    * @param   str   a string which is being written
-    * @return        none
-    * @exception     IOException On output error
-    */
+
+    /**
+     * Write a string in the file
+     * 
+     * @param str a string which is being written
+     * @return none
+     * @exception IOException On output error
+     */
     public void addToFile(String str) throws IOException {
         FileWriter fw = new FileWriter(file, true);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -257,12 +249,13 @@ public class CarManagerImpl implements CarManager {
         fw.close();
     }
 
-   /**
-    * Delete a car with certain vehicleId in the car list and delete the car data in file
-    * @param   vehicleId   a string whose car is being deleted
-    * @return              none
-    * @exception           IOException On output error
-    */
+    /**
+     * Delete a car with certain vehicleId in the car list and delete the car data in file
+     * 
+     * @param vehicleId a string whose car is being deleted
+     * @return none
+     * @exception IOException On output error
+     */
     @Override
     public void deleteCar(String vehicleId) throws IOException {
         coverFile();
@@ -274,24 +267,26 @@ public class CarManagerImpl implements CarManager {
         }
     }
 
-   /**
-    * Clear up file and ready to rewrite 
-    * @param      none
-    * @return     none
-    * @exception  IOException On output error
-    */
+    /**
+     * Clear up file and ready to rewrite
+     * 
+     * @param none
+     * @return none
+     * @exception IOException On output error
+     */
     private void coverFile() throws IOException {
         FileWriter fw = new FileWriter(file);
         fw.write("id~webId~category~year~make~model~trim~type~price");
         fw.close();
     }
 
-   /**
-    * Update the data of a car in the car list 
-    * @param      car   a car which is being modified 
-    * @return     none
-    * @exception  IOException On output error
-    */
+    /**
+     * Update the data of a car in the car list
+     * 
+     * @param car a car which is being modified
+     * @return none
+     * @exception IOException On output error
+     */
     @Override
     public void updateCar(Car car) throws IOException {
         int count = 0;
@@ -307,46 +302,48 @@ public class CarManagerImpl implements CarManager {
             addToFile(c.toString());
     }
 
-   /**
-    * Sort the car list according to defined SearchFilter and SortCriteria  
-    * @param    sf   a defined SearchFilter
-    * @param    sc   a defined SortCriteria
-    * @return        the list of filtered car in certain order
-    */
+    /**
+     * Sort the car list according to defined SearchFilter and SortCriteria
+     * 
+     * @param sf a defined SearchFilter
+     * @param sc a defined SortCriteria
+     * @return the list of filtered car in certain order
+     */
     @Override
     public List<Car> sort(SearchFilter sf, SortCriteria sc) throws IOException {
-		//search satisfied data
-		//carList.clear();
-		searchFilterCar(sf);
-	    sortFilterCar(sc);        
+        // search satisfied data
+        // carList.clear();
+        searchFilterCar(sf);
+        sortFilterCar(sc);
         return carList;
-	}
-
-	//sort these car data inside search result
-	public void sortFilterCar(SortCriteria sc) {
-		CarComparator ascComparator = new CarComparator();
-        ascComparator.setAttribute(sc.getAttribute());
-        Collections.sort(carList, ascComparator);
-        if(!sc.getSequence()) {
-            Comparator<Car> descComparator = Collections.reverseOrder(ascComparator); 
-            Collections.sort(carList, descComparator); 
-        }
-       // return carList;
     }
 
-	//get the car data which need to sort
-	public void searchFilterCar(SearchFilter sf) throws IOException {
-		if(carList == null) {
-			carList = buildCarList();
-		}
-		carList = search(sf);
-	}
+    // sort these car data inside search result
+    public void sortFilterCar(SortCriteria sc) {
+        CarComparator ascComparator = new CarComparator();
+        ascComparator.setAttribute(sc.getAttribute());
+        Collections.sort(carList, ascComparator);
+        if (!sc.getSequence()) {
+            Comparator<Car> descComparator = Collections.reverseOrder(ascComparator);
+            Collections.sort(carList, descComparator);
+        }
+        // return carList;
+    }
 
-   /**
-    * Get non-duplicated make list of car list
-    * @param   none
-    * @return  a list of String of non-duplicated makes
-    */
+    // get the car data which need to sort
+    public void searchFilterCar(SearchFilter sf) throws IOException {
+        if (carList == null) {
+            carList = buildCarList();
+        }
+        carList = search(sf);
+    }
+
+    /**
+     * Get non-duplicated make list of car list
+     * 
+     * @param none
+     * @return a list of String of non-duplicated makes
+     */
     @Override
     public List<String> setMake() {
         HashSet<String> makes = new HashSet<String>();
@@ -355,12 +352,13 @@ public class CarManagerImpl implements CarManager {
         }
         return new ArrayList<String>(makes);
     }
-    
-   /**
-    * Get non-duplicated model list in car list
-    * @param   make  the make of the car
-    * @return        a list of String of non-duplicated models
-    */
+
+    /**
+     * Get non-duplicated model list in car list
+     * 
+     * @param make the make of the car
+     * @return a list of String of non-duplicated models
+     */
     @Override
     public List<String> setModel(String make) {
         HashSet<String> models = new HashSet<String>();
@@ -370,13 +368,14 @@ public class CarManagerImpl implements CarManager {
         }
         return new ArrayList<String>(models);
     }
-    
-   /**
-    * Get non-duplicated trim list in car list
-    * @param   modle  the model of the car
-    * @param   make   the make of the car
-    * @return         a list of String of non-duplicated trims
-    */
+
+    /**
+     * Get non-duplicated trim list in car list
+     * 
+     * @param modle the model of the car
+     * @param make the make of the car
+     * @return a list of String of non-duplicated trims
+     */
     @Override
     public List<String> setTrim(String model, String make) {
         HashSet<String> trims = new HashSet<String>();
