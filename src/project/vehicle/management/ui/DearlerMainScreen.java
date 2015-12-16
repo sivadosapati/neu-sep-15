@@ -1,7 +1,7 @@
 package project.vehicle.management.ui;
 
 import java.awt.Container;
-import java.awt.EventQueue;
+import java.awt.Dialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -18,9 +18,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import project.vehicle.management.data.Car;
 import project.vehicle.management.data.access.CarManager;
@@ -88,10 +92,11 @@ public class DearlerMainScreen extends JFrame {
 		tableM = new MyTableModel(items, dealer.listCars());
 		resultTable = new JTable(tableM);
 		resultTable.setRowHeight(20);
+		setColumn();
 		resultScroll = new JScrollPane(resultTable);
-
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 	}
+
 
 	public void add() {
 		Container con = getContentPane();
@@ -127,6 +132,25 @@ public class DearlerMainScreen extends JFrame {
 		gbc.ipady = ipady;
 	}
 
+	private void setColumn() {
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.RIGHT);
+		resultTable.setDefaultRenderer(Object.class, dtcr);
+		resultTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		resultTable.getColumnModel().getColumn(0).setMaxWidth(90);
+		resultTable.getColumnModel().getColumn(1).setPreferredWidth(120);
+		resultTable.getColumnModel().getColumn(1).setMaxWidth(120);
+		resultTable.getColumnModel().getColumn(2).setPreferredWidth(130);
+		resultTable.getColumnModel().getColumn(2).setMaxWidth(130);
+		resultTable.getColumnModel().getColumn(3).setMaxWidth(70);
+		resultTable.getColumnModel().getColumn(4).setMaxWidth(70);
+		resultTable.getColumnModel().getColumn(5).setMaxWidth(70);
+		resultTable.getColumnModel().getColumn(6).setPreferredWidth(150);
+		resultTable.getColumnModel().getColumn(6).setMaxWidth(150);
+		resultTable.getColumnModel().getColumn(8).setMaxWidth(70);
+		resultTable.getColumnModel().getColumn(9).setMaxWidth(70);
+	}
+
 	public void addListeners() {
 		BottonClicked buttonListener = new BottonClicked();
 		searchButton.addActionListener(buttonListener);
@@ -145,13 +169,25 @@ public class DearlerMainScreen extends JFrame {
 				 new DealerAddFunc((CarManagerImpl) dealer, tableM);
 			else if (e.getSource() == updateButton) {
 				try {
-					new DealerUpdate(dealer, operateIndex, tableM);
+					if(operateIndex.isEmpty())
+						JOptionPane.showMessageDialog(new JButton(),
+							    "You have to select at least one car !",
+							    "Can't update!",
+							    JOptionPane.ERROR_MESSAGE);
+					else
+						new DealerUpdate(dealer, operateIndex, tableM);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			} else if (e.getSource() == deleteButton) {
-				DealerDelFunc deleteScreen = new DealerDelFunc(dealer, operateIndex, tableM);
+				if(operateIndex.isEmpty())
+					JOptionPane.showMessageDialog(new JButton(),
+						    "You have to select at least one car !",
+						    "Can't delete",
+						    JOptionPane.ERROR_MESSAGE);
+				else
+					new DealerDelFunc(dealer, operateIndex, tableM);
 			}
 		}
 
