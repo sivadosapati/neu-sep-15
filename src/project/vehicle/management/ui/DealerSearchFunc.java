@@ -323,8 +323,6 @@ public class DealerSearchFunc {
 			if (e.getSource() == btnSearch) {
 				sf.setKeywords(keyWords.getText());
 				sf.setCategory(category);
-
-				System.out.println(sf.getKeywords());
 				tableM.searchCars(carManager.search(sf));
 				frame.dispose();
 			}
@@ -344,7 +342,7 @@ public class DealerSearchFunc {
 		public void actionPerformed(ActionEvent e) {
 			JComboBox cb = (JComboBox) e.getSource();
 			String choice = cb.getSelectedItem().toString();
-			Range r, p;
+			Range year, price;
 
 			if (cb == comboBox_make) {
 				sf.setMake(choice);
@@ -368,32 +366,32 @@ public class DealerSearchFunc {
 				sf.setTrim(choice);
 			} else if (cb == comboBox_year) {
 				if (choice == "<2000") {
-					r = new Range(0, 2000);
+					year = new Range(0, 2000);
 				} else if (choice == "2000-2005") {
-					r = new Range(2000, 2005);
+					year = new Range(2000, 2005);
 				} else if (choice == "2006-2010") {
-					r = new Range(2006, 2010);
+					year = new Range(2006, 2010);
 				} else {
-					r = new Range(2011, 2015);
+					year = new Range(2011, 2015);
 				}
-				sf.setYear(r);
+				sf.setYear(year);
 			} else {
 				if (choice == "<10000") {
-					p = new Range(0, 10000);
+					price = new Range(0, 10000);
 				} else if (choice == "10000-15000") {
-					p = new Range(10000, 15000);
+					price = new Range(10000, 15000);
 				} else if (choice == "15000-20000") {
-					p = new Range(15000, 20000);
+					price = new Range(15000, 20000);
 				} else if (choice == "20000-25000") {
-					p = new Range(20000, 25000);
+					price = new Range(20000, 25000);
 				} else if (choice == "25000-30000") {
-					p = new Range(25000, 30000);
+					price = new Range(25000, 30000);
 				} else if (choice == "30000-50000") {
-					p = new Range(30000, 50000);
+					price = new Range(30000, 50000);
 				} else {
-					p = new Range(50000, Integer.MAX_VALUE);
+					price = new Range(50000, Integer.MAX_VALUE);
 				}
-				sf.setRange(p);
+				sf.setRange(price);
 			}
 		}
 
