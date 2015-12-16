@@ -29,9 +29,8 @@ public class DealerAddFunc extends JFrame {
 	private JLabel head;
 	private Category category;
 	private CarManager dealer;
-	private Car car = null;
 	private MyTableModel mtm;
-	private String did;
+	private String did,type;
 
 	GridBagLayout g = new GridBagLayout();
 	GridBagConstraints c = new GridBagConstraints();
@@ -40,9 +39,11 @@ public class DealerAddFunc extends JFrame {
 		setTitle("Add Function");
 		setSize(590, 470);
 		setLayout(g);
+		
 		// use functions
 		addComponent();
 		addListeners();
+		
 		// display in the middle
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -57,6 +58,13 @@ public class DealerAddFunc extends JFrame {
 		submit.addActionListener(bc);
 		cancel.addActionListener(bc);
 		NewType.addActionListener(bc);
+		OldType.addActionListener(bc);
+		CerType.addActionListener(bc);
+		Type1.addActionListener(bc);
+		Type2.addActionListener(bc);
+		Type3.addActionListener(bc);
+		Type4.addActionListener(bc);
+		Type5.addActionListener(bc);
 	}
 
 	class ButtonClick implements ActionListener {
@@ -67,37 +75,55 @@ public class DealerAddFunc extends JFrame {
 			if (e.getSource() == cancel) {
 				dispose();
 			}
+			// choose the category
+			else if (e.getSource() == NewType) {
+				
+				category = Category.NEW;
+			}
+
+			else if (e.getSource() == OldType) {
+				
+				category = Category.USED;
+			} 
+			else if (e.getSource() == CerType){
+				
+				category = Category.CERTIFIED;
+			}
+			// choose the type
+			else if (e.getSource() == Type1){
+				
+				type = Type1.getText();
+			}
+			else if (e.getSource() == Type2){
+				
+				type = Type2.getText();
+			}
+			else if (e.getSource() == Type3){
+				
+				type = Type3.getText();
+			}
+			else if (e.getSource() == Type4){
+				
+				type = Type4.getText();
+			}
+			else if (e.getSource() == Type5){
+				
+				type = Type5.getText();
+			}
 			// event for submit
-
-			if (e.getSource() == submit) {
-				// choose the category
-				if (e.getSource() == NewType) {
-					category = Category.NEW;
-				}
-
-				else if (e.getSource() == OldType) {
-					category = Category.USED;
-				} else {
-					category = Category.CERTIFIED;
-				}
-
+			else if (e.getSource() == submit) {
+			
 				String id = textID.getText();
-
 				String stringyear = year.getSelectedItem().toString();
 				int y = Integer.parseInt(stringyear);
 				String m = textMake.getText();
 				String mo = textModel.getText();
 				String t = textTrim.getText();
-				String t1 = Type1.getText();
-				String t2 = Type2.getText();
-				String t3 = Type3.getText();
-				String t4 = Type4.getText();
-				String t5 = Type5.getText();
 				String p = textPrice.getText();
 				float pf;
 				if(p.isEmpty()){
 					JOptionPane.showMessageDialog(new JButton(),
-						    "Some information of this car is empty, you have to fill in all of them !",
+						    "Price is empty, you have to fill it!",
 						    "Can't add this car",
 						    JOptionPane.ERROR_MESSAGE);
 					return;
@@ -105,19 +131,7 @@ public class DealerAddFunc extends JFrame {
 				else
 					pf = Float.parseFloat(p);
 
-				String type;
-				if (t1 != null) {
-					type = t1;
-				} else if (t2 != null) {
-					type = t2;
-				} else if (t3 != null) {
-					type = t3;
-				} else if (t4 != null) {
-					type = t4;
-				} else {
-					type = t5;
-				}
-
+				
 				Car car = new Car(id, did, category, y, m, mo, t, type, pf);
 				try {
 					if(carHasEmpty(car))
@@ -129,8 +143,8 @@ public class DealerAddFunc extends JFrame {
 						dealer.addCar(car);
 						mtm.addTable(car);
 						dispose();
-					}
-					;// mtm.addCar();
+					};
+					
 				} catch (IOException e1) {
 
 					e1.printStackTrace();
@@ -142,7 +156,7 @@ public class DealerAddFunc extends JFrame {
 
 	// Add all components
 	public void addComponent() {
-		car = new Car();
+		new Car();
 		head = new JLabel(new ImageIcon("pictures/DealerScreen2.jpg"));
 		add(g, c, head, 0, 0, 3, c.gridheight);
 		// Title
@@ -251,9 +265,11 @@ public class DealerAddFunc extends JFrame {
 	}
 
 	public boolean carHasEmpty(Car car) {
-		if(car.getID()==null||car.getCategory()==null||car.getMake()==null||car.getModel()==null||
-				car.getTrim()==null||car.getType()==null||car.getYear()==null||car.getPrice()==null)
+		if(car.getID().isEmpty()||car.getCategory()==null||car.getMake().isEmpty()||car.getModel().isEmpty()||
+				car.getTrim().isEmpty()||car.getType().isEmpty()||car.getYear()==null||car.getPrice()==null){
+		
 			return true;
+		}
 		else
 			return false;
 	}
@@ -264,10 +280,5 @@ public class DealerAddFunc extends JFrame {
 
 	}
 
-
-	public static void main(String args[]) {
-
-		// new DealerAddFunc();
-	}
 
 }
