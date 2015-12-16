@@ -318,7 +318,12 @@ public class CarManagerImpl implements CarManager {
         return carList;
     }
 
-    // sort these car data inside search result
+    /**
+     * Sort the car list data inside search result
+     * 
+     * @param sc a defined SortCriteria
+     * @return none
+     */
     public void sortFilterCar(SortCriteria sc) {
         CarComparator ascComparator = new CarComparator();
         ascComparator.setAttribute(sc.getAttribute());
@@ -327,10 +332,14 @@ public class CarManagerImpl implements CarManager {
             Comparator<Car> descComparator = Collections.reverseOrder(ascComparator);
             Collections.sort(carList, descComparator);
         }
-        // return carList;
     }
 
-    // get the car data which need to sort
+    /**
+     * Get the car data which need to be sorted
+     * 
+     * @param sf a defined SearchFilter
+     * @return none
+     */
     public void searchFilterCar(SearchFilter sf) throws IOException {
         if (carList == null) {
             carList = buildCarList();

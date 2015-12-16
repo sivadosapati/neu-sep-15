@@ -8,6 +8,10 @@ import javax.swing.JOptionPane;
 
 import project.vehicle.management.ui.MainScreen;
 
+/**
+ * @author: Zhang Yang, Liu Yang, Jia Jigang, Ma Changzheng
+ * 
+ */
 public class DealerCarManagerImpl implements DealerCarManager {
     private File file;
 
