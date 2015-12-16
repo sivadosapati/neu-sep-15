@@ -312,19 +312,11 @@ public class CarManagerImpl implements CarManager {
     * @return   sc   a defined SortCriteria
     */
     @Override
-    public List<Car> sort(SearchFilter sf, SortCriteria sc) {
-        // override comparator.....
-        // search satisfied data
-        // carList.clear();
-        carList = search(sf);
-        CarComparator ascComparator = new CarComparator();
     public List<Car> sort(SearchFilter sf, SortCriteria sc) throws IOException {
-		// override comparator.....
 		//search satified data
 		//carList.clear();
 		searchFilterCar(sf);
-	    sortFilterCar(sc);
-        
+	    sortFilterCar(sc);        
         return carList;
 	}
 
@@ -337,15 +329,8 @@ public class CarManagerImpl implements CarManager {
             Comparator<Car> descComparator = Collections.reverseOrder(ascComparator); 
             Collections.sort(carList, descComparator); 
         }
-        return carList;
+       // return carList;
     }
-    
-    /**
-     * Get non-duplicated makes of car list
-     * @param   none
-     * @return  a list of String of non-duplicated makes
-     */
-	}
 
 	//get the car data which need to sort
 	public void searchFilterCar(SearchFilter sf) throws IOException {
@@ -355,6 +340,11 @@ public class CarManagerImpl implements CarManager {
 		carList = search(sf);
 	}
 
+   /**
+    * Get non-duplicated makes of car list
+    * @param   none
+    * @return  a list of String of non-duplicated makes
+    */
     @Override
     public List<String> setMake() {
         HashSet<String> makes = new HashSet<String>();
