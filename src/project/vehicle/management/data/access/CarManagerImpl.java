@@ -234,7 +234,6 @@ public class CarManagerImpl implements CarManager {
     * @param   car    a car which is being added
     * @return         none
     * @exception      IOException On input error
-    * @see            Car
     */
     @Override
     public void addCar(Car car) throws IOException {
@@ -275,7 +274,7 @@ public class CarManagerImpl implements CarManager {
     }
 
    /**
-    * Delete a car with certain vehicleId in the car list and delete the car data in file
+    * Clear up file and ready to rewrite 
     * @param      none
     * @return     none
     * @exception  IOException On output error
@@ -286,12 +285,12 @@ public class CarManagerImpl implements CarManager {
         fw.close();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see project.vehicle.management.data.access.CarManager#updateCar(project.vehicle
-     * .management.data.Car)
-     */
+   /**
+    * Update the data of a car in the car list 
+    * @param      car   a car which is being modified 
+    * @return     none
+    * @exception  IOException On output error
+    */
     @Override
     public void updateCar(Car car) throws IOException {
         int count = 0;
@@ -307,20 +306,17 @@ public class CarManagerImpl implements CarManager {
             addToFile(c.toString());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see project.vehicle.management.data.access.CarManager#sort(project.vehicle
-     * .management.data.SearchFilter, project.vehicle.management.data.SortCriteria)
-     */
+   /**
+    * Sort the car list according to defined SearchFilter and SortCriteria  
+    * @param    sf   a defined SearchFilter
+    * @return   sc   a defined SortCriteria
+    */
     @Override
     public List<Car> sort(SearchFilter sf, SortCriteria sc) throws IOException {
-		// override comparator.....
 		//search satified data
 		//carList.clear();
 		searchFilterCar(sf);
-	    sortFilterCar(sc);
-        
+	    sortFilterCar(sc);        
         return carList;
 	}
 
@@ -333,7 +329,8 @@ public class CarManagerImpl implements CarManager {
             Comparator<Car> descComparator = Collections.reverseOrder(ascComparator); 
             Collections.sort(carList, descComparator); 
         }
-	}
+       // return carList;
+    }
 
 	//get the car data which need to sort
 	public void searchFilterCar(SearchFilter sf) throws IOException {
@@ -343,6 +340,11 @@ public class CarManagerImpl implements CarManager {
 		carList = search(sf);
 	}
 
+   /**
+    * Get non-duplicated makes of car list
+    * @param   none
+    * @return  a list of String of non-duplicated makes
+    */
     @Override
     public List<String> setMake() {
         HashSet<String> makes = new HashSet<String>();
@@ -351,7 +353,12 @@ public class CarManagerImpl implements CarManager {
         }
         return new ArrayList<String>(makes);
     }
-
+    
+    /**
+     * Get non-duplicated makes of car list
+     * @param   none
+     * @return  a list of String of non-duplicated makes
+     */
     @Override
     public List<String> setModel(String make) {
         HashSet<String> models = new HashSet<String>();
