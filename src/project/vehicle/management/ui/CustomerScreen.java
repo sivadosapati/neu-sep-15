@@ -300,7 +300,8 @@ public class CustomerScreen extends JFrame {
 			JComboBox cb = (JComboBox) e.getSource();
 			String choice = cb.getSelectedItem().toString();
 			// System.out.println(choice);
-			Range r, p;
+			Range r=null;
+			Range p=null;
 
 			List<String> model, trim;
 			if (cb == comboBox) {
@@ -334,40 +335,46 @@ public class CustomerScreen extends JFrame {
 			} else if (cb == comboBox_2) {
 				sf.setTrim(checknull(choice));
 			} else if (cb == comboBox_3) {
-				if (choice == "") {
-					r = null;
-				} else if (choice == "<2000") {
-					r = new Range(0, 2000);
-				} else if (choice == "2000-2005") {
-					r = new Range(2000, 2005);
-				} else if (choice == "2006-2010") {
-					r = new Range(2006, 2010);
-				} else {
-					r = new Range(2011, 2015);
-				}
-				sf.setYear(r);
+				yearAction(choice,r);
 			} else {
-				if (choice == "") {
-					p = null;
-				} else if (choice == "<10000") {
-					p = new Range(0, 10000);
-				} else if (choice == "10000-15000") {
-					p = new Range(10000, 15000);
-				} else if (choice == "15000-20000") {
-					p = new Range(15000, 20000);
-				} else if (choice == "20000-25000") {
-					p = new Range(20000, 25000);
-				} else if (choice == "25000-30000") {
-					p = new Range(25000, 30000);
-				} else if (choice == "30000-50000") {
-					p = new Range(30000, 50000);
-				} else {
-					p = new Range(50000, Integer.MAX_VALUE);
-				}
-				sf.setRange(p);
+				priceAction(choice,p);
 			}
 			refreshTable();
 		}
+	}
+	void yearAction(String choice,Range r){
+		if (choice == "") {
+			r = null;
+		} else if (choice == "<2000") {
+			r = new Range(0, 2000);
+		} else if (choice == "2000-2005") {
+			r = new Range(2000, 2005);
+		} else if (choice == "2006-2010") {
+			r = new Range(2006, 2010);
+		} else {
+			r = new Range(2011, 2015);
+		}
+		sf.setYear(r);
+	}
+	void priceAction(String choice,Range p){
+		if (choice == "") {
+			p = null;
+		} else if (choice == "<10000") {
+			p = new Range(0, 10000);
+		} else if (choice == "10000-15000") {
+			p = new Range(10000, 15000);
+		} else if (choice == "15000-20000") {
+			p = new Range(15000, 20000);
+		} else if (choice == "20000-25000") {
+			p = new Range(20000, 25000);
+		} else if (choice == "25000-30000") {
+			p = new Range(25000, 30000);
+		} else if (choice == "30000-50000") {
+			p = new Range(30000, 50000);
+		} else {
+			p = new Range(50000, Integer.MAX_VALUE);
+		}
+		sf.setRange(p);
 	}
 
 	class CarTableModel extends AbstractTableModel {
