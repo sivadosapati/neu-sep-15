@@ -32,9 +32,9 @@ public class SpecificCarScreen extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton search;
-	private JLabel carPrice,category,type,make,model,year,trim;
+	private JLabel carPrice,category,type,make,model,year,trim,info,dealerid,country;
 	private JPanel contentPane;
-	private JLabel lblSnapshot,picture,picture1,picture2,picture3,info,dealerid,country;
+	private JLabel lblSnapshot,picture,picture1,picture2,picture3,picture4,picture5;
 	private LinkLabel web;
 	private Car car;
 	private String[] dealerInfo;
@@ -73,9 +73,11 @@ public class SpecificCarScreen extends JFrame {
 		web = new LinkLabel(dealerInfo[2],dealerInfo[2]);
 		
 
-		picture1 = new JLabel(new ImageIcon("pictures/cardetail1.jpg"));
-		picture2 = new JLabel(new ImageIcon("pictures/cardetail2.png"));
-		picture3 = new JLabel(new ImageIcon("pictures/cardetail3.png"));
+		picture1 = new JLabel(new ImageIcon("pictures/cardetial1.jpeg"));
+		picture2 = new JLabel(new ImageIcon("pictures/cardetail2.jpeg"));
+		picture3 = new JLabel(new ImageIcon("pictures/cardetail3.jpeg"));
+		picture4 = new JLabel(new ImageIcon("pictures/cardetail4.jpeg"));
+		picture5 = new JLabel(new ImageIcon("pictures/cardetail5.jpeg"));
 	}
 	
 	private void setFonts() {
@@ -199,6 +201,8 @@ public class SpecificCarScreen extends JFrame {
 		photo.add(picture1);
 		photo.add(picture2);
 		photo.add(picture3);
+		photo.add(picture4);
+		photo.add(picture5);
 		/*
 		 * hard code
 		 */
