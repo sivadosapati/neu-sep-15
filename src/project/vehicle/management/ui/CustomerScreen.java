@@ -289,6 +289,7 @@ public class CustomerScreen extends JFrame {
 
 	}
     
+    
     public String checknull(String s){
     	if(s==""){
     		
