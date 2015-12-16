@@ -308,11 +308,12 @@ public class CarManagerImpl implements CarManager {
    /**
     * Sort the car list according to defined SearchFilter and SortCriteria  
     * @param    sf   a defined SearchFilter
-    * @return   sc   a defined SortCriteria
+    * @param    sc   a defined SortCriteria
+    * @return        the list of filtered car in certain order
     */
     @Override
     public List<Car> sort(SearchFilter sf, SortCriteria sc) throws IOException {
-		//search satified data
+		//search satisfied data
 		//carList.clear();
 		searchFilterCar(sf);
 	    sortFilterCar(sc);        
@@ -340,7 +341,7 @@ public class CarManagerImpl implements CarManager {
 	}
 
    /**
-    * Get non-duplicated makes of car list
+    * Get non-duplicated make list of car list
     * @param   none
     * @return  a list of String of non-duplicated makes
     */
@@ -353,11 +354,11 @@ public class CarManagerImpl implements CarManager {
         return new ArrayList<String>(makes);
     }
     
-    /**
-     * Get non-duplicated makes of car list
-     * @param   none
-     * @return  a list of String of non-duplicated makes
-     */
+   /**
+    * Get non-duplicated model list in car list
+    * @param   make  the make of the car
+    * @return        a list of String of non-duplicated models
+    */
     @Override
     public List<String> setModel(String make) {
         HashSet<String> models = new HashSet<String>();
@@ -367,7 +368,13 @@ public class CarManagerImpl implements CarManager {
         }
         return new ArrayList<String>(models);
     }
-
+    
+   /**
+    * Get non-duplicated trim list in car list
+    * @param   modle  the model of the car
+    * @param   make   the make of the car
+    * @return         a list of String of non-duplicated trims
+    */
     @Override
     public List<String> setTrim(String model, String make) {
         HashSet<String> trims = new HashSet<String>();
