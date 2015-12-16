@@ -153,7 +153,15 @@ public class CustomerScreen extends JFrame {
 			sc.setSequence(highToLow);
 			//System.out.println(sortKeyword);
 			//System.out.println(highToLow);
-			refreshTable();
+			try{
+				String dealerIDS = ((CarManagerImpl) carManager).getDealerID();
+				CarManagerImpl testAfterSearchSort = new CarManagerImpl(dealerIDS);
+				List<Car> carAfterSearchSort = carManager.sort(sf, sc);
+				table.setModel(new CarTableModel(carAfterSearchSort));
+				table.updateUI();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	} 
 	
