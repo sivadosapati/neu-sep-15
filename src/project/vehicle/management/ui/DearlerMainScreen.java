@@ -65,7 +65,7 @@ public class DearlerMainScreen extends JFrame {
 		addListeners();
 		display();
 	}
-	
+
 	public void create() {
 		String[] firstline = { "selection", "carId", "dealerId", "category", "year", "make", "model", "trim", "type",
 				"price" };
@@ -89,6 +89,12 @@ public class DearlerMainScreen extends JFrame {
 		deleteButton.setMargin(new Insets(0, 0, 0, 0));
 		updateButton = new JButton(new ImageIcon(buttonIcon4));
 		updateButton.setMargin(new Insets(0, 0, 0, 0));
+
+		addButton.setBorderPainted(false);
+		searchButton.setBorderPainted(false);
+		deleteButton.setBorderPainted(false);
+		updateButton.setBorderPainted(false);
+
 		head = new JLabel(new ImageIcon("pictures/DealerScreen.jpg"));
 
 		tableM = new MyTableModel(items, dealer.listCars());
@@ -98,7 +104,6 @@ public class DearlerMainScreen extends JFrame {
 		resultScroll = new JScrollPane(resultTable);
 		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
 	}
-
 
 	public void add() {
 		Container con = getContentPane();
@@ -123,7 +128,7 @@ public class DearlerMainScreen extends JFrame {
 	}
 
 	private void placeComponent(GridBagConstraints gbc, double weightx, double weighty, int gridx, int gridy,
-								int gridwidth, int gridheight, int ipadx, int ipady) {
+			int gridwidth, int gridheight, int ipadx, int ipady) {
 		gbc.weightx = weightx;
 		gbc.weighty = weighty;
 		gbc.gridx = gridx;
@@ -168,14 +173,12 @@ public class DearlerMainScreen extends JFrame {
 			if (e.getSource() == searchButton) {
 				new DealerSearchFunc(dealer, tableM);
 			} else if (e.getSource() == addButton)
-				 new DealerAddFunc((CarManagerImpl) dealer, tableM);
+				new DealerAddFunc((CarManagerImpl) dealer, tableM);
 			else if (e.getSource() == updateButton) {
 				try {
-					if(operateIndex.isEmpty())
-						JOptionPane.showMessageDialog(new JButton(),
-							    "You have to select at least one car !",
-							    "Can't update!",
-							    JOptionPane.ERROR_MESSAGE);
+					if (operateIndex.isEmpty())
+						JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
+								"Can't update!", JOptionPane.ERROR_MESSAGE);
 					else
 						new DealerUpdate(dealer, operateIndex, tableM);
 				} catch (IOException e1) {
@@ -183,11 +186,9 @@ public class DearlerMainScreen extends JFrame {
 					e1.printStackTrace();
 				}
 			} else if (e.getSource() == deleteButton) {
-				if(operateIndex.isEmpty())
-					JOptionPane.showMessageDialog(new JButton(),
-						    "You have to select at least one car !",
-						    "Can't delete",
-						    JOptionPane.ERROR_MESSAGE);
+				if (operateIndex.isEmpty())
+					JOptionPane.showMessageDialog(new JButton(), "You have to select at least one car !",
+							"Can't delete", JOptionPane.ERROR_MESSAGE);
 				else
 					new DealerDelFunc(dealer, operateIndex, tableM);
 			}
@@ -207,7 +208,7 @@ public class DearlerMainScreen extends JFrame {
 			this.Items = items;
 			this.setCars(cars);
 			this.boolBox = new ArrayList<>();
-			for(int i = 0; i<cars.size(); i++)	
+			for (int i = 0; i < cars.size(); i++)
 				boolBox.add(new Boolean(false));
 		}
 
@@ -259,7 +260,7 @@ public class DearlerMainScreen extends JFrame {
 			// Note that the data/cell address is constant,
 			// no matter where the cell appears onscreen.
 			if (col > 0) {
-				if(updatePermition == false)
+				if (updatePermition == false)
 					return false;
 				else
 					return true;
@@ -272,25 +273,23 @@ public class DearlerMainScreen extends JFrame {
 			if (col == 0) {
 				boolBox.set(row, (Boolean) value);
 				fireTableCellUpdated(row, col);
-				//System.out.println(value);
+				// System.out.println(value);
 				if (boolBox.get(row).equals(true)) {
 					operateIndex.add(row);
 				} else {
 					operateIndex.remove((Integer) row);
 				}
+			} else if (updatePermition) {
+				Car val = ((Car) value);
+				cars.get(row).setCategory(val.getCategory());
+				cars.get(row).setMake(val.getMake());
+				cars.get(row).setModel(val.getModel());
+				cars.get(row).setTrim(val.getTrim());
+				cars.get(row).setType(val.getType());
+				cars.get(row).setYear(val.getYear());
+				cars.get(row).setPrice(val.getPrice());
+				this.fireTableRowsUpdated(0, cars.size() - 1);
 			}
-			else
-				if(updatePermition){
-					Car val = ((Car) value);
-					cars.get(row).setCategory(val.getCategory());
-					cars.get(row).setMake(val.getMake());
-					cars.get(row).setModel(val.getModel());
-					cars.get(row).setTrim(val.getTrim());
-					cars.get(row).setType(val.getType());
-					cars.get(row).setYear(val.getYear());
-					cars.get(row).setPrice(val.getPrice());
-					this.fireTableRowsUpdated(0, cars.size()-1);
-				}
 		}
 
 		public List<Car> getCars() {
@@ -300,32 +299,32 @@ public class DearlerMainScreen extends JFrame {
 		public void setCars(List<Car> cars) {
 			this.cars = cars;
 		}
-		
+
 		public void searchCars(List<Car> cars) {
 			this.cars = cars;
-			this.fireTableRowsUpdated(0, tableM.getRowCount()-1);
+			this.fireTableRowsUpdated(0, tableM.getRowCount() - 1);
 			resultTable.updateUI();
 		}
-		
+
 		public void deleteTable(List<Integer> ret) {
 			this.fireTableRowsDeleted(0, this.getRowCount() - 1);
 			resultTable.updateUI();
 		}
-		
+
 		public void addTable(Car addedCar) {
 			boolBox.add(new Boolean(false));
-			this.fireTableRowsInserted(this.getRowCount()-3, this.getRowCount()-1);
+			this.fireTableRowsInserted(this.getRowCount() - 3, this.getRowCount() - 1);
 			resultTable.updateUI();
 		}
-		
+
 		public void updateTable(List<Integer> ret, List<Car> updatedCars) {
 			updatePermition = true;
 			for (int i = 0; i < ret.size(); i++)
-				this.setValueAt(updatedCars.get(i), ret.get(i),1);
+				this.setValueAt(updatedCars.get(i), ret.get(i), 1);
 			resultTable.updateUI();
 			updatePermition = false;
 		}
-		
+
 	}
 
 	public void display() {
