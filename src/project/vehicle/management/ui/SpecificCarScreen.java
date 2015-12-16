@@ -49,13 +49,13 @@ public class SpecificCarScreen extends JFrame {
 	}
 	
 	private void create() {
-		carPrice = new JLabel("Car price:"+"$"+car.getPrice());
-		category= new JLabel("Category:"+car.getCategory());
-		type= new JLabel("Body style:"+car.getType());
-		make= new JLabel("Make:"+car.getMake());
-		model= new JLabel("Model:"+car.getModel());
-		year= new JLabel("Year:"+car.getYear());
-		trim= new JLabel("Trim:"+car.getTrim());
+		carPrice = new JLabel("Car price: "+"$"+car.getPrice());
+		category= new JLabel("Category: "+car.getCategory());
+		type= new JLabel("Body style: "+car.getType());
+		make= new JLabel("Make: "+car.getMake());
+		model= new JLabel("Model: "+car.getModel());
+		year= new JLabel("Year: "+car.getYear());
+		trim= new JLabel("Trim: "+car.getTrim());
 		
 	}
 	
@@ -152,9 +152,9 @@ public class SpecificCarScreen extends JFrame {
 		contact.add(space);
 		JLabel space1 = new JLabel("");
 		contact.add(space1);
-		JLabel dealerid = new JLabel("Dealer:"+dealerInfo[0]);
+		JLabel dealerid = new JLabel("Dealer: "+dealerInfo[0]);
 		contact.add(dealerid);
-		JLabel country = new JLabel("Country:"+dealerInfo[1]);
+		JLabel country = new JLabel("Country: "+dealerInfo[1]);
 		contact.add(country);
 		LinkLabel web = new LinkLabel(dealerInfo[2],dealerInfo[2]);
 		contact.add(web);
