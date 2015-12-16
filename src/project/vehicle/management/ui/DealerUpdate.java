@@ -84,7 +84,6 @@ public class DealerUpdate extends JFrame {
 		frame.add(panel1, "Center");
 		frame.add(panel2, "South");
 		frame.setBounds(100, 100, 600, 400);
-//		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 
@@ -203,7 +202,6 @@ public class DealerUpdate extends JFrame {
 		}
 
 		public void setValueAt(Object value, int row, int col) {
-			System.out.println("Setting value at " + row + "," + col + " to " + value);
 			Car c = getCars().get(row);
 			System.out.println(value);
 			switch (col) {
