@@ -36,7 +36,7 @@ public class DealerDelFunc extends JFrame {
 		create();
 		add();
 		addListeners();
-		setSize(400, 130);
+		setSize(300,90);
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
