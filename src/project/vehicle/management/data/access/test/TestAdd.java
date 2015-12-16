@@ -8,7 +8,7 @@ import project.vehicle.management.data.Category;
 import project.vehicle.management.data.access.CarManagerImpl;
 
 public class TestAdd {
-
+    
     @Test
     public void test() throws IOException {
         CarManagerImpl test = new CarManagerImpl("testadd");
@@ -21,7 +21,7 @@ public class TestAdd {
         test.addCar(car1);
         test.addCar(car2);
         test.addCar(car3);
-        //we can find the car information in file 'testadd', it's the same as the code beyond
+        //we can find the car information in file 'testadd', it's the same as the code above
     }
 
 }
