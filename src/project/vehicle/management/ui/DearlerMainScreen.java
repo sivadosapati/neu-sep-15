@@ -131,7 +131,7 @@ public class DearlerMainScreen extends JFrame {
 		resultTable = new JTable(tableM);
 		setColumn();
 		resultScroll = new JScrollPane(resultTable);
-		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 	/** 
@@ -148,7 +148,7 @@ public class DearlerMainScreen extends JFrame {
 		placeComponent(gbc, 0, 0, 0, 0, 4, gbc.gridheight, 0, 0);
 		con.add(head, gbc);
 		placeComponent(gbc, 1, 0, 0, 1, 1, gbc.gridheight, 0, 0);
-		gbc.insets = new Insets(40, 12, 20, 12);
+		gbc.insets = new Insets(20, 12, 20, 12);
 		con.add(searchButton, gbc);
 		placeComponent(gbc, gbc.weightx, gbc.weighty, 1, 1, gbc.gridwidth, gbc.gridheight, 0, 0);
 		con.add(addButton, gbc);

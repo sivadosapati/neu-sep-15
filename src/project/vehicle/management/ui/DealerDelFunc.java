@@ -31,6 +31,7 @@ public class DealerDelFunc extends JFrame {
 	public CarManager dealer;
 	private MyTableModel tableM;
 
+	//main constructor
 	public DealerDelFunc(CarManager dealerRes, List<Integer> res, MyTableModel tableM) {
 		setTitle("Delete");
 		create();
@@ -45,14 +46,14 @@ public class DealerDelFunc extends JFrame {
 		this.dealer = dealerRes;
 
 	}
-
+// add listeners to buttons
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		yes.addActionListener(bc);
 		no.addActionListener(bc);
 
 	}
-
+// create buttons and panels
 	private void create() {
 		yes = new JButton("Yes");
 		no = new JButton("No");
@@ -64,6 +65,7 @@ public class DealerDelFunc extends JFrame {
 
 	}
 
+	//add components to panel
 	private void add() {
 
 		temp.add(yes);
@@ -75,6 +77,7 @@ public class DealerDelFunc extends JFrame {
 
 	}
 
+	// define listener button click
 	class ButtonClick implements ActionListener {
 
 		@Override
@@ -90,7 +93,7 @@ public class DealerDelFunc extends JFrame {
 				dispose();
 		}
 	}
-
+// delete function
 	private void delete(List<Integer> ret) throws IOException {
 		for (int i = 0; i<ret.size(); i++){
 			dealer.deleteCar(tableM.getCars().get(ret.get(i)).getID());
