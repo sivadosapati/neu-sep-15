@@ -55,6 +55,7 @@ public class DealerUpdate extends JFrame {
 		panel1.add(scrollPane);
 	}
 
+	// use car index to get cars
 	private List<Car> getCarList(List<Integer> carIndex) {
 		operatedCars = new ArrayList<>();
 		List<Car> ori = t.getCars();
