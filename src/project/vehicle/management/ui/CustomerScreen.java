@@ -186,7 +186,7 @@ public class CustomerScreen extends JFrame {
 		chckbxCertified = new JCheckBox("Certified");
 		checkboxPanel.add(chckbxCertified);
 
-		clickCheckAction cna = new clickCheckAction();
+		ClickCheckAction cna = new ClickCheckAction();
 		chckbxNew.addActionListener(cna);
 		chckbxUsed.addActionListener(cna);
 		chckbxCertified.addActionListener(cna);
@@ -206,7 +206,7 @@ public class CustomerScreen extends JFrame {
 		// comboBox.setLocation(30, 600);
 		brandComboPanel.add(comboBox);
 
-		selectAction sa = new selectAction();
+		SelectAction sa = new SelectAction();
 		comboBox.addActionListener(sa);
 		brandComboPanel.add(lblBrand);
 		brandComboPanel.add(comboBox);
@@ -255,7 +255,7 @@ public class CustomerScreen extends JFrame {
 		prComboPanel.add(comboBox_4);
 		choosecondiPanel.add(prComboPanel);
 
-		selectAction s = new selectAction();
+		SelectAction s = new SelectAction();
 		comboBox.addActionListener(s);
 		comboBox_1.addActionListener(s);
 		comboBox_2.addActionListener(s);
@@ -275,7 +275,7 @@ public class CustomerScreen extends JFrame {
 		}
 	}
 
-	class clickCheckAction implements ActionListener {
+	class ClickCheckAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -293,53 +293,52 @@ public class CustomerScreen extends JFrame {
 
 	}
 
-	class selectAction implements ActionListener {
+	void setComboBox(JComboBox comboBox, List<String> ls) {
+		ls.add(0, "");
+		DefaultComboBoxModel mmodel = new DefaultComboBoxModel(ls.toArray());
+		comboBox.setModel(mmodel);
+	}
+
+	class SelectAction implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JComboBox cb = (JComboBox) e.getSource();
 			String choice = cb.getSelectedItem().toString();
 			// System.out.println(choice);
-			Range r=null;
-			Range p=null;
+			Range r = null;
+			Range p = null;
 
 			List<String> model, trim;
 			if (cb == comboBox) {
 				sf.setMake(checknull(choice));
-				
 				sf.setModel(null);
 				sf.setTrim(null);
-				model = carManager.setModel(sf.getMake());
-				model.add(0, "");
-				DefaultComboBoxModel modelm = new DefaultComboBoxModel(model.toArray());
-				comboBox_1.setModel(modelm);
 
+				model = carManager.setModel(sf.getMake());
+				setComboBox(comboBox_1, model);
 				trim = carManager.setTrim(sf.getModel(), sf.getMake());
-				trim.add(0, "");
-				DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
-				comboBox_2.setModel(trimm);
+				setComboBox(comboBox_2, trim);
 
 			} else if (cb == comboBox_1) {
 				sf.setModel(checknull(choice));
-				if (choice == "") {
-					sf.setModel(null);
-				}
 				sf.setTrim(null);
+
 				trim = carManager.setTrim(sf.getModel(), sf.getMake());
-				trim.add(0, "");
-				DefaultComboBoxModel trimm = new DefaultComboBoxModel(trim.toArray());
-				comboBox_2.setModel(trimm);
+				setComboBox(comboBox_2, trim);
+
 			} else if (cb == comboBox_2) {
 				sf.setTrim(checknull(choice));
 			} else if (cb == comboBox_3) {
-				yearAction(choice,r);
+				yearAction(choice, r);
 			} else {
-				priceAction(choice,p);
+				priceAction(choice, p);
 			}
 			refreshTable();
 		}
 	}
-	void yearAction(String choice,Range r){
+
+	void yearAction(String choice, Range r) {
 		if (choice == "") {
 			r = null;
 		} else if (choice == "<2000") {
@@ -353,7 +352,8 @@ public class CustomerScreen extends JFrame {
 		}
 		sf.setYear(r);
 	}
-	void priceAction(String choice,Range p){
+
+	void priceAction(String choice, Range p) {
 		if (choice == "") {
 			p = null;
 		} else if (choice == "<10000") {
@@ -484,7 +484,7 @@ public class CustomerScreen extends JFrame {
 		getContentPane().add("Center", scrollPane);
 	}
 
-	//Refreshing table happens after each search.
+	// Refreshing table happens after each search.
 	private void refreshTable() {
 		CarManagerImpl test;
 		try {
