@@ -453,7 +453,7 @@ public class DearlerMainScreen extends JFrame {
 			updatePermition = true;
 			for(int i = 0; i<ret.size(); i++){
 				this.setValueAt(null, ret.get(i), 1);
-			}
+			} 
 			this.fireTableRowsDeleted(0, tableM.getRowCount() - 1);
 			resultTable.updateUI();
 			updatePermition = false;

@@ -28,7 +28,7 @@ public class DealerAddFunc extends JFrame {
 	private JLabel head;
 	private Category category;
 	private CarManager dealer;
-	private MyTableModel mtm;
+	private MyTableModel mtm; 
 	private String did,type;
 
 	GridBagLayout g = new GridBagLayout();
