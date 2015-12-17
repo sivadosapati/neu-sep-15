@@ -306,10 +306,7 @@ public class CustomerScreen extends JFrame {
 			List<String> model, trim;
 			if (cb == comboBox) {
 				sf.setMake(checknull(choice));
-				if (choice == "") {
-					// System.out.println("here1");
-					sf.setMake(null);
-				}
+				
 				sf.setModel(null);
 				sf.setTrim(null);
 				model = carManager.setModel(sf.getMake());
