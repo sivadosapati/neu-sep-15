@@ -54,16 +54,7 @@ public class DealerSearchFunc {
 	 */
 
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CarManager carManager = new CarManagerFactory().getCarManager("gmps-chaparral2");
-					new DealerSearchFunc(carManager, null).frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+
 	}
 
 	/**
@@ -285,6 +276,7 @@ public class DealerSearchFunc {
 
 	}
 
+	// add listeners
 	private void addListeners() {
 		ButtonClick bc = new ButtonClick();
 		categoryNew.addActionListener(bc);
@@ -301,6 +293,7 @@ public class DealerSearchFunc {
 
 	}
 
+	// define listeners
 	class ButtonClick implements ActionListener {
 
 		@Override
@@ -320,6 +313,7 @@ public class DealerSearchFunc {
 			if (!categoryCertified.isSelected())
 				category[2] = categoryCertified.isSelected();
 
+			// show result on the main screen
 			if (e.getSource() == btnSearch) {
 				sf.setKeywords(keyWords.getText());
 				sf.setCategory(category);
@@ -343,7 +337,7 @@ public class DealerSearchFunc {
 			JComboBox cb = (JComboBox) e.getSource();
 			String choice = cb.getSelectedItem().toString();
 			Range year, price;
-
+			// set searchFilter
 			if (cb == comboBox_make) {
 				sf.setMake(choice);
 				modelList = carManager.setModel(sf.getMake());
