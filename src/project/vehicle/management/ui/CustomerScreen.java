@@ -487,6 +487,7 @@ public class CustomerScreen extends JFrame {
 		getContentPane().add("Center", scrollPane);
 	}
 
+	//Refreshing table happens after each search.
 	private void refreshTable() {
 		CarManagerImpl test;
 		try {
