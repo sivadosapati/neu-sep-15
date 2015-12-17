@@ -157,7 +157,6 @@ public class SpecificCarScreen extends JFrame {
 		setMorePhotos(tabbedPane);
 	}
 
-	//first part of detail panel
 	private void setFeatures(JTabbedPane tabbedPane) {
 		JPanel features = new JPanel();
 		tabbedPane.addTab("Features", null, features, null);
@@ -170,7 +169,6 @@ public class SpecificCarScreen extends JFrame {
 		
 	}
 	
-	//second part of detail panel
 	private void setDealerInfo(JTabbedPane tabbedPane) {
 		JPanel contact = new JPanel();
 		tabbedPane.addTab("Dealers ", null, contact, null);
@@ -187,7 +185,6 @@ public class SpecificCarScreen extends JFrame {
 		
 	}
 	
-	//third part
 	private void setMorePhotos(JTabbedPane tabbedPane) {
 		/*
 		 * hard code
@@ -209,7 +206,7 @@ public class SpecificCarScreen extends JFrame {
 	}
 	
 	
-	//add button function
+	
 	private void close() {
 		this.dispose();
 		
@@ -224,7 +221,6 @@ public class SpecificCarScreen extends JFrame {
 		});
 	}
 	
-	//display
 	private void display() {
 		setSize(Toolkit.getDefaultToolkit().getScreenSize().width,
 				Toolkit.getDefaultToolkit().getScreenSize().height);
